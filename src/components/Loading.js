@@ -20,7 +20,7 @@ export default function Loading() {
     <LoadingWrapper>
       <div className="character-container">
         <img
-          className="character-sprite-sheet"
+          className="character"
           src="https://i.pinimg.com/originals/3f/20/f7/3f20f71d82b3bae528c11aacde3abe5d.png"
           alt="캐릭터"
         />
@@ -45,7 +45,7 @@ const LoadingWrapper = styled.div`
     overflow: hidden;
   }
 
-  .character-sprite-sheet {
+  .character {
     width: 150rem;
     animation: moveSpriteSheet 1s steps(4) infinite;
   }
