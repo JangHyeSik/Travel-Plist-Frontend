@@ -7,7 +7,7 @@ function* login({ payload }) {
   const { email, displayName } = payload;
 
   try {
-    yield delay(5000);
+    yield delay(4000);
 
     const response = yield axios.post(process.env.REACT_APP_AUTH_URL, {
       email,
