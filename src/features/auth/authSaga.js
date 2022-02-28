@@ -1,5 +1,5 @@
 import axios from "axios";
-import { put, all, fork, takeLatest } from "redux-saga/effects";
+import { delay, put, all, fork, takeLatest } from "redux-saga/effects";
 import { loginRequest, loginSuccess, loginFailure } from "./authSlice";
 import { fetchUserData } from "../user/userSlice";
 
@@ -7,6 +7,8 @@ function* login({ payload }) {
   const { email, displayName } = payload;
 
   try {
+    yield delay(5000);
+
     const response = yield axios.post(process.env.REACT_APP_AUTH_URL, {
       email,
       displayName,
