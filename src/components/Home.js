@@ -1,25 +1,26 @@
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { loginRequest } from "../features/auth/authSlice";
 import { auth, signInWithGoogle } from "../firebase";
 
-export default function Auth() {
+export default function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        const { email, displayName } = user;
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      const { email, displayName } = user;
 
+      if (!isLoggedIn) {
         dispatch(loginRequest({ email, displayName }));
-
-        navigate("/main");
       }
-    });
-  }, []);
+
+      navigate("/main");
+    }
+  });
 
   return (
     <AuthWrapper>

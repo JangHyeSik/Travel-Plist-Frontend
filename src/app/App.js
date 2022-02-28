@@ -1,14 +1,22 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Routes, Route } from "react-router-dom";
+import Loading from "../components/Loading";
 import Home from "../components/Home";
 import Main from "../components/Main";
 
 function App() {
+  const { isLoading, isLoggedIn } = useSelector((state) => state.auth);
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/main" element={<Main />} />
-    </Routes>
+    <>
+      {isLoading && <Loading />}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {isLoggedIn && <Route path="/main" element={<Main />} />}
+      </Routes>
+    </>
   );
 }
 
