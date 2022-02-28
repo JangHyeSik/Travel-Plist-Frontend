@@ -16,7 +16,6 @@ function* fetchWeatherData({ payload }) {
     );
 
     const { weather } = response.data;
-    console.log(weather);
 
     yield put(getWeatherSuccess(weather[0].main));
   } catch (err) {
