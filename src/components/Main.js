@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getWeatherRequest } from "../features/user/userSlice";
+import Navigation from "./Navigation";
 import { auth } from "../firebase";
+import { getWeatherRequest } from "../features/user/userSlice";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export default function Home() {
               weather === "Clear"
                 ? "/images/clear2.png"
                 : weather === "Clouds" || weather === "Haze"
-                ? "/images/snowing.gif"
+                ? "/images/cloudy.png"
                 : weather === "Rain"
                 ? "/images/rainy.jpg"
                 : weather === "Snow"
@@ -61,10 +62,7 @@ export default function Home() {
               alt="캐릭터"
             />
           </div>
-          <div className="navigation-container">
-            <StyledNavLink to="/mytravels">나의 여행✈️</StyledNavLink>
-            <StyledNavLink to="/mydiarys">나의 기록📖</StyledNavLink>
-          </div>
+          <Navigation />
         </>
       )}
     </MainWrapper>
@@ -75,15 +73,6 @@ const MainWrapper = styled.div`
   .weather-background {
     width: 100%;
     height: 80vh;
-  }
-
-  .navigation-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 20vh;
-    background-color: #9cbdf0;
   }
 
   .character-container {
@@ -135,9 +124,4 @@ const MainWrapper = styled.div`
     border-bottom: 0px solid transparent;
     content: "";
   }
-`;
-
-const StyledNavLink = styled(NavLink)`
-  font-size: 3rem;
-  color: #ffffff;
 `;
