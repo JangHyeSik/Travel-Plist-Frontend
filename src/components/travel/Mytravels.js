@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import styled from "styled-components";
-import Navigation from "./Navigation";
-import { auth } from "../firebase";
+import Navigation from "../Navigation";
+import { auth } from "../../firebase";
 
 export default function Mytravels() {
   const navigate = useNavigate();
@@ -30,18 +30,35 @@ export default function Mytravels() {
         </button>
       </UserInfoContainer>
 
-      <div className="mytravels-title">나의 여행 ✈️</div>
+      <div className="title">나의 여행 ✈️</div>
       <MytravelsContainer>
         {user.travels.length ? (
           user.travels.map((travel) => {
-            <div>{travel.title}</div>;
+            const startDate = travel.startDate.slice(0, 10);
+            const endDate = travel.endDate.slice(0, 10);
+
+            return (
+              <div key={travel._id}>
+                <div className="travel-date">
+                  {startDate} ~ {endDate}
+                </div>
+                <TravelBoxNavLink to={`/travel-detail/${travel._id}`}>
+                  {travel.title}
+                </TravelBoxNavLink>
+              </div>
+            );
           })
         ) : (
           <>
             <div>여행 일정이 없습니다.</div>
-            <button className="travel-create-button">+</button>
           </>
         )}
+        <TravelCreateButton
+          className="travel-create-button"
+          onClick={() => navigate("/travel-create")}
+        >
+          +
+        </TravelCreateButton>
       </MytravelsContainer>
       <Navigation />
     </MytravelsWrapper>
@@ -53,7 +70,7 @@ const MytravelsWrapper = styled.div`
   height: 100vh;
   background-color: #d4e3fc;
 
-  .mytravels-title {
+  .title {
     display: flex;
     align-items: center;
     height: 10%;
@@ -94,17 +111,26 @@ const MytravelsContainer = styled.div`
   font-size: 2rem;
   font-weight: bold;
 
-  .travel-create-button {
-    cursor: pointer;
-    margin-top: 2rem;
-    padding: 2rem 25rem;
-    border: none;
-    font-size: 5rem;
-    color: #aaaaaa;
-    opacity: 70%;
+  .travel-date {
+    margin-top: 2.5rem;
+    font-size: 2.5rem;
   }
+`;
 
-  .travel-create-button:hover {
-    font-size: 5.5rem;
-  }
+const TravelCreateButton = styled.button`
+  margin-top: 2rem;
+  padding: 2rem 25rem;
+  border: none;
+  font-size: 5rem;
+  color: #aaaaaa;
+  opacity: 70%;
+`;
+
+const TravelBoxNavLink = styled(NavLink)`
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 3rem 23rem;
+  border-radius: 4rem;
+  background-color: #ffffff;
 `;
