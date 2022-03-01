@@ -52,7 +52,7 @@ const LoadingWrapper = styled.div`
 
   @keyframes moveSpriteSheet {
     from {
-      transform: translate3d(0px, 0, 0);
+      transform: translate3d(0, 0, 0);
     }
     to {
       transform: translate3d(-100%, 0, 0);

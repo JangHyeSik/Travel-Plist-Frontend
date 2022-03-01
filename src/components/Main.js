@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getWeatherRequest } from "../features/user/userSlice";
+import Navigation from "./Navigation";
 import { auth } from "../firebase";
+import { getWeatherRequest } from "../features/user/userSlice";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -26,32 +27,33 @@ export default function Home() {
 
   return (
     <MainWrapper>
-      {weather === "Clear" && (
+      {weather !== "" && (
         <>
           <img
             className="weather-background"
-            src="/images/clear.jpg"
-            alt="비 오는 배경"
+            src={
+              weather === "Clear"
+                ? "/images/clear2.png"
+                : weather === "Clouds" || weather === "Haze"
+                ? "/images/cloudy.png"
+                : weather === "Rain"
+                ? "/images/rainy.jpg"
+                : weather === "Snow"
+                ? "/images/snowing.jpg"
+                : ""
+            }
+            alt="날씨 배경화면"
           />
           <div className="balloon">
-            여행하기 딱 좋은 날입니다! 즐거운 여행 되세요☀️🌞
-          </div>
-          <div className="navigation-container">
-            <StyledNavLink to="/mytravels">나의 여행✈️</StyledNavLink>
-            <StyledNavLink to="/mydiarys">나의 기록📖</StyledNavLink>
-          </div>
-        </>
-      )}
-
-      {weather === "Rain" && (
-        <>
-          <img
-            className="weather-background"
-            src="/images/rainy.jpg"
-            alt="비 오는 배경"
-          />
-          <div className="balloon">
-            비가 내리는 중입니다. 우산 챙기세요🌧️☂️☔
+            {weather === "Clear"
+              ? "여행하기 딱 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
+              : weather === "Clouds" || weather === "Haze"
+              ? "구름이 조금 껴있어서 흐릴 수도 있겠네요☁️⛅"
+              : weather === "Rain"
+              ? "비가 내리는 중입니다. 우산 챙기세요🌧️☂️☔"
+              : weather === "Snow"
+              ? "눈이 내리는 중입니다. 미끄러운 길 조심하세요!❄️☃️"
+              : ""}
           </div>
           <div className="character-container">
             <img
@@ -60,27 +62,7 @@ export default function Home() {
               alt="캐릭터"
             />
           </div>
-          <div className="navigation-container">
-            <StyledNavLink to="/mytravels">나의 여행✈️</StyledNavLink>
-            <StyledNavLink to="/mydiarys">나의 기록📖</StyledNavLink>
-          </div>
-        </>
-      )}
-
-      {weather === "Snow" && (
-        <>
-          <img
-            className="weather-background"
-            src="/images/snowing.jpg"
-            alt="눈 오는 배경"
-          />
-          <div className="balloon">
-            눈이 내리는 중입니다. 미끄러운 길 조심하세요!❄️☃️
-          </div>
-          <div className="navigation-container">
-            <StyledNavLink to="/mytravels">나의 여행✈️</StyledNavLink>
-            <StyledNavLink to="/mydiarys">나의 기록📖</StyledNavLink>
-          </div>
+          <Navigation />
         </>
       )}
     </MainWrapper>
@@ -91,15 +73,6 @@ const MainWrapper = styled.div`
   .weather-background {
     width: 100%;
     height: 80vh;
-  }
-
-  .navigation-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 20vh;
-    background-color: #9cbdf0;
   }
 
   .character-container {
@@ -118,10 +91,10 @@ const MainWrapper = styled.div`
 
   @keyframes moveSpriteSheet {
     from {
-      transform: translate3d(0px, 0, 0);
+      transform: translate3d(0, 1rem, 0);
     }
     to {
-      transform: translate3d(-100%, 0, 0);
+      transform: translate3d(0, 0, 0);
     }
   }
 
@@ -151,9 +124,4 @@ const MainWrapper = styled.div`
     border-bottom: 0px solid transparent;
     content: "";
   }
-`;
-
-const StyledNavLink = styled(NavLink)`
-  font-size: 3rem;
-  color: #ffffff;
 `;
