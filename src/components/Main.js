@@ -1,24 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navigation from "./Navigation";
 import { auth } from "../firebase";
-import { getWeatherRequest } from "../features/user/userSlice";
+import { fetchWeatherRequest } from "../features/user/userSlice";
 
 export default function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const weather = useSelector((state) => state.user.weather);
+  const [currentWeather, setCurrentWeather] = useState(weather);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
-      dispatch(getWeatherRequest({ latitude, longitude }));
+      dispatch(fetchWeatherRequest({ latitude, longitude }));
     });
   }, []);
+
+  if (currentWeather !== weather) {
+    setCurrentWeather(weather);
+  }
 
   const signOut = () => {
     auth.signOut();
@@ -27,31 +32,31 @@ export default function Home() {
 
   return (
     <MainWrapper>
-      {weather !== "" && (
+      {currentWeather !== "" && (
         <>
           <img
             className="weather-background"
             src={
-              weather === "Clear"
+              currentWeather === "Clear"
                 ? "/images/clear2.png"
-                : weather === "Clouds" || weather === "Haze"
-                ? "/images/cloudy.png"
-                : weather === "Rain"
+                : currentWeather === "Clouds" || currentWeather === "Haze"
+                ? "/images/snowing.jpg"
+                : currentWeather === "Rain"
                 ? "/images/rainy.jpg"
-                : weather === "Snow"
+                : currentWeather === "Snow"
                 ? "/images/snowing.jpg"
                 : ""
             }
             alt="날씨 배경화면"
           />
           <div className="balloon">
-            {weather === "Clear"
+            {currentWeather === "Clear"
               ? "여행하기 딱 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
-              : weather === "Clouds" || weather === "Haze"
+              : currentWeather === "Clouds" || currentWeather === "Haze"
               ? "구름이 조금 껴있어서 흐릴 수도 있겠네요☁️⛅"
-              : weather === "Rain"
+              : currentWeather === "Rain"
               ? "비가 내리는 중입니다. 우산 챙기세요🌧️☂️☔"
-              : weather === "Snow"
+              : currentWeather === "Snow"
               ? "눈이 내리는 중입니다. 미끄러운 길 조심하세요!❄️☃️"
               : ""}
           </div>

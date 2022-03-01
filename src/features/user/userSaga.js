@@ -2,9 +2,12 @@ import axios from "axios";
 import { put, all, fork, takeLatest } from "redux-saga/effects";
 import {
   fetchUserData,
-  getWeatherRequest,
-  getWeatherSuccess,
-  getWeatherFailure,
+  fetchWeatherRequest,
+  fetchWeatherSuccess,
+  fetchWeatherFailure,
+  createTravelRequest,
+  createTravelSuccess,
+  createTravelFailure,
 } from "./userSlice";
 
 function* fetchWeatherData({ payload }) {
@@ -17,20 +20,42 @@ function* fetchWeatherData({ payload }) {
 
     const { weather } = response.data;
 
-    yield put(getWeatherSuccess(weather[0].main));
+    yield put(fetchWeatherSuccess(weather[0].main));
   } catch (err) {
-    getWeatherFailure(err);
+    fetchWeatherFailure(err);
   }
 }
 
-// function* watchUser() {
-//   yield takeLatest(fetchUserData);
-// }
+function* createTravel({ payload }) {
+  const { title, startDate, endDate, token } = payload;
+
+  try {
+    const response = yield axios.post(
+      process.env.REACT_APP_CREATE_TRAVEL_URL,
+      {
+        title,
+        startDate,
+        endDate,
+      },
+      { headers: { Authorization: token } }
+    );
+
+    const { newTravel } = response.data;
+
+    yield put(createTravelSuccess({ newTravel }));
+  } catch (err) {
+    yield put(createTravelFailure(err));
+  }
+}
+
+function* watchCreateTravel() {
+  yield takeLatest(createTravelRequest, createTravel);
+}
 
 function* watchWeather() {
-  yield takeLatest(getWeatherRequest, fetchWeatherData);
+  yield takeLatest(fetchWeatherRequest, fetchWeatherData);
 }
 
 export function* userSaga() {
-  yield all([fork(watchWeather)]);
+  yield all([fork(watchWeather), fork(watchCreateTravel)]);
 }

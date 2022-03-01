@@ -24,13 +24,30 @@ const userSlice = createSlice({
         travels,
       };
     },
-    getWeatherRequest: (state) => {
+    fetchWeatherRequest: (state) => {
       state.weather = "";
     },
-    getWeatherSuccess: (state, action) => {
+    fetchWeatherSuccess: (state, action) => {
       state.weather = action.payload;
     },
-    getWeatherFailure: (state, action) => {
+    fetchWeatherFailure: (state, action) => {
+      state.err = action.payload;
+    },
+    createTravelRequest: (state) => {
+      state.user = {
+        ...state.user,
+      };
+    },
+    createTravelSuccess: (state, action) => {
+      const { newTravel } = action.payload;
+      state.user = {
+        ...state.user,
+        travels: [...state.user.travels, newTravel],
+      };
+
+      console.log(state.user);
+    },
+    createTravelFailure: (state, action) => {
       state.err = action.payload;
     },
   },
@@ -38,9 +55,12 @@ const userSlice = createSlice({
 
 export const {
   fetchUserData,
-  getWeatherRequest,
-  getWeatherSuccess,
-  getWeatherFailure,
+  fetchWeatherRequest,
+  fetchWeatherSuccess,
+  fetchWeatherFailure,
+  createTravelRequest,
+  createTravelSuccess,
+  createTravelFailure,
 } = userSlice.actions;
 
 export default userSlice.reducer;
