@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { createTravelRequest } from "../../features/user/userSlice";
@@ -13,6 +13,7 @@ export default function TravelCreate() {
     startDate: "",
     endDate: "",
   });
+  const { userId } = useSelector((state) => state.user.user);
 
   const { title, startDate, endDate } = travel;
   const token = sessionStorage.getItem("token");
@@ -39,6 +40,7 @@ export default function TravelCreate() {
         title,
         startDate,
         endDate,
+        userId,
         token,
       })
     );

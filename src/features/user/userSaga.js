@@ -1,7 +1,6 @@
 import axios from "axios";
 import { put, all, fork, takeLatest } from "redux-saga/effects";
 import {
-  fetchUserData,
   fetchWeatherRequest,
   fetchWeatherSuccess,
   fetchWeatherFailure,
@@ -27,7 +26,7 @@ function* fetchWeatherData({ payload }) {
 }
 
 function* createTravel({ payload }) {
-  const { title, startDate, endDate, token } = payload;
+  const { title, startDate, endDate, token, userId } = payload;
 
   try {
     const response = yield axios.post(
@@ -36,6 +35,7 @@ function* createTravel({ payload }) {
         title,
         startDate,
         endDate,
+        userId,
       },
       { headers: { Authorization: token } }
     );

@@ -4,7 +4,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     user: {
-      _id: "",
+      userId: "",
       email: "",
       username: "",
       travels: [],
@@ -14,11 +14,11 @@ const userSlice = createSlice({
   },
   reducers: {
     fetchUserData: (state, action) => {
-      const { _id, email, username, travels } = action.payload.user;
+      const { userId, email, username, travels } = action.payload.user;
 
       state.user = {
         ...state.user,
-        _id,
+        userId,
         email,
         username,
         travels,
@@ -40,12 +40,11 @@ const userSlice = createSlice({
     },
     createTravelSuccess: (state, action) => {
       const { newTravel } = action.payload;
+
       state.user = {
         ...state.user,
         travels: [...state.user.travels, newTravel],
       };
-
-      console.log(state.user);
     },
     createTravelFailure: (state, action) => {
       state.err = action.payload;
