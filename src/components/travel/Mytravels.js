@@ -73,7 +73,7 @@ const MytravelsWrapper = styled.div`
   .title {
     display: flex;
     align-items: center;
-    height: 10%;
+    height: 7%;
     padding-left: 2rem;
     border-radius: 4rem;
     background-color: #9cbdf0;
@@ -87,7 +87,7 @@ const UserInfoContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  height: 13%;
+  height: 10%;
   font-size: 3rem;
   font-weight: bold;
 
@@ -110,6 +110,7 @@ const MytravelsContainer = styled.div`
   height: 60%;
   font-size: 2rem;
   font-weight: bold;
+  overflow: scroll;
 
   .travel-date {
     margin-top: 2.5rem;
