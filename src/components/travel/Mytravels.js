@@ -7,7 +7,7 @@ import { auth } from "../../firebase";
 
 export default function Mytravels() {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
+  const { username, travels } = useSelector((state) => state.user.user);
 
   const signOut = () => {
     auth.signOut();
@@ -24,7 +24,7 @@ export default function Mytravels() {
             alt="캐릭터"
           />
         </div>
-        <div className="username-container">{user.username} 님</div>
+        <div className="username-container">{username} 님</div>
         <button className="logout-button" onClick={signOut}>
           로그아웃
         </button>
@@ -32,8 +32,8 @@ export default function Mytravels() {
 
       <div className="title">나의 여행 ✈️</div>
       <MytravelsContainer>
-        {user.travels.length ? (
-          user.travels.map((travel) => {
+        {travels.length ? (
+          travels.map((travel) => {
             const startDate = travel.startDate.slice(0, 10);
             const endDate = travel.endDate.slice(0, 10);
 
