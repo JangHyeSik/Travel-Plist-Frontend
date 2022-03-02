@@ -13,7 +13,7 @@ export default function TravelCreate() {
     startDate: "",
     endDate: "",
   });
-  const { userId } = useSelector((state) => state.user.user);
+  const { _id } = useSelector((state) => state.user.user);
 
   const { title, startDate, endDate } = travel;
   const token = sessionStorage.getItem("token");
@@ -40,7 +40,7 @@ export default function TravelCreate() {
         title,
         startDate,
         endDate,
-        userId,
+        userId: _id,
         token,
       })
     );

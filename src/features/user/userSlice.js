@@ -4,7 +4,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     user: {
-      userId: "",
+      _id: "",
       email: "",
       username: "",
       travels: [],
@@ -14,15 +14,16 @@ const userSlice = createSlice({
   },
   reducers: {
     fetchUserData: (state, action) => {
-      const { userId, email, username, travels } = action.payload.user;
+      const { _id, email, username, travels } = action.payload.user;
 
       state.user = {
         ...state.user,
-        userId,
+        _id,
         email,
         username,
         travels,
       };
+      console.log(state.user);
     },
     fetchWeatherRequest: (state) => {
       state.weather = "";
