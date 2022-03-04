@@ -23,7 +23,6 @@ const userSlice = createSlice({
         username,
         travels,
       };
-      console.log(state.user);
     },
     fetchWeatherRequest: (state) => {
       state.weather = "";
