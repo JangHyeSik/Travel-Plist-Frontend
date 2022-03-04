@@ -5,51 +5,95 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 import PropTypes from "prop-types";
 
-export default function SearchBox({ setMarkers }) {
+export default function SearchBox({
+  setSelectedAddress,
+  markers,
+  setMarkers,
+  panTo,
+}) {
   const [address, setAddress] = useState("");
 
-  const handleSelect = async (value) => {
-    const results = await geocodeByAddress(value);
-    const latLng = await getLatLng(results[0]);
-    setAddress(value);
+  const handleSelect = async (address) => {
+    try {
+      const results = await geocodeByAddress(address);
+      const latLng = await getLatLng(results[0]);
 
-    setMarkers((markers) => [
-      ...markers,
-      {
-        lat: latLng.lat,
-        lng: latLng.lng,
-      },
-    ]);
+      setAddress(address);
+      setSelectedAddress(address);
+      setMarkers([
+        ...markers,
+        {
+          lat: latLng.lat,
+          lng: latLng.lng,
+        },
+      ]);
+
+      panTo({ lat: latLng.lat, lng: latLng.lng });
+    } catch (err) {
+      console.err(err);
+    }
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        position: "absolute",
+        top: "1rem",
+        left: "25%",
+        color: "black",
+        zIndex: "10",
+        margin: "0",
+        padding: "1rem",
+      }}
+    >
       <PlacesAutocomplete
         value={address}
         onChange={setAddress}
         onSelect={handleSelect}
       >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+        {({ suggestions, getInputProps, getSuggestionItemProps }) => (
           <div>
             <input
-              style={{ padding: "2rem", fontSize: "2rem" }}
               {...getInputProps({ placeholder: "장소를 입력해주세요." })}
+              style={{
+                padding: "1rem 8rem",
+                fontSize: "1.5rem",
+                textAlign: "center",
+              }}
             />
 
             <div>
-              {loading ? <div>...loading</div> : null}
-
-              {suggestions.map((suggestion, index) => {
-                const style = {
-                  backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
-                };
+              {suggestions.map((suggestion) => {
+                const style = suggestion.active
+                  ? {
+                      fontSize: "1.5rem",
+                      color: "#ffffff",
+                      backgroundColor: "#9cbdf0",
+                      padding: "1rem",
+                    }
+                  : {
+                      fontSize: "1.3rem",
+                      backgroundColor: "#ffffff",
+                    };
 
                 return (
                   <div
-                    key={index}
+                    key={suggestion.placeId}
                     {...getSuggestionItemProps(suggestion, { style })}
                   >
-                    {suggestion.description}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div style={{ marginRight: "1rem" }}>📌</div>
+                      <div>
+                        <div>{suggestion.formattedSuggestion.mainText}</div>
+                        <div>{suggestion.description}</div>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
@@ -62,5 +106,8 @@ export default function SearchBox({ setMarkers }) {
 }
 
 SearchBox.propTypes = {
-  setMarkers: PropTypes.func,
+  setSelectedAddress: PropTypes.func.isRequired,
+  markers: PropTypes.array,
+  setMarkers: PropTypes.func.isRequired,
+  panTo: PropTypes.func.isRequired,
 };
