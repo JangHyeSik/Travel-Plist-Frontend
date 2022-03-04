@@ -7,6 +7,7 @@ import Main from "../components/Main";
 import Mytravels from "../components/travel/Mytravels";
 import TravelCreate from "../components/travel/TravelCreate";
 import TravelDetail from "../components/travel/TravelDetail";
+import TravelDetailCreate from "../components/travel/TravelDetailCreate";
 import Mydiarys from "../components/Mydiarys";
 
 function App() {
@@ -22,6 +23,10 @@ function App() {
         <Route path="/mytravels" element={<Mytravels />} />
         <Route path="/travel-create" element={<TravelCreate />} />
         <Route path="/travel-detail/:travelid" element={<TravelDetail />} />
+        <Route
+          path="/travel-detail-create/:travellogid"
+          element={<TravelDetailCreate />}
+        />
         <Route path="/mydiarys" element={<Mydiarys />} />
       </Routes>
     </>

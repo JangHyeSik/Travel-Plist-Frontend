@@ -9,15 +9,14 @@ export default function TravelDetail() {
   const { travels } = useSelector((state) => state.user.user);
 
   const travel = travels.find((travel) => travel._id === travelid);
-  const { title, startDate, endDate, travelLogs } = travel;
-
+  const { title, startDate, travelLogs } = travel;
   return (
     <TravelDetailWrapper>
       <div className="empty-space"></div>
       <div className="travel-detail-title">{title}의 일정</div>
       <TravelLogWrapper>
         {travelLogs.map((travelLog, index) => {
-          const start = new Date(startDate);
+          const start = new Date(startDate.slice(0, 16));
           start.setDate(start.getDate() + index);
 
           const end = new Date(start);
@@ -28,7 +27,7 @@ export default function TravelDetail() {
           return (
             <TravelDetailBoxWrapper key={travelLog._id}>
               <div className="travel-date">{`${start.toLocaleDateString()} ~ ${end.toLocaleDateString()}`}</div>
-              <Div>
+              <Div isEnd={new Date() > end}>
                 <NavLinkWrapper to={`/travel-detail-create/${travelLog._id}`}>
                   {index + 1}일차
                 </NavLinkWrapper>
@@ -100,6 +99,7 @@ const Div = styled.div`
   border-radius: 4rem;
   background-color: #ffffff;
   font-size: 3rem;
+  opacity: ${(props) => (props.isEnd ? "30%" : "100%")};
 `;
 
 const NavLinkWrapper = styled(NavLink)`
