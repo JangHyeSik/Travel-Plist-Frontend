@@ -24,7 +24,7 @@ function App() {
         <Route path="/travel-create" element={<TravelCreate />} />
         <Route path="/travel-detail/:travelid" element={<TravelDetail />} />
         <Route
-          path="/travel-detail-create/:travellogid"
+          path="/travel-detail-create/:travelid/:travellogid"
           element={<TravelDetailCreate />}
         />
         <Route path="/mydiarys" element={<Mydiarys />} />

@@ -7,6 +7,9 @@ import {
   createTravelRequest,
   createTravelSuccess,
   createTravelFailure,
+  createTravelDetailRequest,
+  createTravelDetailSuccess,
+  createTravelDetailFailure,
 } from "./userSlice";
 
 function* fetchWeatherData({ payload }) {
@@ -48,8 +51,41 @@ function* createTravel({ payload }) {
   }
 }
 
+function* createTravelDetail({ payload }) {
+  const {
+    travelId,
+    travellogid,
+    travelPlaces,
+    travelDetails,
+    coordinates,
+    token,
+  } = payload;
+
+  try {
+    const response = yield axios.put(
+      `http://localhost:8000/travels/${travelId}/${travellogid}`,
+      {
+        travelPlaces,
+        travelDetails,
+        coordinates,
+      },
+      { headers: { Authorization: token } }
+    );
+
+    const { updatedTravel } = response.data;
+
+    yield put(createTravelDetailSuccess({ updatedTravel }));
+  } catch (err) {
+    yield put(createTravelDetailFailure(err));
+  }
+}
+
 function* watchCreateTravel() {
   yield takeLatest(createTravelRequest, createTravel);
+}
+
+function* watchCreateTravelDetail() {
+  yield takeLatest(createTravelDetailRequest, createTravelDetail);
 }
 
 function* watchWeather() {
@@ -57,5 +93,9 @@ function* watchWeather() {
 }
 
 export function* userSaga() {
-  yield all([fork(watchWeather), fork(watchCreateTravel)]);
+  yield all([
+    fork(watchWeather),
+    fork(watchCreateTravel),
+    fork(watchCreateTravelDetail),
+  ]);
 }
