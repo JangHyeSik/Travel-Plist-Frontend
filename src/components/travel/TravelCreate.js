@@ -31,7 +31,7 @@ export default function TravelCreate() {
     e.preventDefault();
 
     if (title === "" || startDate === "" || endDate === "") {
-      console.log("빈 칸을 입력해주세요.");
+      alert("빈 칸을 입력해주세요.");
       return;
     }
 
