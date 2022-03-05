@@ -2,6 +2,7 @@ import axios from "axios";
 import { delay, put, all, fork, takeLatest } from "redux-saga/effects";
 import { loginRequest, loginSuccess, loginFailure } from "./authSlice";
 import { fetchUserData } from "../user/userSlice";
+import { createImmutableStateInvariantMiddleware } from "@reduxjs/toolkit";
 
 function* login({ payload }) {
   const { email, displayName } = payload;

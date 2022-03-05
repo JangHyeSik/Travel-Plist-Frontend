@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 

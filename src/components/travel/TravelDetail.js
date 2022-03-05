@@ -28,10 +28,14 @@ export default function TravelDetail() {
             <TravelDetailBoxWrapper key={travelLog._id}>
               <div className="travel-date">{`${start.toLocaleDateString()} ~ ${end.toLocaleDateString()}`}</div>
               <Div isEnd={new Date() > end}>
-                <NavLinkWrapper to={`/travel-detail-create/${travelLog._id}`}>
+                <NavLinkWrapper
+                  to={`/travel-detail-create/${travel._id}/${travelLog._id}`}
+                >
                   {index + 1}일차
                 </NavLinkWrapper>
-                <NavLinkWrapper to={`/travel-diary-create/${travelLog._id}`}>
+                <NavLinkWrapper
+                  to={`/travel-diary-create/${travel._id}/${travelLog._id}`}
+                >
                   ✏️
                 </NavLinkWrapper>
               </Div>

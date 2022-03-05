@@ -1,16 +1,30 @@
 import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import SearchBox from "./SearchBox";
 import Map from "./Map";
+import { createTravelDetailRequest } from "../../features/user/userSlice";
 
 export default function TraveDetailCreate() {
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  const { travellogid } = useParams();
+
+  const travelId = pathname.split("/")[2];
+  const { travels } = useSelector((state) => state.user.user);
+  const { travelLogs } = travels.find((travel) => travel._id === travelId);
+  const travelLog = travelLogs.find(
+    (travelLog) => travelLog._id === travellogid
+  );
+
   const [selectedAddress, setSelectedAddress] = useState("");
   const [markers, setMarkers] = useState([]);
-  const [isClickedAddButton, setIsClickedAddButton] = useState(false);
-
   const [textAreaContent, setTextAreaContent] = useState("");
   const [travelPlaces, setTravelPlaces] = useState([]);
   const [travelDetails, setTravelDetails] = useState([]);
+
+  const token = sessionStorage.getItem("token");
 
   const handleAddTravel = () => {
     for (let i = 0; i < travelPlaces.length; i++) {
@@ -23,6 +37,19 @@ export default function TraveDetailCreate() {
     setTravelPlaces([...travelPlaces, selectedAddress]);
     setTravelDetails([...travelDetails, textAreaContent]);
     setTextAreaContent("");
+  };
+
+  const handleSaveTravels = () => {
+    dispatch(
+      createTravelDetailRequest({
+        travelId,
+        travellogid,
+        travelPlaces,
+        travelDetails,
+        coordinates: markers,
+        token,
+      })
+    );
   };
 
   const handleChangeTextArea = (e) => {
@@ -51,26 +78,51 @@ export default function TraveDetailCreate() {
       <Map markers={markers} onMapLoad={onMapLoad} />
 
       <TravelDetailFormWrapper>
-        <div className="address-content-container">
-          <div className="address-content">이번 여행지는 ✈️</div>
-          {selectedAddress && (
-            <div className="address-content">{selectedAddress}❗️</div>
-          )}
-        </div>
-        <textarea
-          className="travel-detail-textarea"
-          type="text"
-          placeholder="여행 내용을 입력해주세요."
-          onChange={handleChangeTextArea}
-        />
+        {travelLog.travelPlaces.length > 0 ? (
+          travelLog.travelPlaces.map((travelPlace, index) => (
+            <TravelDetailBox key={index}>
+              <div>{travelPlace}</div>
+              <button>✖️</button>
+            </TravelDetailBox>
+          ))
+        ) : (
+          <>
+            <div className="address-content-container">
+              <div className="address-content">이번 여행지는 ✈️</div>
+              {selectedAddress && (
+                <div className="address-content">{selectedAddress}❗️</div>
+              )}
+            </div>
+            <textarea
+              className="travel-detail-textarea"
+              type="text"
+              placeholder="여행 내용을 입력해주세요."
+              value={textAreaContent}
+              onChange={handleChangeTextArea}
+            />
+          </>
+        )}
         <div className="button-container">
           <Button onClick={handleAddTravel}>추가</Button>
-          <Button>저장</Button>
+          <Button onClick={handleSaveTravels}>저장</Button>
         </div>
       </TravelDetailFormWrapper>
     </TraveDetailCreateWrapper>
   );
 }
+
+const TravelDetailBox = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 38rem;
+  height: 3rem;
+  padding: 2rem;
+  border-radius: 4rem;
+  font-size: 1.8rem;
+  background-color: #ffffff;
+  text-align: center;
+`;
 
 const TraveDetailCreateWrapper = styled.div`
   width: 100%;
