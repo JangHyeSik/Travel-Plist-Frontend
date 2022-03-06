@@ -6,27 +6,23 @@ import PlacesAutocomplete, {
 import PropTypes from "prop-types";
 
 export default function SearchBox({
+  address,
+  setAddress,
   setSelectedAddress,
-  markers,
-  setMarkers,
+  setMarker,
   panTo,
 }) {
-  const [address, setAddress] = useState("");
-
-  const handleSelect = async (address) => {
+  const handleSelect = async (address, placeId, placeObj) => {
     try {
       const results = await geocodeByAddress(address);
       const latLng = await getLatLng(results[0]);
 
       setAddress(address);
-      setSelectedAddress(address);
-      setMarkers([
-        ...markers,
-        {
-          lat: latLng.lat,
-          lng: latLng.lng,
-        },
-      ]);
+      setSelectedAddress(placeObj.formattedSuggestion.mainText);
+      setMarker({
+        lat: latLng.lat,
+        lng: latLng.lng,
+      });
 
       panTo({ lat: latLng.lat, lng: latLng.lng });
     } catch (err) {
@@ -55,7 +51,9 @@ export default function SearchBox({
         {({ suggestions, getInputProps, getSuggestionItemProps }) => (
           <div>
             <input
-              {...getInputProps({ placeholder: "장소를 입력해주세요." })}
+              {...getInputProps({
+                placeholder: "장소를 입력해주세요.",
+              })}
               style={{
                 padding: "1rem 8rem",
                 fontSize: "1.5rem",
@@ -106,8 +104,9 @@ export default function SearchBox({
 }
 
 SearchBox.propTypes = {
+  address: PropTypes.string,
+  setAddress: PropTypes.func.isRequired,
   setSelectedAddress: PropTypes.func.isRequired,
-  markers: PropTypes.array,
-  setMarkers: PropTypes.func.isRequired,
+  setMarker: PropTypes.func.isRequired,
   panTo: PropTypes.func.isRequired,
 };

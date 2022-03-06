@@ -1,0 +1,66 @@
+import React from "react";
+import styled from "styled-components";
+
+export default function Modal({ travelLog, onClose }) {
+  return (
+    <>
+      <Dimmed onClick={onClose} />
+      <TravelModal>
+        {/* {!travelLog.travelPlaces.length && "여행일정이 없습니다."} */}
+        <div className="trave-place-title">장소: {travelLog.place}</div>
+        <textarea
+          className="travel-detail-textarea"
+          defaultValue={travelLog.detail}
+        ></textarea>
+        <CompleteButton>완료</CompleteButton>
+      </TravelModal>
+    </>
+  );
+}
+
+const TravelModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  top: 50%;
+  left: 50%;
+  width: 700px;
+  height: 700px;
+  position: fixed;
+  z-index: 12;
+  margin-left: -350px;
+  margin-top: -350px;
+  text-align: center;
+  border-radius: 0.5rem;
+  background-color: #d4e3fc;
+  overflow: auto;
+
+  .trave-place-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+`;
+
+const CompleteButton = styled.button`
+  margin-right: 1rem;
+  padding: 1.5rem 3rem;
+  border-radius: 1rem;
+  border: none;
+  background-color: #9cbdf0;
+  color: #ffffff;
+  font-size: 2rem;
+`;
+
+const Dimmed = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  z-index: 11;
+  background-color: rgba(0, 0, 0, 0.5);
+`;

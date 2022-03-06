@@ -1,13 +1,15 @@
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import SearchBox from "./SearchBox";
 import Map from "./Map";
+import Modal from "../Modal";
 import { createTravelDetailRequest } from "../../features/user/userSlice";
 
-export default function TraveDetailCreate() {
+export default function TravelDetailCreate() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { travellogid } = useParams();
 
@@ -18,15 +20,36 @@ export default function TraveDetailCreate() {
     (travelLog) => travelLog._id === travellogid
   );
 
+  const [travelPlaces, setTravelPlaces] = useState(travelLog.travelPlaces);
+  const [travelDetails, setTravelDetails] = useState(travelLog.travelDetails);
+  const [recordedMarkers, setRecordedMarkers] = useState(travelLog.coordinates);
+  const [selectedTravelLog, setSelectedTravelLog] = useState({
+    place: "",
+    detail: "",
+  });
+  const [address, setAddress] = useState("");
   const [selectedAddress, setSelectedAddress] = useState("");
-  const [markers, setMarkers] = useState([]);
   const [textAreaContent, setTextAreaContent] = useState("");
-  const [travelPlaces, setTravelPlaces] = useState([]);
-  const [travelDetails, setTravelDetails] = useState([]);
+  const [marker, setMarker] = useState({
+    lat: 0,
+    lng: 0,
+  });
+  const [isOpenTravelModal, setIsOpenTravelModal] = useState(false);
+  const [isClickedButton, setIsClickedButton] = useState({
+    isTravelAddButton: false,
+    isEditButton: false,
+  });
+
+  const { isTravelAddButton, isEditButton } = isClickedButton;
 
   const token = sessionStorage.getItem("token");
 
   const handleAddTravel = () => {
+    if (selectedAddress === "") {
+      alert("장소를 입력해주세요.");
+      return;
+    }
+
     for (let i = 0; i < travelPlaces.length; i++) {
       if (travelPlaces[i] === selectedAddress) {
         alert("이미 등록하신 여행지입니다.");
@@ -36,17 +59,38 @@ export default function TraveDetailCreate() {
 
     setTravelPlaces([...travelPlaces, selectedAddress]);
     setTravelDetails([...travelDetails, textAreaContent]);
+    setRecordedMarkers([...recordedMarkers, marker]);
+    setAddress("");
+    setSelectedAddress("");
     setTextAreaContent("");
   };
 
   const handleSaveTravels = () => {
+    if (!travelPlaces.length) {
+      alert("여행지를 추가해주세요 !");
+      return;
+    }
+
+    setAddress("");
+    setSelectedAddress("");
+    setIsClickedButton({
+      ...isClickedButton,
+      isTravelAddButton: false,
+      isEditButton: false,
+    });
+
+    setMarker({
+      lat: 0,
+      lng: 0,
+    });
+
     dispatch(
       createTravelDetailRequest({
         travelId,
         travellogid,
         travelPlaces,
         travelDetails,
-        coordinates: markers,
+        coordinates: recordedMarkers,
         token,
       })
     );
@@ -54,6 +98,30 @@ export default function TraveDetailCreate() {
 
   const handleChangeTextArea = (e) => {
     setTextAreaContent(e.target.value);
+  };
+
+  const handleDeleteTravelDetail = (e) => {
+    const { value } = e.target;
+    console.log(value);
+    const deletedIndex = travelPlaces.findIndex(
+      (travelPlace) => travelPlace === value
+    );
+
+    const deletedTravelPlace = travelPlaces.filter(
+      (travelPlace, index) => index !== deletedIndex
+    );
+
+    const deletedTravelDetails = travelDetails.filter(
+      (travelDetail, index) => index !== deletedIndex
+    );
+
+    const deletedRecordedMarker = recordedMarkers.filter(
+      (recordedMarker, index) => index !== deletedIndex
+    );
+
+    setTravelPlaces(deletedTravelPlace);
+    setTravelDetails(deletedTravelDetails);
+    setRecordedMarkers(deletedRecordedMarker);
   };
 
   const mapRef = useRef();
@@ -69,23 +137,53 @@ export default function TraveDetailCreate() {
 
   return (
     <TraveDetailCreateWrapper>
+      <GoBackButton onClick={() => navigate(-1)}>⬅️</GoBackButton>
       <SearchBox
+        address={address}
+        setAddress={setAddress}
+        selectedAddress={selectedAddress}
         setSelectedAddress={setSelectedAddress}
-        markers={markers}
-        setMarkers={setMarkers}
+        marker={marker}
+        setMarker={setMarker}
         panTo={panTo}
       />
-      <Map markers={markers} onMapLoad={onMapLoad} />
+      <Map
+        marker={marker}
+        onMapLoad={onMapLoad}
+        recordedMarkers={recordedMarkers}
+      />
 
       <TravelDetailFormWrapper>
-        {travelLog.travelPlaces.length > 0 ? (
-          travelLog.travelPlaces.map((travelPlace, index) => (
-            <TravelDetailBox key={index}>
-              <div>{travelPlace}</div>
-              <button>✖️</button>
-            </TravelDetailBox>
-          ))
-        ) : (
+        {!isTravelAddButton &&
+          travelLog.travelPlaces.length > 0 &&
+          travelPlaces.map((travelPlace, index) => {
+            return (
+              <TravelDetailBox key={index}>
+                <div
+                  onClick={() => {
+                    setSelectedTravelLog({
+                      ...selectedTravelLog,
+                      place: travelPlace,
+                      detail: travelLog.travelDetails[index],
+                    });
+
+                    setIsOpenTravelModal(true);
+                  }}
+                >
+                  {travelPlace}
+                </div>
+                {isEditButton && (
+                  <DeleteButton
+                    onClick={handleDeleteTravelDetail}
+                    value={travelPlace}
+                  >
+                    ❌
+                  </DeleteButton>
+                )}
+              </TravelDetailBox>
+            );
+          })}
+        {(!travelPlaces.length || isTravelAddButton) && (
           <>
             <div className="address-content-container">
               <div className="address-content">이번 여행지는 ✈️</div>
@@ -100,12 +198,50 @@ export default function TraveDetailCreate() {
               value={textAreaContent}
               onChange={handleChangeTextArea}
             />
+            <div className="button-container">
+              <Button onClick={handleAddTravel}>추가</Button>
+              <Button onClick={handleSaveTravels}>저장</Button>
+            </div>
           </>
         )}
         <div className="button-container">
-          <Button onClick={handleAddTravel}>추가</Button>
-          <Button onClick={handleSaveTravels}>저장</Button>
+          {travelPlaces.length > 0 &&
+            travelLog.travelPlaces.length > 0 &&
+            !isTravelAddButton && (
+              <>
+                <Button
+                  onClick={() =>
+                    setIsClickedButton({
+                      ...isClickedButton,
+                      isTravelAddButton: true,
+                    })
+                  }
+                >
+                  여행지 추가하기
+                </Button>
+                {!isEditButton ? (
+                  <Button
+                    onClick={() =>
+                      setIsClickedButton({
+                        ...isClickedButton,
+                        isEditButton: true,
+                      })
+                    }
+                  >
+                    편집
+                  </Button>
+                ) : (
+                  <Button onClick={handleSaveTravels}>저장</Button>
+                )}
+              </>
+            )}
         </div>
+        {isOpenTravelModal && (
+          <Modal
+            travelLog={selectedTravelLog}
+            onClose={() => setIsOpenTravelModal(false)}
+          />
+        )}
       </TravelDetailFormWrapper>
     </TraveDetailCreateWrapper>
   );
@@ -175,4 +311,18 @@ const Button = styled.button`
   background-color: #9cbdf0;
   color: #ffffff;
   font-size: 2rem;
+`;
+
+const DeleteButton = styled.button`
+  padding: 1rem;
+`;
+
+const GoBackButton = styled.button`
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  z-index: 10;
+  border: none;
+  background-color: transparent;
+  font-size: 3rem;
 `;
