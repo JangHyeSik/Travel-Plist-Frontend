@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { GoogleMap, Marker, Polyline } from "@react-google-maps/api";
 import PropTypes from "prop-types";
 
-export default function Map({ markers, onMapLoad }) {
+export default function Map({ marker, onMapLoad, recordedMarkers }) {
   const [currentLocation, setCurrentLocation] = useState({
     lat: 0,
     lng: 0,
@@ -22,7 +22,16 @@ export default function Map({ markers, onMapLoad }) {
   }, []);
 
   const defaultProps = {
-    center: { lat: currentLocation.lat, lng: currentLocation.lng },
+    center: {
+      lat:
+        recordedMarkers.length > 0
+          ? recordedMarkers[recordedMarkers.length - 1].lat
+          : currentLocation.lat,
+      lng:
+        recordedMarkers.length > 0
+          ? recordedMarkers[recordedMarkers.length - 1].lng
+          : currentLocation.lng,
+    },
     zoom: 17,
   };
 
@@ -34,32 +43,40 @@ export default function Map({ markers, onMapLoad }) {
         zoom={defaultProps.zoom}
         onLoad={onMapLoad}
       >
-        {markers.length
-          ? markers.map((marker, index) => (
+        {recordedMarkers.length > 0
+          ? recordedMarkers.map((recordedMarker, index) => (
               <Marker
                 key={index}
-                position={{ lat: marker.lat, lng: marker.lng }}
+                position={{ lat: recordedMarker.lat, lng: recordedMarker.lng }}
                 icon={"/images/character.png"}
               />
             ))
           : currentLocation.lat !== 0 &&
             currentLocation.lng !== 0 && (
-              <>
-                <Marker
-                  position={{
-                    lat: currentLocation.lat,
-                    lng: currentLocation.lng,
-                  }}
-                />
-              </>
+              <Marker
+                position={{
+                  lat: currentLocation.lat,
+                  lng: currentLocation.lng,
+                }}
+              />
             )}
-        <Polyline path={markers} />
+
+        {marker.lat !== 0 && marker.lng !== 0 && (
+          <Marker
+            position={{
+              lat: marker.lat,
+              lng: marker.lng,
+            }}
+          />
+        )}
+        <Polyline path={recordedMarkers} />
       </GoogleMap>
     </>
   );
 }
 
 Map.propTypes = {
-  markers: PropTypes.array,
+  marker: PropTypes.object,
   onMapLoad: PropTypes.func.isRequired,
+  recordedMarkers: PropTypes.array,
 };
