@@ -24,6 +24,7 @@ export default function TravelDetailCreate() {
   const [travelDetails, setTravelDetails] = useState(travelLog.travelDetails);
   const [recordedMarkers, setRecordedMarkers] = useState(travelLog.coordinates);
   const [selectedTravelLog, setSelectedTravelLog] = useState({
+    index: null,
     place: "",
     detail: "",
   });
@@ -66,7 +67,7 @@ export default function TravelDetailCreate() {
   };
 
   const handleSaveTravels = () => {
-    if (!travelPlaces.length) {
+    if (!travelLog.travelPlaces.length && !travelPlaces.length) {
       alert("여행지를 추가해주세요 !");
       return;
     }
@@ -78,6 +79,7 @@ export default function TravelDetailCreate() {
       isTravelAddButton: false,
       isEditButton: false,
     });
+    setIsOpenTravelModal(false);
 
     setMarker({
       lat: 0,
@@ -102,7 +104,7 @@ export default function TravelDetailCreate() {
 
   const handleDeleteTravelDetail = (e) => {
     const { value } = e.target;
-    console.log(value);
+
     const deletedIndex = travelPlaces.findIndex(
       (travelPlace) => travelPlace === value
     );
@@ -163,6 +165,7 @@ export default function TravelDetailCreate() {
                   onClick={() => {
                     setSelectedTravelLog({
                       ...selectedTravelLog,
+                      index,
                       place: travelPlace,
                       detail: travelLog.travelDetails[index],
                     });
@@ -172,6 +175,7 @@ export default function TravelDetailCreate() {
                 >
                   {travelPlace}
                 </div>
+
                 {isEditButton && (
                   <DeleteButton
                     onClick={handleDeleteTravelDetail}
@@ -183,7 +187,8 @@ export default function TravelDetailCreate() {
               </TravelDetailBox>
             );
           })}
-        {(!travelPlaces.length || isTravelAddButton) && (
+
+        {(!travelLog.travelPlaces.length || isTravelAddButton) && (
           <>
             <div className="address-content-container">
               <div className="address-content">이번 여행지는 ✈️</div>
@@ -205,41 +210,43 @@ export default function TravelDetailCreate() {
           </>
         )}
         <div className="button-container">
-          {travelPlaces.length > 0 &&
-            travelLog.travelPlaces.length > 0 &&
-            !isTravelAddButton && (
-              <>
+          {travelLog.travelPlaces.length > 0 && !isTravelAddButton && (
+            <>
+              <Button
+                onClick={() =>
+                  setIsClickedButton({
+                    ...isClickedButton,
+                    isTravelAddButton: true,
+                  })
+                }
+              >
+                여행지 추가하기
+              </Button>
+              {!isEditButton ? (
                 <Button
                   onClick={() =>
                     setIsClickedButton({
                       ...isClickedButton,
-                      isTravelAddButton: true,
+                      isEditButton: true,
                     })
                   }
                 >
-                  여행지 추가하기
+                  편집
                 </Button>
-                {!isEditButton ? (
-                  <Button
-                    onClick={() =>
-                      setIsClickedButton({
-                        ...isClickedButton,
-                        isEditButton: true,
-                      })
-                    }
-                  >
-                    편집
-                  </Button>
-                ) : (
-                  <Button onClick={handleSaveTravels}>저장</Button>
-                )}
-              </>
-            )}
+              ) : (
+                <Button onClick={handleSaveTravels}>저장</Button>
+              )}
+            </>
+          )}
         </div>
         {isOpenTravelModal && (
           <Modal
-            travelLog={selectedTravelLog}
-            onClose={() => setIsOpenTravelModal(false)}
+            selectedTravelLog={selectedTravelLog}
+            setSelectedTravelLog={setSelectedTravelLog}
+            onSave={handleSaveTravels}
+            travelDetails={travelDetails}
+            setTravelDetails={setTravelDetails}
+            setIsOpenTravelModal={setIsOpenTravelModal}
           />
         )}
       </TravelDetailFormWrapper>

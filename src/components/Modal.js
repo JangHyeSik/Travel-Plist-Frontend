@@ -1,22 +1,56 @@
 import React from "react";
+import { debounce } from "lodash";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
-export default function Modal({ travelLog, onClose }) {
+export default function Modal({
+  travelDetails,
+  selectedTravelLog,
+  setTravelDetails,
+  setIsOpenTravelModal,
+  onSave,
+}) {
+  const { place, detail } = selectedTravelLog;
+
+  const debouncedSave = debounce((content) => {
+    handleUpdate(content);
+  }, 750);
+
+  const handleUpdate = (modifiedContent) => {
+    const modifiedTravelDetails = travelDetails.map((travelDetail, index) =>
+      index === selectedTravelLog.index ? modifiedContent : travelDetail
+    );
+
+    setTravelDetails(modifiedTravelDetails);
+  };
+
+  const handleChangeTextArea = (e) => {
+    debouncedSave(e.target.value);
+  };
+
   return (
     <>
-      <Dimmed onClick={onClose} />
+      <Dimmed onClick={() => setIsOpenTravelModal(false)} />
       <TravelModal>
-        {/* {!travelLog.travelPlaces.length && "여행일정이 없습니다."} */}
-        <div className="trave-place-title">장소: {travelLog.place}</div>
+        <div className="trave-place-title">장소: {place}</div>
         <textarea
           className="travel-detail-textarea"
-          defaultValue={travelLog.detail}
+          defaultValue={detail}
+          onChange={handleChangeTextArea}
         ></textarea>
-        <CompleteButton>완료</CompleteButton>
+        <CompleteButton onClick={onSave}>완료</CompleteButton>
       </TravelModal>
     </>
   );
 }
+
+Modal.propTypes = {
+  travelDetails: PropTypes.array,
+  selectedTravelLog: PropTypes.object,
+  setTravelDetails: PropTypes.func.isRequired,
+  setIsOpenTravelModal: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+};
 
 const TravelModal = styled.div`
   display: flex;

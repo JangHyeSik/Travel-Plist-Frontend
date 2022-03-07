@@ -8,7 +8,8 @@ import Mytravels from "../components/travel/Mytravels";
 import TravelCreate from "../components/travel/TravelCreate";
 import TravelDetail from "../components/travel/TravelDetail";
 import TravelDetailCreate from "../components/travel/TravelDetailCreate";
-import Mydiarys from "../components/Mydiarys";
+import Mydiarys from "../components/diary/Mydiarys";
+import TravelDiaryCreate from "../components/diary/TravelDiaryCreate";
 
 function App() {
   const { isLoading, isLoggedIn } = useSelector((state) => state.auth);
@@ -28,6 +29,10 @@ function App() {
           element={<TravelDetailCreate />}
         />
         <Route path="/mydiarys" element={<Mydiarys />} />
+        <Route
+          path="/travels/:travelid/:travellogid/:traveldiaryid"
+          element={<TravelDiaryCreate />}
+        />
       </Routes>
     </>
   );
