@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { GoogleMap, Marker, Polyline } from "@react-google-maps/api";
 import PropTypes from "prop-types";
 
-export default function Map({ marker, onMapLoad, recordedMarkers }) {
+function Map({ marker, onMapLoad, recordedMarkers }) {
   const [currentLocation, setCurrentLocation] = useState({
     lat: 0,
     lng: 0,
@@ -80,3 +80,5 @@ Map.propTypes = {
   onMapLoad: PropTypes.func.isRequired,
   recordedMarkers: PropTypes.array,
 };
+
+export default memo(Map);
