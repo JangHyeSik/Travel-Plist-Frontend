@@ -10,6 +10,9 @@ import {
   createTravelDetailRequest,
   createTravelDetailSuccess,
   createTravelDetailFailure,
+  createTravelDiaryRequest,
+  createTravelDiarySuccess,
+  createTravelDiaryFailure,
 } from "./userSlice";
 
 function* fetchWeatherData({ payload }) {
@@ -63,7 +66,7 @@ function* createTravelDetail({ payload }) {
 
   try {
     const response = yield axios.put(
-      `http://localhost:8000/travels/${travelId}/${travellogid}`,
+      `${process.env.REACT_APP_CREATE_TRAVEL_URL}/${travelId}/${travellogid}`,
       {
         travelPlaces,
         travelDetails,
@@ -80,12 +83,52 @@ function* createTravelDetail({ payload }) {
   }
 }
 
+function* createTravelDiary({ payload }) {
+  const {
+    travelid,
+    travellogid,
+    traveldiaryid,
+    formData,
+    travelDiaryText,
+    photoUrl,
+    recordedAudioUrl,
+    token,
+  } = payload;
+
+  try {
+    const response = yield axios.put(
+      `${process.env.REACT_APP_CREATE_TRAVEL_URL}/${travelid}/${travellogid}/${traveldiaryid}`,
+      formData,
+      {
+        headers: {
+          Authorization: token,
+        },
+        params: {
+          travelDiaryText,
+          photoUrl,
+          recordedAudioUrl,
+        },
+      }
+    );
+
+    const { updatedTravel } = response.data;
+
+    yield put(createTravelDiarySuccess({ updatedTravel }));
+  } catch (err) {
+    yield put(createTravelDiaryFailure(err));
+  }
+}
+
 function* watchCreateTravel() {
   yield takeLatest(createTravelRequest, createTravel);
 }
 
 function* watchCreateTravelDetail() {
   yield takeLatest(createTravelDetailRequest, createTravelDetail);
+}
+
+function* watchCreateTravelDiary() {
+  yield takeLatest(createTravelDiaryRequest, createTravelDiary);
 }
 
 function* watchWeather() {
@@ -97,5 +140,6 @@ export function* userSaga() {
     fork(watchWeather),
     fork(watchCreateTravel),
     fork(watchCreateTravelDetail),
+    fork(watchCreateTravelDiary),
   ]);
 }

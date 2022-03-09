@@ -38,18 +38,18 @@ export default function Mydiarys() {
           const endDate = travel.endDate.slice(0, 10);
 
           return (
-            <div key={travel._id} className="container">
+            <div key={travel._id} className="travel-container">
               <div className="travel-title">
                 <div>{title}</div>
                 <div className="travel-date">
                   {startDate} ~ {endDate}
                 </div>
               </div>
-              <div className="flex">
+              <div className="travel-log-container">
                 {travelLogs.map((travelLog, index) => {
-                  const { travelPlaces, travelDiary } = travelLog;
-
+                  const { travelDiary } = travelLog;
                   const start = new Date(startDate.slice(0, 16));
+
                   start.setDate(start.getDate() + index);
                   start.setHours(0, 0, 0, 0);
 
@@ -57,25 +57,38 @@ export default function Mydiarys() {
 
                   return (
                     <div key={travelLog._id} className="travel-box-container">
-                      {travelPlaces.map((travelPlace, index) => {
-                        return (
-                          <div key={index}>
-                            <div className="travel-box">
-                              <div
-                                onClick={() =>
-                                  navigate(
-                                    `/travels/${travel._id}/${travelLog._id}/${travelDiary._id}`
-                                  )
-                                }
-                                className="picture"
-                              >
-                                {isLastTime ? "사진" : "자물쇠"}
-                              </div>
-                              <div className="trave-plcae">{travelPlace}</div>
+                      <div className="travel-box">
+                        {!isLastTime ? (
+                          travelDiary.photoUrl ? (
+                            <img
+                              src={travelDiary.photoUrl}
+                              alt="대표사진"
+                              className="travel-diary-photo"
+                              onClick={() =>
+                                navigate(
+                                  `/travels/${travel._id}/${travelLog._id}/${travelDiary._id}`
+                                )
+                              }
+                            />
+                          ) : (
+                            <div
+                              className="travel-diary-icon"
+                              onClick={() =>
+                                navigate(
+                                  `/travels/${travel._id}/${travelLog._id}/${travelDiary._id}`
+                                )
+                              }
+                            >
+                              ✏️
                             </div>
-                          </div>
-                        );
-                      })}
+                          )
+                        ) : (
+                          <div className="travel-diary-icon">🔒</div>
+                        )}
+                        <div className="travel-date-number">
+                          {index + 1}일차
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
@@ -88,6 +101,20 @@ export default function Mydiarys() {
     </MydiarysWrapper>
   );
 }
+
+// {!isLastTime ? (
+//   travelDiary.photoUrl ? (
+//     <img
+//       className="travel-diary-photo"
+//       src={travelDiary.photoUrl}
+//       alt="대표사진"
+//     />
+//   ) : (
+//     "✏️"
+//   )
+// ) : (
+//   "🔒"
+// )}
 
 const MydiarysWrapper = styled.div`
   width: 100%;
@@ -136,14 +163,17 @@ const MyDiarysContainer = styled.div`
   font-weight: bold;
   overflow: scroll;
 
-  .container {
+  .travel-container {
     width: 100%;
     display: flex;
     flex-direction: column;
   }
 
-  .flex {
+  .travel-log-container {
     display: flex;
+    justify-content: space-around;
+    margin-right: 4rem;
+    overflow: scroll;
   }
 
   .travel-title {
@@ -163,7 +193,32 @@ const MyDiarysContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 6rem 0rem 3rem 4rem;
+    margin: 2.5rem 0rem;
+  }
+  .travel-diary-create {
+    width: 100px;
+    padding: 5rem;
+    font-size: 3rem;
+    background-color: white;
+    opacity: 50%;
+  }
+  .travel-date-number {
+    padding: 0rem 4.5rem;
     font-size: 2rem;
+    background-color: white;
+  }
+  .travel-diary-photo {
+    width: 100%;
+    height: 250px;
+  }
+  .travel-diary-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 250px;
+    font-size: 3rem;
+    background-color: #ffffff;
+    opacity: 50%;
   }
 `;

@@ -67,6 +67,24 @@ const userSlice = createSlice({
     createTravelDetailFailure: (state, action) => {
       state.err = action.payload;
     },
+    createTravelDiaryRequest: (state) => {
+      state.user = {
+        ...state.user,
+      };
+    },
+    createTravelDiarySuccess: (state, action) => {
+      const { updatedTravel } = action.payload;
+      const { travels } = state.user;
+
+      for (let i = 0; i < travels.length; i++) {
+        if (travels[i]._id === updatedTravel._id) {
+          travels.splice(i, 1, updatedTravel);
+        }
+      }
+    },
+    createTravelDiaryFailure: (state, action) => {
+      state.err = action.payload;
+    },
   },
 });
 
@@ -81,6 +99,9 @@ export const {
   createTravelDetailRequest,
   createTravelDetailSuccess,
   createTravelDetailFailure,
+  createTravelDiaryRequest,
+  createTravelDiarySuccess,
+  createTravelDiaryFailure,
 } = userSlice.actions;
 
 export default userSlice.reducer;

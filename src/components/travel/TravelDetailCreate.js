@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -128,9 +128,12 @@ export default function TravelDetailCreate() {
 
   const mapRef = useRef();
 
-  const onMapLoad = (map) => {
-    mapRef.current = map;
-  };
+  const onMapLoad = useCallback(
+    (map) => {
+      mapRef.current = map;
+    },
+    [marker, recordedMarkers]
+  );
 
   const panTo = ({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
@@ -197,8 +200,8 @@ export default function TravelDetailCreate() {
               )}
             </div>
             <textarea
-              className="travel-detail-textarea"
               type="text"
+              className="travel-detail-textarea"
               placeholder="여행 내용을 입력해주세요."
               value={textAreaContent}
               onChange={handleChangeTextArea}
