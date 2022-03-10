@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
+import GoBackButton from "../GobackButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { createTravelDiaryRequest } from "../../features/user/userSlice";
@@ -154,6 +155,7 @@ export default function TravelDiaryCreate() {
 
   return (
     <TravelDiaryCreateWrapper>
+      <GoBackButton />
       <img className="photo" src={photoUrl} alt="대표사진" />
       <FormWrapper onSubmit={handleSubmit}>
         <SelectButton onClick={handleClickSelectButton}>사진 선택</SelectButton>
