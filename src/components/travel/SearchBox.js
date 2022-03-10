@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -22,6 +22,7 @@ export default function SearchBox({
       setMarker({
         lat: latLng.lat,
         lng: latLng.lng,
+        address: placeObj.formattedSuggestion.mainText,
       });
 
       panTo({ lat: latLng.lat, lng: latLng.lng });
@@ -35,8 +36,8 @@ export default function SearchBox({
       style={{
         display: "flex",
         position: "absolute",
-        top: "1rem",
-        left: "25%",
+        top: "2%",
+        left: "20%",
         color: "black",
         zIndex: "10",
         margin: "0",
