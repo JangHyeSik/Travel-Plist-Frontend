@@ -1,15 +1,17 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
+
 import SearchBox from "./SearchBox";
 import Map from "./Map";
 import Modal from "../Modal";
+import GoBackButton from "../GobackButton";
 import { createTravelDetailRequest } from "../../features/user/userSlice";
+import { makeTime } from "../../util/makeTime";
 
 export default function TravelDetailCreate() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { travellogid } = useParams();
 
@@ -34,13 +36,28 @@ export default function TravelDetailCreate() {
   const [marker, setMarker] = useState({
     lat: 0,
     lng: 0,
+    address: "",
   });
   const [isOpenTravelModal, setIsOpenTravelModal] = useState(false);
   const [isClickedButton, setIsClickedButton] = useState({
     isTravelAddButton: false,
     isEditButton: false,
   });
+  const [directionMode, setDirectionMode] = useState({
+    isDirectionMode: false,
+    isSelectMode: false,
+    isDriving: false,
+    isDrivingTraffic: false,
+    isCycling: false,
+    isWalking: false,
+  });
 
+  const [directionData, setDirectionData] = useState({});
+  const [directionLocation, setDirectionLocation] = useState([]);
+  const [directionMarkersLocation, setDirectionMarkersLocation] = useState([]);
+  const [clickedMarkerIndex, setClickedMarkerIndex] = useState([]);
+
+  const { isDirectionMode, isSelectMode, isDrivingTraffic } = directionMode;
   const { isTravelAddButton, isEditButton } = isClickedButton;
 
   const token = sessionStorage.getItem("token");
@@ -82,8 +99,10 @@ export default function TravelDetailCreate() {
     setIsOpenTravelModal(false);
 
     setMarker({
+      ...marker,
       lat: 0,
       lng: 0,
+      address: "",
     });
 
     dispatch(
@@ -140,9 +159,57 @@ export default function TravelDetailCreate() {
     mapRef.current.setZoom(17);
   };
 
+  const handleOnOffDirectionMode = () => {
+    if (isDirectionMode) {
+      setDirectionMode({
+        ...directionMode,
+        isDirectionMode: false,
+        isSelectMode: false,
+        isDriving: false,
+        isDrivingTraffic: false,
+        isCycling: false,
+        isWalking: false,
+      });
+      setDirectionData({});
+      setDirectionMarkersLocation([]);
+      setDirectionLocation([]);
+      setClickedMarkerIndex([]);
+    } else {
+      setDirectionMode({
+        ...directionMode,
+        isDirectionMode: true,
+      });
+    }
+  };
+
+  const handleSelectDirectionMode = (e) => {
+    const { name } = e.target;
+
+    setDirectionMode({
+      ...directionMode,
+      isSelectMode: true,
+      [name]: true,
+    });
+  };
+
+  const handleInitializationDirectionMode = () => {
+    setDirectionMode({
+      ...directionMode,
+      isSelectMode: false,
+      isDriving: false,
+      isDrivingTraffic: false,
+      isCycling: false,
+      isWalking: false,
+    });
+    setDirectionData({});
+    setDirectionMarkersLocation([]);
+    setDirectionLocation([]);
+    setClickedMarkerIndex([]);
+  };
+
   return (
     <TraveDetailCreateWrapper>
-      <GoBackButton onClick={() => navigate(-1)}>⬅️</GoBackButton>
+      <GoBackButton />
       <SearchBox
         address={address}
         setAddress={setAddress}
@@ -152,110 +219,205 @@ export default function TravelDetailCreate() {
         setMarker={setMarker}
         panTo={panTo}
       />
+      <DirectionButton
+        onClick={handleOnOffDirectionMode}
+        isDirectionMode={isDirectionMode}
+      >
+        경로탐색 {isDirectionMode ? "OFF" : "ON"}
+      </DirectionButton>
       <Map
         marker={marker}
         onMapLoad={onMapLoad}
         recordedMarkers={recordedMarkers}
+        directionMode={directionMode}
+        directionLocation={directionLocation}
+        setDirectionLocation={setDirectionLocation}
+        directionMarkersLocation={directionMarkersLocation}
+        setDirectionMarkersLocation={setDirectionMarkersLocation}
+        setDirectionData={setDirectionData}
+        clickedMarkerIndex={clickedMarkerIndex}
+        setClickedMarkerIndex={setClickedMarkerIndex}
       />
 
-      <TravelDetailFormWrapper>
-        {!isTravelAddButton &&
-          travelLog.travelPlaces.length > 0 &&
-          travelPlaces.map((travelPlace, index) => {
-            return (
-              <TravelDetailBox key={index}>
-                <div
-                  onClick={() => {
-                    setSelectedTravelLog({
-                      ...selectedTravelLog,
-                      index,
-                      place: travelPlace,
-                      detail: travelLog.travelDetails[index],
-                    });
+      {!isDirectionMode && (
+        <TravelDetailFormWrapper>
+          {!isTravelAddButton &&
+            travelLog.travelPlaces.length > 0 &&
+            travelPlaces.map((travelPlace, index) => {
+              return (
+                <TravelDetailBox key={index}>
+                  <div
+                    onClick={() => {
+                      setSelectedTravelLog({
+                        ...selectedTravelLog,
+                        index,
+                        place: travelPlace,
+                        detail: travelLog.travelDetails[index],
+                      });
 
-                    setIsOpenTravelModal(true);
-                  }}
-                >
-                  {travelPlace}
-                </div>
-
-                {isEditButton && (
-                  <DeleteButton
-                    onClick={handleDeleteTravelDetail}
-                    value={travelPlace}
+                      setIsOpenTravelModal(true);
+                    }}
                   >
-                    ❌
-                  </DeleteButton>
-                )}
-              </TravelDetailBox>
-            );
-          })}
+                    {travelPlace}
+                  </div>
 
-        {(!travelLog.travelPlaces.length || isTravelAddButton) && (
-          <>
-            <div className="address-content-container">
-              <div className="address-content">이번 여행지는 ✈️</div>
-              {selectedAddress && (
-                <div className="address-content">{selectedAddress}❗️</div>
-              )}
-            </div>
-            <textarea
-              type="text"
-              className="travel-detail-textarea"
-              placeholder="여행 내용을 입력해주세요."
-              value={textAreaContent}
-              onChange={handleChangeTextArea}
-            />
-            <div className="button-container">
-              <Button onClick={handleAddTravel}>추가</Button>
-              <Button onClick={handleSaveTravels}>저장</Button>
-            </div>
-          </>
-        )}
-        <div className="button-container">
-          {travelLog.travelPlaces.length > 0 && !isTravelAddButton && (
+                  {isEditButton && (
+                    <DeleteButton
+                      onClick={handleDeleteTravelDetail}
+                      value={travelPlace}
+                    >
+                      ❌
+                    </DeleteButton>
+                  )}
+                </TravelDetailBox>
+              );
+            })}
+
+          {(!travelLog.travelPlaces.length || isTravelAddButton) && (
             <>
-              <Button
-                onClick={() =>
-                  setIsClickedButton({
-                    ...isClickedButton,
-                    isTravelAddButton: true,
-                  })
-                }
-              >
-                여행지 추가하기
-              </Button>
-              {!isEditButton ? (
+              <div className="address-content-container">
+                <div className="address-content">이번 여행지는 ✈️</div>
+                {selectedAddress && (
+                  <div className="address-content">{selectedAddress}❗️</div>
+                )}
+              </div>
+              <textarea
+                type="text"
+                className="travel-detail-textarea"
+                placeholder="여행 내용을 입력해주세요."
+                value={textAreaContent}
+                onChange={handleChangeTextArea}
+              />
+              <div className="button-container">
+                <Button onClick={handleAddTravel}>추가</Button>
+                <Button onClick={handleSaveTravels}>저장</Button>
+              </div>
+            </>
+          )}
+          <div className="button-container">
+            {travelLog.travelPlaces.length > 0 && !isTravelAddButton && (
+              <>
                 <Button
                   onClick={() =>
                     setIsClickedButton({
                       ...isClickedButton,
-                      isEditButton: true,
+                      isTravelAddButton: true,
                     })
                   }
                 >
-                  편집
+                  여행지 추가하기
                 </Button>
-              ) : (
-                <Button onClick={handleSaveTravels}>저장</Button>
-              )}
-            </>
+                {!isEditButton ? (
+                  <Button
+                    onClick={() =>
+                      setIsClickedButton({
+                        ...isClickedButton,
+                        isEditButton: true,
+                      })
+                    }
+                  >
+                    편집
+                  </Button>
+                ) : (
+                  <Button onClick={handleSaveTravels}>저장</Button>
+                )}
+              </>
+            )}
+          </div>
+          {isOpenTravelModal && (
+            <Modal
+              selectedTravelLog={selectedTravelLog}
+              setSelectedTravelLog={setSelectedTravelLog}
+              onSave={handleSaveTravels}
+              travelDetails={travelDetails}
+              setTravelDetails={setTravelDetails}
+              setIsOpenTravelModal={setIsOpenTravelModal}
+            />
           )}
-        </div>
-        {isOpenTravelModal && (
-          <Modal
-            selectedTravelLog={selectedTravelLog}
-            setSelectedTravelLog={setSelectedTravelLog}
-            onSave={handleSaveTravels}
-            travelDetails={travelDetails}
-            setTravelDetails={setTravelDetails}
-            setIsOpenTravelModal={setIsOpenTravelModal}
-          />
-        )}
-      </TravelDetailFormWrapper>
+        </TravelDetailFormWrapper>
+      )}
+
+      {isDirectionMode && !isSelectMode && (
+        <TravelModeWrapper>
+          <h1>원하시는 경로탐색 모드를 선택해주세요 !</h1>
+          <TravelModeButtonContainer>
+            <TravelModeButton
+              onClick={handleSelectDirectionMode}
+              name="isWalking"
+            >
+              🚶‍♂️도보
+            </TravelModeButton>
+            <TravelModeButton
+              onClick={handleSelectDirectionMode}
+              name="isCycling"
+            >
+              🚴‍♀️ 자전거
+            </TravelModeButton>
+          </TravelModeButtonContainer>
+          <TravelModeButtonContainer>
+            <TravelModeButton
+              onClick={handleSelectDirectionMode}
+              name="isDrivingTraffic"
+            >
+              🚍 대중교통
+            </TravelModeButton>
+            <TravelModeButton
+              onClick={handleSelectDirectionMode}
+              name="isDriving"
+            >
+              🚗 차
+            </TravelModeButton>
+          </TravelModeButtonContainer>
+        </TravelModeWrapper>
+      )}
+      {isSelectMode && (
+        <DirectionWrapper>
+          <div>
+            출발지: {directionData.address ? directionData.address[0] : ""}
+          </div>
+          <div>
+            도착지: {directionData.address ? directionData.address[1] : ""}
+          </div>
+          <div>
+            이동수단:{" "}
+            {directionData.directionMode === "driving"
+              ? "차"
+              : directionData.directionMode === "driving-traffic"
+              ? "대중교통"
+              : directionData.directionMode === "cycling"
+              ? "자전거"
+              : directionData.directionMode === "walking"
+              ? "도보"
+              : ""}
+          </div>
+          <div>
+            거리: 약{" "}
+            {directionData.distance
+              ? isDrivingTraffic
+                ? directionData.distance.text
+                : `${(directionData.distance / 1000).toFixed(3)} km`
+              : ""}
+          </div>
+          <div>
+            예상소요시간: 약
+            {directionData.duration
+              ? isDrivingTraffic
+                ? directionData.duration.text
+                : ` ${makeTime(directionData.duration)} 소요예상`
+              : ""}
+          </div>
+          <Button onClick={handleInitializationDirectionMode}>초기화</Button>
+        </DirectionWrapper>
+      )}
     </TraveDetailCreateWrapper>
   );
 }
+
+const TraveDetailCreateWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #d4e3fc;
+`;
 
 const TravelDetailBox = styled.div`
   display: flex;
@@ -270,11 +432,6 @@ const TravelDetailBox = styled.div`
   text-align: center;
 `;
 
-const TraveDetailCreateWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-`;
-
 const TravelDetailFormWrapper = styled.div`
   width: 100%;
   height: 50vh;
@@ -283,7 +440,6 @@ const TravelDetailFormWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: #d4e3fc;
 
   .address-content-container {
     display: flex;
@@ -323,16 +479,64 @@ const Button = styled.button`
   font-size: 2rem;
 `;
 
+const DirectionButton = styled.button`
+  position: absolute;
+  z-index: 11;
+  top: 2%;
+  right: 3%;
+  width: 15%;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background-color: ${(props) =>
+    props.isDirectionMode ? "#e84118" : "#9cbdf0"};
+  color: #ffffff;
+`;
+
 const DeleteButton = styled.button`
   padding: 1rem;
 `;
 
-const GoBackButton = styled.button`
-  position: absolute;
-  top: 2%;
-  left: 2%;
-  z-index: 10;
+const TravelModeButtonContainer = styled.div`
+  width: 100%;
+  height: 20vh;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #d4e3fc;
   border: none;
-  background-color: transparent;
-  font-size: 3rem;
+`;
+
+const TravelModeButton = styled.button`
+  width: 290px;
+  height: 190px;
+  padding: 50px;
+  border: none;
+  border-radius: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: #9cbdf0;
+  color: #ffffff;
+`;
+
+const TravelModeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 3rem;
+  font-weight: bold;
+`;
+
+const DirectionWrapper = styled.div`
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  /* margin-top: 3rem; */
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2.5rem;
 `;

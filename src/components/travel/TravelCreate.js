@@ -57,7 +57,6 @@ export default function TravelCreate() {
 
   return (
     <TravelCreateWrapper>
-      <GoBackButton onClick={() => navigate(-1)}>⬅️</GoBackButton>
       <div className="travel-create-description">여행 일정을 입력해주세요!</div>
       <FormContainerWrapper onSubmit={handleCreateTravel}>
         <InputContainerWrapper>
@@ -155,13 +154,4 @@ const TravelCreateButton = styled.button`
   font-weight: bold;
   background-color: #9cbdf0;
   color: #ffffff;
-`;
-
-const GoBackButton = styled.button`
-  position: absolute;
-  top: 2%;
-  left: 2%;
-  font-size: 3rem;
-  background-color: transparent;
-  border: none;
 `;
