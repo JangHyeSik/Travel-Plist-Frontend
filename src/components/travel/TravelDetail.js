@@ -118,6 +118,3 @@ const Div = styled.div`
 const NavLinkWrapper = styled(NavLink)`
   text-decoration: none;
 `;
-
-// false 는 아직 끝나지 않았다.
-// true면 여행 종료
