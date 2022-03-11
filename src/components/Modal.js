@@ -74,8 +74,13 @@ const TravelModal = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 2rem;
     font-size: 2rem;
     font-weight: bold;
+  }
+
+  .travel-detail-textarea {
+    padding: 10rem 7rem;
   }
 `;
 

@@ -144,18 +144,26 @@ function Map({
                 {isSelectMode && (
                   <InfoWindow
                     options={{
-                      maxWidth: 110,
-                      fontSize: "1rem",
-                      display: "none",
+                      maxWidth: 150,
                     }}
                   >
-                    <span>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "130px",
+                        height: "70px",
+                        fontSize: "2rem",
+                        textAlign: "center",
+                      }}
+                    >
                       {index === clickedMarkerIndex[0]
                         ? "출발지"
                         : index === clickedMarkerIndex[1]
                         ? "도착지"
                         : "클릭 !"}
-                    </span>
+                    </div>
                   </InfoWindow>
                 )}
               </Marker>

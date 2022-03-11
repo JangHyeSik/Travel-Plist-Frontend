@@ -5,11 +5,13 @@ import styled from "styled-components";
 import Navigation from "../Navigation";
 import { auth } from "../../firebase";
 import { logoutRequest } from "../../features/auth/authSlice";
+import { deleteTravelRequest } from "../../features/user/userSlice";
 
 export default function Mytravels() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { username, travels } = useSelector((state) => state.user.user);
+  const { _id, username, travels } = useSelector((state) => state.user.user);
+  const token = sessionStorage.getItem("token");
 
   const signOut = () => {
     auth.signOut();
@@ -53,6 +55,19 @@ export default function Mytravels() {
                 <TravelBoxNavLink to={`/travel-detail/${travel._id}`}>
                   {travel.title}
                 </TravelBoxNavLink>
+                <button
+                  onClick={() =>
+                    dispatch(
+                      deleteTravelRequest({
+                        userId: _id,
+                        travelId: travel._id,
+                        token,
+                      })
+                    )
+                  }
+                >
+                  ❌
+                </button>
               </div>
             );
           })
