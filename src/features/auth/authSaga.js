@@ -1,10 +1,15 @@
 import axios from "axios";
 import { delay, put, all, fork, takeLatest } from "redux-saga/effects";
-import { loginRequest, loginSuccess, loginFailure } from "./authSlice";
-import { fetchUserData } from "../user/userSlice";
-import { createImmutableStateInvariantMiddleware } from "@reduxjs/toolkit";
+import { fetchUserData, logout } from "../user/userSlice";
+import {
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+  logoutRequest,
+  logoutSuccess,
+} from "./authSlice";
 
-function* login({ payload }) {
+function* loginUser({ payload }) {
   const { email, displayName } = payload;
 
   try {
@@ -26,10 +31,19 @@ function* login({ payload }) {
   }
 }
 
-function* watchLogin() {
-  yield takeLatest(loginRequest, login);
+function* logoutUser() {
+  yield put(loginSuccess());
+  yield put(logout());
+}
+
+function* watchUserLogin() {
+  yield takeLatest(loginRequest, loginUser);
+}
+
+function* watchUsesrLogout() {
+  yield takeLatest(logoutRequest, logoutUser);
 }
 
 export function* authSaga() {
-  yield all([fork(watchLogin)]);
+  yield all([fork(watchUserLogin), fork(watchUsesrLogout)]);
 }

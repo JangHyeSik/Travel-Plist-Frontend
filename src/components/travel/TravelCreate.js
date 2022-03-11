@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import GobackButton from "../GobackButton";
 import { createTravelRequest } from "../../features/user/userSlice";
+import ErrorModal from "../modal/ErrorModal";
 
 export default function TravelCreate() {
   const dispatch = useDispatch();
@@ -13,9 +15,16 @@ export default function TravelCreate() {
     startDate: "",
     endDate: "",
   });
-  const { _id } = useSelector((state) => state.user.user);
+  const [isOpenModal, setIsOpenModal] = useState({
+    isEmptyInput: false,
+    isDuplicatedDate: false,
+    isExceedCharacters: false,
+  });
 
+  const { _id, travels } = useSelector((state) => state.user.user);
   const { title, startDate, endDate } = travel;
+  const { isEmptyInput, isDuplicatedDate, isExceedCharacters } = isOpenModal;
+
   const token = sessionStorage.getItem("token");
 
   const handleInputChange = (e) => {
@@ -31,7 +40,49 @@ export default function TravelCreate() {
     e.preventDefault();
 
     if (title === "" || startDate === "" || endDate === "") {
-      alert("빈 칸을 입력해주세요.");
+      setIsOpenModal({
+        ...isOpenModal,
+        isEmptyInput: true,
+      });
+
+      return;
+    }
+
+    if (title.length > 15) {
+      setIsOpenModal({
+        ...isOpenModal,
+        isExceedCharacters: true,
+      });
+
+      return;
+    }
+
+    const isDuplicatedDate = travels.some((travel) => {
+      const differenceDay =
+        (new Date(travel.endDate) - new Date(travel.startDate)) /
+          (1000 * 3600 * 24) +
+        1;
+
+      for (let i = 0; i < differenceDay; i++) {
+        const savedTravelDate = new Date(travel.startDate);
+
+        savedTravelDate.setDate(savedTravelDate.getDate() + i);
+
+        if (
+          new Date(startDate).toISOString() === savedTravelDate.toISOString() ||
+          new Date(endDate).toISOString() === savedTravelDate.toISOString()
+        ) {
+          return true;
+        }
+      }
+    });
+
+    if (isDuplicatedDate) {
+      setIsOpenModal({
+        ...isOpenModal,
+        isDuplicatedDate: true,
+      });
+
       return;
     }
 
@@ -56,42 +107,59 @@ export default function TravelCreate() {
     .slice(0, 10);
 
   return (
-    <TravelCreateWrapper>
-      <div className="travel-create-description">여행 일정을 입력해주세요!</div>
-      <FormContainerWrapper onSubmit={handleCreateTravel}>
-        <InputContainerWrapper>
-          <div>여행 제목</div>
-          <input
-            type="text"
-            className="input-title-box"
-            placeholder="여행 제목을 입력해주세요."
-            name="title"
-            onChange={handleInputChange}
-          />
-        </InputContainerWrapper>
-        <InputContainerWrapper>
-          <div>여행 시작일</div>
-          <input
-            type="date"
-            className="input-date-box"
-            name="startDate"
-            min={currentDate}
-            onChange={handleInputChange}
-          />
-        </InputContainerWrapper>
-        <InputContainerWrapper>
-          <div>여행 종료일</div>
-          <input
-            type="date"
-            className="input-date-box"
-            name="endDate"
-            min={travel.startDate}
-            onChange={handleInputChange}
-          />
-        </InputContainerWrapper>
-        <TravelCreateButton>저 장</TravelCreateButton>
-      </FormContainerWrapper>
-    </TravelCreateWrapper>
+    <>
+      <TravelCreateWrapper>
+        <GobackButton />
+        <div className="travel-create-description">
+          여행 일정을 입력해주세요!
+        </div>
+        <FormContainerWrapper onSubmit={handleCreateTravel}>
+          <InputContainerWrapper>
+            <div>여행 제목</div>
+            <input
+              type="text"
+              className="input-title-box"
+              placeholder="여행 제목을 입력해주세요."
+              name="title"
+              onChange={handleInputChange}
+            />
+          </InputContainerWrapper>
+          <InputContainerWrapper>
+            <div>여행 시작일</div>
+            <input
+              type="date"
+              className="input-date-box"
+              name="startDate"
+              min={currentDate}
+              onChange={handleInputChange}
+            />
+          </InputContainerWrapper>
+          <InputContainerWrapper>
+            <div>여행 종료일</div>
+            <input
+              type="date"
+              className="input-date-box"
+              name="endDate"
+              min={travel.startDate}
+              onChange={handleInputChange}
+            />
+          </InputContainerWrapper>
+          <TravelCreateButton>저 장</TravelCreateButton>
+        </FormContainerWrapper>
+      </TravelCreateWrapper>
+      {(isEmptyInput || isDuplicatedDate || isExceedCharacters) && (
+        <ErrorModal setIsOpenModal={setIsOpenModal}>
+          {isEmptyInput && "빈 칸을 채워주세요:)"}
+          {isDuplicatedDate && (
+            <>
+              <div>다른 여행과</div>
+              <div>겹치는 날짜가 있습니다:)</div>
+            </>
+          )}
+          {isExceedCharacters && "여행 제목을 15자 이내로 작성해주세요:)"}
+        </ErrorModal>
+      )}
+    </>
   );
 }
 
