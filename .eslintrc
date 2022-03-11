@@ -6,8 +6,6 @@
   "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:react/recommended", "react-app"],
   "rules": {
     "quotes": [1, "double", "avoid-escape"],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": 0
   },
   "parserOptions": {
