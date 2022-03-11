@@ -225,7 +225,7 @@ const MyDiarysContainer = styled.div`
   }
 
   .travel-diary-photo {
-    width: 90%;
+    width: 100%;
     height: 250px;
   }
 

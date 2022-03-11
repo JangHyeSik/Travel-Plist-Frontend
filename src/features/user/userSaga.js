@@ -13,6 +13,9 @@ import {
   createTravelDiaryRequest,
   createTravelDiarySuccess,
   createTravelDiaryFailure,
+  deleteTravelRequest,
+  deleteTravelSuccess,
+  deleteTravelFailure,
 } from "./userSlice";
 
 function* fetchWeatherData({ payload }) {
@@ -36,7 +39,7 @@ function* createTravel({ payload }) {
 
   try {
     const response = yield axios.post(
-      process.env.REACT_APP_CREATE_TRAVEL_URL,
+      process.env.REACT_APP_TRAVEL_URL,
       {
         title,
         startDate,
@@ -66,7 +69,7 @@ function* createTravelDetail({ payload }) {
 
   try {
     const response = yield axios.put(
-      `${process.env.REACT_APP_CREATE_TRAVEL_URL}/${travelId}/${travellogid}`,
+      `${process.env.REACT_APP_TRAVEL_URL}/${travelId}/${travellogid}`,
       {
         travelPlaces,
         travelDetails,
@@ -97,7 +100,7 @@ function* createTravelDiary({ payload }) {
 
   try {
     const response = yield axios.put(
-      `${process.env.REACT_APP_CREATE_TRAVEL_URL}/${travelid}/${travellogid}/${traveldiaryid}`,
+      `${process.env.REACT_APP_TRAVEL_URL}/${travelid}/${travellogid}/${traveldiaryid}`,
       formData,
       {
         headers: {
@@ -119,6 +122,30 @@ function* createTravelDiary({ payload }) {
   }
 }
 
+function* deleteTravel({ payload }) {
+  const { userId, travelId, token } = payload;
+
+  try {
+    const response = yield axios.delete(
+      `${process.env.REACT_APP_TRAVEL_URL}/${travelId}`,
+      {
+        headers: {
+          Authorization: token,
+        },
+        params: {
+          userId,
+        },
+      }
+    );
+
+    yield put(
+      deleteTravelSuccess({ deletedTravel: response.data.deletedTravel })
+    );
+  } catch (err) {
+    yield put(deleteTravelFailure(err));
+  }
+}
+
 function* watchCreateTravel() {
   yield takeLatest(createTravelRequest, createTravel);
 }
@@ -131,6 +158,10 @@ function* watchCreateTravelDiary() {
   yield takeLatest(createTravelDiaryRequest, createTravelDiary);
 }
 
+function* watchDeleteTravel() {
+  yield takeLatest(deleteTravelRequest, deleteTravel);
+}
+
 function* watchWeather() {
   yield takeLatest(fetchWeatherRequest, fetchWeatherData);
 }
@@ -141,5 +172,6 @@ export function* userSaga() {
     fork(watchCreateTravel),
     fork(watchCreateTravelDetail),
     fork(watchCreateTravelDiary),
+    fork(watchDeleteTravel),
   ]);
 }
