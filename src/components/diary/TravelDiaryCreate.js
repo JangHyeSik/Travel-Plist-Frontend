@@ -20,7 +20,6 @@ export default function TravelDiaryCreate() {
   const [photoUrl, setPhotoUrl] = useState(
     travelDiary.photoUrl ? travelDiary.photoUrl : ""
   );
-  console.log(travelDiary.photoUrl);
   const [stream, setStream] = useState(null);
   const [media, setMedia] = useState(null);
   const [source, setSource] = useState(null);
