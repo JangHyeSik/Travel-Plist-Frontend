@@ -6,14 +6,13 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+  
   body {
     width: 100%;
     min-width: 320px;
     min-height: calc(100vh);
     margin: 0;
   }
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `;
+
 export default GlobalStyles;
