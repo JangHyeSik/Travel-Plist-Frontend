@@ -32,7 +32,7 @@ function* loginUser({ payload }) {
 }
 
 function* logoutUser() {
-  yield put(loginSuccess());
+  yield put(logoutSuccess());
   yield put(logout());
 }
 
@@ -40,10 +40,10 @@ function* watchUserLogin() {
   yield takeLatest(loginRequest, loginUser);
 }
 
-function* watchUsesrLogout() {
+function* watchUserLogout() {
   yield takeLatest(logoutRequest, logoutUser);
 }
 
 export function* authSaga() {
-  yield all([fork(watchUserLogin), fork(watchUsesrLogout)]);
+  yield all([fork(watchUserLogin), fork(watchUserLogout)]);
 }

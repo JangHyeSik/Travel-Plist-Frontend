@@ -136,7 +136,7 @@ export default function TravelDiaryCreate() {
 
     formData.append("image", imageFile);
     formData.append("audio", recordedAudioFiie);
-    console.log(photoUrl);
+
     dispatch(
       createTravelDiaryRequest({
         travelid,
