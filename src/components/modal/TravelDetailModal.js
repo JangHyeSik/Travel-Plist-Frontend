@@ -3,11 +3,12 @@ import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-export default function Modal({
+export default function TravelDetailModal({
   travelDetails,
   selectedTravelLog,
   setTravelDetails,
-  setIsOpenTravelModal,
+  isOpenModal,
+  setIsOpenModal,
   onSave,
 }) {
   const { place, detail } = selectedTravelLog;
@@ -30,7 +31,11 @@ export default function Modal({
 
   return (
     <>
-      <Dimmed onClick={() => setIsOpenTravelModal(false)} />
+      <Dimmed
+        onClick={() =>
+          setIsOpenModal({ ...isOpenModal, isTravelDetail: false })
+        }
+      />
       <TravelModal>
         <div className="trave-place-title">장소: {place}</div>
         <textarea
@@ -44,11 +49,11 @@ export default function Modal({
   );
 }
 
-Modal.propTypes = {
+TravelDetailModal.propTypes = {
   travelDetails: PropTypes.array,
   selectedTravelLog: PropTypes.object,
   setTravelDetails: PropTypes.func.isRequired,
-  setIsOpenTravelModal: PropTypes.func.isRequired,
+  setIsOpenModal: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
 };
 

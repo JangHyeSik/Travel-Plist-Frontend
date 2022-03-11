@@ -9,7 +9,7 @@ const userSlice = createSlice({
       username: "",
       travels: [],
     },
-    weather: "",
+    isLoading: false,
     err: null,
   },
   reducers: {
@@ -24,16 +24,8 @@ const userSlice = createSlice({
         travels,
       };
     },
-    fetchWeatherRequest: (state) => {
-      state.weather = "";
-    },
-    fetchWeatherSuccess: (state, action) => {
-      state.weather = action.payload;
-    },
-    fetchWeatherFailure: (state, action) => {
-      state.err = action.payload;
-    },
     createTravelRequest: (state) => {
+      state.isLoading = true;
       state.user = {
         ...state.user,
       };
@@ -45,11 +37,14 @@ const userSlice = createSlice({
         ...state.user,
         travels: [...state.user.travels, newTravel],
       };
+      state.isLoading = false;
     },
     createTravelFailure: (state, action) => {
+      state.isLoading = false;
       state.err = action.payload;
     },
     createTravelDetailRequest: (state) => {
+      state.isLoading = true;
       state.user = {
         ...state.user,
       };
@@ -58,6 +53,8 @@ const userSlice = createSlice({
       const { updatedTravel } = action.payload;
       const { travels } = state.user;
 
+      state.isLoading = false;
+
       for (let i = 0; i < travels.length; i++) {
         if (travels[i]._id === updatedTravel._id) {
           travels.splice(i, 1, updatedTravel);
@@ -65,9 +62,11 @@ const userSlice = createSlice({
       }
     },
     createTravelDetailFailure: (state, action) => {
+      state.isLoading = false;
       state.err = action.payload;
     },
     createTravelDiaryRequest: (state) => {
+      state.isLoading = true;
       state.user = {
         ...state.user,
       };
@@ -76,6 +75,8 @@ const userSlice = createSlice({
       const { updatedTravel } = action.payload;
       const { travels } = state.user;
 
+      state.isLoading = false;
+
       for (let i = 0; i < travels.length; i++) {
         if (travels[i]._id === updatedTravel._id) {
           travels.splice(i, 1, updatedTravel);
@@ -83,6 +84,7 @@ const userSlice = createSlice({
       }
     },
     createTravelDiaryFailure: (state, action) => {
+      state.isLoading = false;
       state.err = action.payload;
     },
     deleteTravelRequest: (state) => {
@@ -120,9 +122,6 @@ const userSlice = createSlice({
 
 export const {
   fetchUserData,
-  fetchWeatherRequest,
-  fetchWeatherSuccess,
-  fetchWeatherFailure,
   createTravelRequest,
   createTravelSuccess,
   createTravelFailure,

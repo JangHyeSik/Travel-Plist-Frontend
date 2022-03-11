@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { TailSpin } from "react-loader-spinner";
 import styled from "styled-components";
 import Navigation from "./Navigation";
-import { auth } from "../firebase";
-import { fetchWeatherRequest } from "../features/user/userSlice";
+import { fetchWeatherRequest } from "../features/weather/weatherSlice";
 
 export default function Main() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const weather = useSelector((state) => state.user.weather);
+  const { weather } = useSelector((state) => state.weather);
   const [currentWeather, setCurrentWeather] = useState(weather);
 
   useEffect(() => {
@@ -25,56 +23,61 @@ export default function Main() {
     setCurrentWeather(weather);
   }
 
-  const signOut = () => {
-    auth.signOut();
-    navigate("/");
-  };
-
   return (
-    <MainWrapper>
-      {currentWeather !== "" && (
-        <>
-          <img
-            className="weather-background"
-            src={
-              currentWeather === "Clear"
-                ? "/images/clear2.png"
+    <>
+      <MainWrapper>
+        {currentWeather !== "" && (
+          <>
+            <img
+              className="weather-background"
+              src={
+                currentWeather === "Clear"
+                  ? "/images/clear2.png"
+                  : currentWeather === "Clouds" ||
+                    currentWeather === "Haze" ||
+                    currentWeather === "Mist"
+                  ? "/images/snowing.jpg"
+                  : currentWeather === "Rain"
+                  ? "/images/rainy.jpg"
+                  : currentWeather === "Snow"
+                  ? "/images/snowing.jpg"
+                  : ""
+              }
+              alt="날씨 배경화면"
+            />
+            <div className="balloon">
+              {currentWeather === "Clear"
+                ? "여행하기 딱 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
                 : currentWeather === "Clouds" ||
                   currentWeather === "Haze" ||
                   currentWeather === "Mist"
-                ? "/images/snowing.jpg"
+                ? "구름이 조금 껴있어서 흐릴 수도 있겠네요☁️⛅"
                 : currentWeather === "Rain"
-                ? "/images/rainy.jpg"
+                ? "비가 내리는 중입니다. 우산 챙기세요🌧️☂️☔"
                 : currentWeather === "Snow"
-                ? "/images/snowing.jpg"
-                : ""
-            }
-            alt="날씨 배경화면"
-          />
-          <div className="balloon">
-            {currentWeather === "Clear"
-              ? "여행하기 딱 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
-              : currentWeather === "Clouds" ||
-                currentWeather === "Haze" ||
-                currentWeather === "Mist"
-              ? "구름이 조금 껴있어서 흐릴 수도 있겠네요☁️⛅"
-              : currentWeather === "Rain"
-              ? "비가 내리는 중입니다. 우산 챙기세요🌧️☂️☔"
-              : currentWeather === "Snow"
-              ? "눈이 내리는 중입니다. 미끄러운 길 조심하세요!❄️☃️"
-              : ""}
-          </div>
-          <div className="character-container">
-            <img
-              className="character"
-              src="https://i.pinimg.com/originals/3f/20/f7/3f20f71d82b3bae528c11aacde3abe5d.png"
-              alt="캐릭터"
-            />
-          </div>
-          <Navigation />
-        </>
+                ? "눈이 내리는 중입니다. 미끄러운 길 조심하세요!❄️☃️"
+                : ""}
+            </div>
+            <div className="character-container">
+              <img
+                className="character"
+                src="https://i.pinimg.com/originals/3f/20/f7/3f20f71d82b3bae528c11aacde3abe5d.png"
+                alt="캐릭터"
+              />
+            </div>
+            <Navigation />
+          </>
+        )}
+      </MainWrapper>
+      {currentWeather === "" && (
+        <LoadingWrapper>
+          <TailSpin color="#00BFFF" height={100} width={100} />
+          <LoadingTextWrapper>
+            날씨 정보를 불러오는 중입니다.
+          </LoadingTextWrapper>
+        </LoadingWrapper>
       )}
-    </MainWrapper>
+    </>
   );
 }
 
@@ -134,4 +137,20 @@ const MainWrapper = styled.div`
     border-bottom: 0px solid transparent;
     content: "";
   }
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #91e4fb;
+`;
+
+const LoadingTextWrapper = styled.div`
+  margin-top: 10rem;
+  font-size: 2.5rem;
+  font-weight: bold;
 `;
