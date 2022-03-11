@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { useParams, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Navigation from "../Navigation";
-import GoBackButton from "../GobackButton";
 
 export default function TravelDetail() {
   const { travelid } = useParams();
@@ -13,7 +12,6 @@ export default function TravelDetail() {
   const { title, startDate, travelLogs } = travel;
   return (
     <TravelDetailWrapper>
-      <GoBackButton />
       <div className="empty-space"></div>
       <div className="travel-detail-title">{title}의 일정</div>
       <TravelLogWrapper>
@@ -22,14 +20,24 @@ export default function TravelDetail() {
           start.setDate(start.getDate() + index);
 
           const end = new Date(start);
+
           if (index !== travelLogs.length - 1) {
             end.setDate(end.getDate() + 1);
           }
 
+          const lastDayEnd = new Date(end);
+          lastDayEnd.setDate(lastDayEnd.getDate() + 1);
+
           return (
             <TravelDetailBoxWrapper key={travelLog._id}>
               <div className="travel-date">{`${start.toLocaleDateString()} ~ ${end.toLocaleDateString()}`}</div>
-              <Div isEnd={new Date() > end}>
+              <Div
+                isEnd={
+                  index === travelLogs.length - 1
+                    ? new Date() > lastDayEnd
+                    : new Date() > end
+                }
+              >
                 <NavLinkWrapper
                   to={`/travel-detail-create/${travel._id}/${travelLog._id}`}
                 >
@@ -110,3 +118,6 @@ const Div = styled.div`
 const NavLinkWrapper = styled(NavLink)`
   text-decoration: none;
 `;
+
+// false 는 아직 끝나지 않았다.
+// true면 여행 종료

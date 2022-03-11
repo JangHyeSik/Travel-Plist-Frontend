@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import GobackButton from "../GobackButton";
+import GobackButton from "../button/GobackButton";
 import { createTravelRequest } from "../../features/user/userSlice";
 import ErrorModal from "../modal/ErrorModal";
 
@@ -22,6 +22,7 @@ export default function TravelCreate() {
   });
 
   const { _id, travels } = useSelector((state) => state.user.user);
+
   const { title, startDate, endDate } = travel;
   const { isEmptyInput, isDuplicatedDate, isExceedCharacters } = isOpenModal;
 
@@ -59,18 +60,17 @@ export default function TravelCreate() {
 
     const isDuplicatedDate = travels.some((travel) => {
       const differenceDay =
-        (new Date(travel.endDate) - new Date(travel.startDate)) /
-          (1000 * 3600 * 24) +
-        1;
+        (new Date(endDate) - new Date(startDate)) / (1000 * 3600 * 24) + 1;
 
       for (let i = 0; i < differenceDay; i++) {
-        const savedTravelDate = new Date(travel.startDate);
+        const compareDate = new Date(startDate);
 
-        savedTravelDate.setDate(savedTravelDate.getDate() + i);
+        compareDate.setDate(compareDate.getDate() + i);
 
         if (
-          new Date(startDate).toISOString() === savedTravelDate.toISOString() ||
-          new Date(endDate).toISOString() === savedTravelDate.toISOString()
+          compareDate.toISOString() ===
+            new Date(travel.startDate).toISOString() ||
+          compareDate.toISOString() === new Date(travel.endDate).toISOString()
         ) {
           return true;
         }

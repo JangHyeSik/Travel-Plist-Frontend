@@ -143,8 +143,12 @@ function Map({
               >
                 {isSelectMode && (
                   <InfoWindow
+                    position={{
+                      lat: recordedMarker.lat,
+                      lng: recordedMarker.lng,
+                    }}
                     options={{
-                      maxWidth: 150,
+                      maxWidth: 200,
                     }}
                   >
                     <div
@@ -153,16 +157,16 @@ function Map({
                         justifyContent: "center",
                         alignItems: "center",
                         width: "130px",
-                        height: "70px",
-                        fontSize: "2rem",
+                        height: "4rem",
+                        fontSize: "1.5rem",
                         textAlign: "center",
                       }}
                     >
                       {index === clickedMarkerIndex[0]
-                        ? "출발지"
+                        ? "출발지 !"
                         : index === clickedMarkerIndex[1]
-                        ? "도착지"
-                        : "클릭 !"}
+                        ? "도착지 !"
+                        : `${recordedMarker.address}`}
                     </div>
                   </InfoWindow>
                 )}

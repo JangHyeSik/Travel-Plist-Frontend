@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import GoBackButton from "../GobackButton";
+import GoBackButton from "../button/GobackButton";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { createTravelDiaryRequest } from "../../features/user/userSlice";
@@ -20,6 +20,7 @@ export default function TravelDiaryCreate() {
   const [photoUrl, setPhotoUrl] = useState(
     travelDiary.photoUrl ? travelDiary.photoUrl : ""
   );
+  console.log(travelDiary.photoUrl);
   const [stream, setStream] = useState(null);
   const [media, setMedia] = useState(null);
   const [source, setSource] = useState(null);
@@ -136,7 +137,7 @@ export default function TravelDiaryCreate() {
 
     formData.append("image", imageFile);
     formData.append("audio", recordedAudioFiie);
-
+    console.log(photoUrl);
     dispatch(
       createTravelDiaryRequest({
         travelid,
@@ -160,7 +161,12 @@ export default function TravelDiaryCreate() {
         <TitleWrapper>기록</TitleWrapper>
         <PhotoAudioContainer>
           {photoUrl ? (
-            <ImageWrapper src={photoUrl} alt="대표사진" />
+            <>
+              <ImageWrapper src={photoUrl} alt="대표사진" />
+              <ChangePhotoButton onClick={handleClickSelectButton}>
+                변경
+              </ChangePhotoButton>
+            </>
           ) : (
             <PhotoSelectButton onClick={handleClickSelectButton}>
               📷
@@ -246,6 +252,19 @@ const PhotoSelectButton = styled.button`
   background-color: #dff9fb;
   font-size: 6rem;
   opacity: 50%;
+`;
+
+const ChangePhotoButton = styled.button`
+  position: absolute;
+  top: 15rem;
+  left: 9rem;
+  width: 5rem;
+  height: 3rem;
+  border-radius: 20%;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #9cbdf0;
 `;
 
 const RecordContainer = styled.div`
