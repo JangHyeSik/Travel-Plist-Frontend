@@ -6,7 +6,7 @@ import Navigation from "./Navigation";
 import { auth } from "../firebase";
 import { fetchWeatherRequest } from "../features/user/userSlice";
 
-export default function Home() {
+export default function Main() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const weather = useSelector((state) => state.user.weather);
@@ -86,15 +86,15 @@ const MainWrapper = styled.div`
 
   .character-container {
     position: absolute;
-    bottom: 32%;
-    left: 8%;
-    width: 15rem;
-    height: 18rem;
+    bottom: 30%;
+    left: 15%;
+    width: 12rem;
+    height: 14rem;
     overflow: hidden;
   }
 
   .character {
-    width: 70rem;
+    width: 50rem;
     animation: moveSpriteSheet 1s steps(4) infinite;
   }
 
@@ -112,14 +112,15 @@ const MainWrapper = styled.div`
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 40%;
-    left: 10%;
-    width: 35%;
-    height: 4%;
-    padding: 3rem;
+    bottom: 43%;
+    left: 9%;
+    width: 50%;
+    height: 10%;
+    padding: 40px;
     border-radius: 1rem;
-    background: #ffffff;
-    font-size: 2rem;
+    color: #ffffff;
+    background-color: #9cbdf0;
+    font-size: 2.3rem;
     font-weight: bold;
   }
 
@@ -127,9 +128,9 @@ const MainWrapper = styled.div`
     position: absolute;
     top: 100%;
     left: 20%;
-    border-top: 1.5rem solid #ffffff;
-    border-left: 1rem solid transparent;
-    border-right: 1rem solid transparent;
+    border-top: 2rem solid #9cbdf0;
+    border-left: 2rem solid transparent;
+    border-right: 2rem solid transparent;
     border-bottom: 0px solid transparent;
     content: "";
   }

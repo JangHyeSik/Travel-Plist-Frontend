@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Navigation from "../Navigation";
+import GoBackButton from "../GobackButton";
 
 export default function TravelDetail() {
   const { travelid } = useParams();
@@ -12,6 +13,7 @@ export default function TravelDetail() {
   const { title, startDate, travelLogs } = travel;
   return (
     <TravelDetailWrapper>
+      <GoBackButton />
       <div className="empty-space"></div>
       <div className="travel-detail-title">{title}의 일정</div>
       <TravelLogWrapper>
@@ -60,7 +62,7 @@ const TravelDetailWrapper = styled.div`
   .travel-detail-title {
     display: flex;
     align-items: center;
-    height: 10%;
+    height: 7%;
     padding-left: 2rem;
     border-radius: 4rem;
     background-color: #9cbdf0;
@@ -75,11 +77,11 @@ const TravelLogWrapper = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  margin-top: 3rem;
   width: 100%;
-  height: 60%;
+  height: 67%;
   font-size: 2rem;
   font-weight: bold;
+  /* overflow: scroll; */
 `;
 
 const TravelDetailBoxWrapper = styled.div`

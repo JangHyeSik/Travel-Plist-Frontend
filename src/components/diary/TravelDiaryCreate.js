@@ -152,29 +152,44 @@ export default function TravelDiaryCreate() {
 
     navigate("/mydiarys");
   };
+  console.log(imageFile);
 
   return (
     <TravelDiaryCreateWrapper>
       <GoBackButton />
-      <img className="photo" src={photoUrl} alt="대표사진" />
       <FormWrapper onSubmit={handleSubmit}>
-        <SelectButton onClick={handleClickSelectButton}>사진 선택</SelectButton>
-        {isCompleteRecord && <audio src={recordedAudioUrl} controls></audio>}
-        <SelectButton
-          onClick={!isOnRecord ? handleRecordAudio : handleOffRecordAudio}
-        >
-          {!isOnRecord ? (isCompleteRecord ? "다시 녹음" : "녹음") : "녹음중지"}
-        </SelectButton>
+        <TitleWrapper>기록</TitleWrapper>
+        <PhotoAudioContainer>
+          {photoUrl ? (
+            <ImageWrapper src={photoUrl} alt="대표사진" />
+          ) : (
+            <SelectButton onClick={handleClickSelectButton}>📷</SelectButton>
+          )}
+          <input
+            type="file"
+            style={{ display: "none" }}
+            onChange={handleChangeImageFile}
+            ref={hiddenInput}
+          />
 
-        <input
-          type="file"
-          style={{ display: "none" }}
-          onChange={handleChangeImageFile}
-          ref={hiddenInput}
-        />
-        <textarea
+          <RecordContainer>
+            <RecordButton
+              isOnRecord={isOnRecord}
+              onClick={!isOnRecord ? handleRecordAudio : handleOffRecordAudio}
+            >
+              {!isOnRecord
+                ? isCompleteRecord
+                  ? "다시 녹음"
+                  : "녹음"
+                : "녹음중지"}
+            </RecordButton>
+            {isCompleteRecord && (
+              <audio src={recordedAudioUrl} controls></audio>
+            )}
+          </RecordContainer>
+        </PhotoAudioContainer>
+        <TextAreaWrapper
           type="text"
-          className="travel-diary-textarea"
           placeholder="오늘 여행의 평을
           입력해주세요."
           value={travelDiaryText}
@@ -186,21 +201,92 @@ export default function TravelDiaryCreate() {
   );
 }
 
+const TitleWrapper = styled.div`
+  font-size: 3rem;
+  font-weight: bold;
+`;
+
+const PhotoAudioContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 43%;
+  margin-bottom: 5rem;
+  border-radius: 4rem;
+  background-color: #ffffff;
+`;
+
+const SelectButton = styled.button`
+  padding: 15rem 17.5rem;
+  border: none;
+  border-radius: 4rem 4rem 0rem 0rem;
+  background-color: #dff9fb;
+  font-size: 6rem;
+  opacity: 50%;
+`;
+
+const RecordContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 3rem;
+  margin-left: 1.5rem;
+`;
+
+const RecordButton = styled.button`
+  width: 11rem;
+  height: 11rem;
+  border: none;
+  border-radius: 180px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: red;
+
+  animation-name: pulse;
+  animation-duration: ${(props) => (props.isOnRecord ? "1.5s" : "0s")};
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, 0.3);
+    }
+    65% {
+      box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0.3);
+    }
+    90% {
+      box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
+    }
+  }
+`;
+
+const TextAreaWrapper = styled.textarea`
+  margin-bottom: 3rem;
+  padding: 15rem 8rem;
+  border: none;
+  border-radius: 1rem;
+  font-size: 2.5rem;
+  text-align: center;
+`;
+
+const ImageWrapper = styled.img`
+  width: 100%;
+  height: 70%;
+  border-radius: 4rem 4rem 0rem 0rem;
+`;
+
 const TravelDiaryCreateWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 100vh;
   background-color: #d4e3fc;
-
-  .photo {
-    width: 500px;
-    height: 500px;
-    margin-top: 5rem;
-    border-radius: 4rem;
-  }
 `;
 
 const FormWrapper = styled.form`
@@ -209,32 +295,14 @@ const FormWrapper = styled.form`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-
-  .travel-diary-textarea {
-    padding: 11rem;
-    border: none;
-    border-radius: 1rem;
-    font-size: 2rem;
-    text-align: center;
-  }
-`;
-
-const SelectButton = styled.button`
-  margin-right: 1rem;
-  padding: 1.5rem 3rem;
-  border-radius: 1rem;
-  border: none;
-  background-color: #9cbdf0;
-  color: #ffffff;
-  font-size: 2rem;
 `;
 
 const SaveButton = styled.button`
-  margin-right: 1rem;
-  padding: 1.5rem 3rem;
+  width: 250px;
+  height: 100px;
   border-radius: 1rem;
   border: none;
+  font-size: 2rem;
   background-color: #9cbdf0;
   color: #ffffff;
-  font-size: 2rem;
 `;

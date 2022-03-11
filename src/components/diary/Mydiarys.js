@@ -1,34 +1,41 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navigation from "../Navigation";
 import { auth } from "../../firebase";
+import { logoutRequest } from "../../features/auth/authSlice";
 
 export default function Mydiarys() {
-  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user.user);
   const { username, travels } = user;
 
   const signOut = () => {
     auth.signOut();
+    sessionStorage.removeItem("persist:root");
+    sessionStorage.removeItem("token");
+
+    dispatch(logoutRequest());
     navigate("/");
   };
 
   return (
     <MydiarysWrapper>
       <UserInfoContainer>
-        <div className="character-container">
-          <img
-            className="character"
-            src="https://i.pinimg.com/originals/3f/20/f7/3f20f71d82b3bae528c11aacde3abe5d.png"
-            alt="캐릭터"
-          />
-        </div>
-        <div className="username-container">{username} 님</div>
-        <button className="logout-button" onClick={signOut}>
-          로그아웃
-        </button>
+        <Div>
+          <div className="character-container">
+            <img
+              className="character"
+              src="https://i.pinimg.com/originals/3f/20/f7/3f20f71d82b3bae528c11aacde3abe5d.png"
+              alt="캐릭터"
+            />
+          </div>
+          <div className="username-container">{username} 님</div>
+        </Div>
+        <LogoutButton onClick={signOut}>로그아웃</LogoutButton>
       </UserInfoContainer>
       <div className="title">나의 기록📖 </div>
       <MyDiarysContainer>
@@ -58,7 +65,7 @@ export default function Mydiarys() {
                   return (
                     <div key={travelLog._id} className="travel-box-container">
                       <div className="travel-box">
-                        {!isLastTime ? (
+                        {isLastTime ? (
                           travelDiary.photoUrl ? (
                             <img
                               src={travelDiary.photoUrl}
@@ -102,20 +109,6 @@ export default function Mydiarys() {
   );
 }
 
-// {!isLastTime ? (
-//   travelDiary.photoUrl ? (
-//     <img
-//       className="travel-diary-photo"
-//       src={travelDiary.photoUrl}
-//       alt="대표사진"
-//     />
-//   ) : (
-//     "✏️"
-//   )
-// ) : (
-//   "🔒"
-// )}
-
 const MydiarysWrapper = styled.div`
   width: 100%;
   height: 100vh;
@@ -136,9 +129,9 @@ const MydiarysWrapper = styled.div`
 
 const UserInfoContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  height: 10%;
+  height: 13%;
   font-size: 3rem;
   font-weight: bold;
 
@@ -147,10 +140,26 @@ const UserInfoContainer = styled.div`
     height: 9rem;
     overflow: hidden;
   }
-
   .character {
     width: 32rem;
   }
+`;
+
+const Div = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 7rem;
+`;
+
+const LogoutButton = styled.button`
+  padding: 20px 45px;
+  margin-right: 3rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  background-color: #9cbdf0;
+  color: #ffffff;
 `;
 
 const MyDiarysContainer = styled.div`
@@ -158,7 +167,7 @@ const MyDiarysContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3rem;
-  height: 60%;
+  height: 57%;
   font-size: 1rem;
   font-weight: bold;
   overflow: scroll;
@@ -171,8 +180,6 @@ const MyDiarysContainer = styled.div`
 
   .travel-log-container {
     display: flex;
-    justify-content: space-around;
-    margin-right: 4rem;
     overflow: scroll;
   }
 
@@ -183,34 +190,45 @@ const MyDiarysContainer = styled.div`
     margin-left: 1rem;
     font-size: 2.5rem;
   }
+
   .travel-date {
     margin-left: 2rem;
   }
+
   .travel-box-container {
     display: flex;
+    margin-right: 4rem;
+    margin-left: 4rem;
   }
+
   .travel-box {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 2.5rem 0rem;
   }
+
   .travel-diary-create {
     width: 100px;
     padding: 5rem;
     font-size: 3rem;
-    background-color: white;
+    background-color: #ffffff;
     opacity: 50%;
   }
+
   .travel-date-number {
+    width: 7rem;
     padding: 0rem 4.5rem;
     font-size: 2rem;
-    background-color: white;
+    text-align: center;
+    background-color: #ffffff;
   }
+
   .travel-diary-photo {
-    width: 100%;
+    width: 90%;
     height: 250px;
   }
+
   .travel-diary-icon {
     display: flex;
     justify-content: center;
