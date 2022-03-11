@@ -7,6 +7,7 @@ import { fetchWeatherRequest } from "../features/weather/weatherSlice";
 
 export default function Main() {
   const dispatch = useDispatch();
+
   const { weather } = useSelector((state) => state.weather);
   const [currentWeather, setCurrentWeather] = useState(weather);
 
@@ -17,7 +18,7 @@ export default function Main() {
 
       dispatch(fetchWeatherRequest({ latitude, longitude }));
     });
-  }, []);
+  }, [dispatch]);
 
   if (currentWeather !== weather) {
     setCurrentWeather(weather);
