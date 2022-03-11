@@ -152,7 +152,6 @@ export default function TravelDiaryCreate() {
 
     navigate("/mydiarys");
   };
-  console.log(imageFile);
 
   return (
     <TravelDiaryCreateWrapper>
