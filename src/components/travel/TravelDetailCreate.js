@@ -287,8 +287,6 @@ export default function TravelDetailCreate() {
                           ...isOpenModal,
                           isTravelDetail: true,
                         });
-
-                        // setIsOpenTravelModal(true);
                       }}
                     >
                       {travelPlace}
