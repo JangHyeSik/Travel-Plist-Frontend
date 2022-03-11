@@ -5,9 +5,9 @@ import styled from "styled-components";
 
 import SearchBox from "./SearchBox";
 import Map from "./Map";
-import Modal from "../Modal";
+import TravelDetailModal from "../modal/TravelDetailModal";
 import ErrorModal from "../modal/ErrorModal";
-import GoBackButton from "../GobackButton";
+import GoBackButton from "../button/GobackButton";
 import { createTravelDetailRequest } from "../../features/user/userSlice";
 import { makeTime } from "../../util/makeTime";
 
@@ -39,9 +39,8 @@ export default function TravelDetailCreate() {
     lng: 0,
     address: "",
   });
-  const [isOpenTravelModal, setIsOpenTravelModal] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState({
-    isOpenTravelModal: false,
+    isTravelDetail: false,
     isSearchNone: false,
     isTravelNone: false,
     isDuplicatedTravel: false,
@@ -65,7 +64,8 @@ export default function TravelDetailCreate() {
   const [clickedMarkerIndex, setClickedMarkerIndex] = useState([]);
 
   const { isDirectionMode, isSelectMode, isDrivingTraffic } = directionMode;
-  const { isSearchNone, isTravelNone, isDuplicatedTravel } = isOpenModal;
+  const { isTravelDetail, isSearchNone, isTravelNone, isDuplicatedTravel } =
+    isOpenModal;
   const { isTravelAddButton, isEditButton } = isClickedButton;
 
   const token = sessionStorage.getItem("token");
@@ -120,7 +120,10 @@ export default function TravelDetailCreate() {
       isTravelAddButton: false,
       isEditButton: false,
     });
-    setIsOpenTravelModal(false);
+    setIsOpenModal({
+      ...isOpenModal,
+      isTravelDetail: false,
+    });
 
     setMarker({
       ...marker,
@@ -280,7 +283,12 @@ export default function TravelDetailCreate() {
                           detail: travelLog.travelDetails[index],
                         });
 
-                        setIsOpenTravelModal(true);
+                        setIsOpenModal({
+                          ...isOpenModal,
+                          isTravelDetail: true,
+                        });
+
+                        // setIsOpenTravelModal(true);
                       }}
                     >
                       {travelPlace}
@@ -349,14 +357,15 @@ export default function TravelDetailCreate() {
                 </>
               )}
             </div>
-            {isOpenTravelModal && (
-              <Modal
+            {isTravelDetail && (
+              <TravelDetailModal
                 selectedTravelLog={selectedTravelLog}
                 setSelectedTravelLog={setSelectedTravelLog}
                 onSave={handleSaveTravels}
                 travelDetails={travelDetails}
                 setTravelDetails={setTravelDetails}
-                setIsOpenTravelModal={setIsOpenTravelModal}
+                isOpenModal={isOpenModal}
+                setIsOpenModal={setIsOpenModal}
               />
             )}
           </TravelDetailFormWrapper>

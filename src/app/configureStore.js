@@ -5,8 +5,10 @@ import storage from "redux-persist/lib/storage/session";
 import { all } from "redux-saga/effects";
 import auth from "../features/auth/authSlice";
 import user from "../features/user/userSlice";
+import weather from "../features/weather/weatherSlice";
 import { authSaga } from "../features/auth/authSaga";
 import { userSaga } from "../features/user/userSaga";
+import { weatherSaga } from "../features/weather/weatherSaga";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,11 +17,11 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ auth, user });
+const rootReducer = combineReducers({ auth, user, weather });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 function* rootSaga() {
-  yield all([authSaga(), userSaga()]);
+  yield all([authSaga(), userSaga(), weatherSaga()]);
 }
 
 const store = configureStore({
