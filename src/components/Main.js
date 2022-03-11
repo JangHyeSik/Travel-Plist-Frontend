@@ -17,7 +17,7 @@ export default function Main() {
 
       dispatch(fetchWeatherRequest({ latitude, longitude }));
     });
-  }, []);
+  }, [dispatch]);
 
   if (currentWeather !== weather) {
     setCurrentWeather(weather);
