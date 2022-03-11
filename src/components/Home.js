@@ -37,16 +37,22 @@ const AuthWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
   height: 100vh;
+  background-color: #d4e3fc;
 
   .travel-plist-title {
-    font-size: 7.5rem;
+    font-size: 10rem;
+    color: #ffffff;
   }
   .login-button {
-    cursor: pointer;
-    padding: 1.5rem 10rem;
-    border-radius: 10px;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+    padding: 2rem 9rem;
     border: none;
+    border-radius: 10px;
+    font-size: 40px;
+    font-weight: bold;
+    background-color: #9cbdf0;
+    color: #ffffff;
   }
 `;

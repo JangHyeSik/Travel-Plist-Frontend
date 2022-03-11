@@ -85,6 +85,18 @@ const userSlice = createSlice({
     createTravelDiaryFailure: (state, action) => {
       state.err = action.payload;
     },
+    logout: (state) => {
+      state = {
+        ...state,
+        user: {
+          _id: "",
+          email: "",
+          username: "",
+          travels: [],
+        },
+        weather: "",
+      };
+    },
   },
 });
 
@@ -102,6 +114,7 @@ export const {
   createTravelDiaryRequest,
   createTravelDiarySuccess,
   createTravelDiaryFailure,
+  logout,
 } = userSlice.actions;
 
 export default userSlice.reducer;

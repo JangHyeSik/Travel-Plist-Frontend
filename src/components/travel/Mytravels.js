@@ -1,33 +1,41 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Navigation from "../Navigation";
 import { auth } from "../../firebase";
+import { logoutRequest } from "../../features/auth/authSlice";
 
 export default function Mytravels() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { username, travels } = useSelector((state) => state.user.user);
 
   const signOut = () => {
     auth.signOut();
+    sessionStorage.removeItem("persist:root");
+    sessionStorage.removeItem("token");
+
+    dispatch(logoutRequest());
     navigate("/");
   };
 
   return (
     <MytravelsWrapper>
       <UserInfoContainer>
-        <div className="character-container">
-          <img
-            className="character"
-            src="https://i.pinimg.com/originals/3f/20/f7/3f20f71d82b3bae528c11aacde3abe5d.png"
-            alt="캐릭터"
-          />
-        </div>
-        <div className="username-container">{username} 님</div>
-        <button className="logout-button" onClick={signOut}>
+        <Div>
+          <div className="character-container">
+            <img
+              className="character"
+              src="https://i.pinimg.com/originals/3f/20/f7/3f20f71d82b3bae528c11aacde3abe5d.png"
+              alt="캐릭터"
+            />
+          </div>
+          <div className="username-container">{username} 님</div>
+        </Div>
+        <LogoutButton className="logout-button" onClick={signOut}>
           로그아웃
-        </button>
+        </LogoutButton>
       </UserInfoContainer>
 
       <div className="title">나의 여행 ✈️</div>
@@ -85,9 +93,9 @@ const MytravelsWrapper = styled.div`
 
 const UserInfoContainer = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  height: 10%;
+  height: 13%;
   font-size: 3rem;
   font-weight: bold;
 
@@ -96,7 +104,6 @@ const UserInfoContainer = styled.div`
     height: 9rem;
     overflow: hidden;
   }
-
   .character {
     width: 32rem;
   }
@@ -107,7 +114,7 @@ const MytravelsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3rem;
-  height: 60%;
+  height: 57%;
   font-size: 2rem;
   font-weight: bold;
   overflow: scroll;
@@ -131,7 +138,26 @@ const TravelBoxNavLink = styled(NavLink)`
   display: flex;
   justify-content: center;
   margin-top: 2rem;
-  padding: 3rem 23rem;
+  width: 50rem;
+  padding: 3rem;
   border-radius: 4rem;
+  font-size: 2.3rem;
   background-color: #ffffff;
+`;
+
+const Div = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 7rem;
+`;
+
+const LogoutButton = styled.button`
+  padding: 20px 45px;
+  margin-right: 3rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  background-color: #9cbdf0;
+  color: #ffffff;
 `;

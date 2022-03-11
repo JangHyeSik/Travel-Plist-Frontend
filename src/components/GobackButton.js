@@ -10,8 +10,8 @@ export default function GoBackButton() {
 
 const Button = styled.button`
   position: absolute;
-  top: 3%;
-  left: 3%;
+  top: 2rem;
+  left: 2rem;
   z-index: 11;
   font-size: 3rem;
   background-color: transparent;

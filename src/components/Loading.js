@@ -40,13 +40,13 @@ const LoadingWrapper = styled.div`
   background-color: #91e4fb;
 
   .character-container {
-    width: 35rem;
-    height: 40rem;
+    width: 30rem;
+    height: 30rem;
     overflow: hidden;
   }
 
   .character {
-    width: 150rem;
+    width: 120rem;
     animation: moveSpriteSheet 1s steps(4) infinite;
   }
 
@@ -60,6 +60,8 @@ const LoadingWrapper = styled.div`
   }
 
   .loading-text {
+    margin-top: 10rem;
+    margin-bottom: 10rem;
     font-size: 5rem;
     color: #ffffff;
   }
