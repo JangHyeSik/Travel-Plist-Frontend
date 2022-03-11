@@ -162,7 +162,9 @@ export default function TravelDiaryCreate() {
           {photoUrl ? (
             <ImageWrapper src={photoUrl} alt="대표사진" />
           ) : (
-            <SelectButton onClick={handleClickSelectButton}>📷</SelectButton>
+            <PhotoSelectButton onClick={handleClickSelectButton}>
+              📷
+            </PhotoSelectButton>
           )}
           <input
             type="file"
@@ -200,6 +202,25 @@ export default function TravelDiaryCreate() {
   );
 }
 
+const TravelDiaryCreateWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #d4e3fc;
+`;
+
+const FormWrapper = styled.form`
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+`;
+
 const TitleWrapper = styled.div`
   font-size: 3rem;
   font-weight: bold;
@@ -217,8 +238,9 @@ const PhotoAudioContainer = styled.div`
   background-color: #ffffff;
 `;
 
-const SelectButton = styled.button`
-  padding: 15rem 17.5rem;
+const PhotoSelectButton = styled.button`
+  width: 100%;
+  height: 70%;
   border: none;
   border-radius: 4rem 4rem 0rem 0rem;
   background-color: #dff9fb;
@@ -263,6 +285,12 @@ const RecordButton = styled.button`
   }
 `;
 
+const ImageWrapper = styled.img`
+  width: 100%;
+  height: 70%;
+  border-radius: 4rem 4rem 0rem 0rem;
+`;
+
 const TextAreaWrapper = styled.textarea`
   margin-bottom: 3rem;
   padding: 15rem 8rem;
@@ -270,30 +298,6 @@ const TextAreaWrapper = styled.textarea`
   border-radius: 1rem;
   font-size: 2.5rem;
   text-align: center;
-`;
-
-const ImageWrapper = styled.img`
-  width: 100%;
-  height: 70%;
-  border-radius: 4rem 4rem 0rem 0rem;
-`;
-
-const TravelDiaryCreateWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-  background-color: #d4e3fc;
-`;
-
-const FormWrapper = styled.form`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
 `;
 
 const SaveButton = styled.button`

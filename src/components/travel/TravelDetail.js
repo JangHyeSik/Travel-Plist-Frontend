@@ -81,7 +81,6 @@ const TravelLogWrapper = styled.div`
   height: 67%;
   font-size: 2rem;
   font-weight: bold;
-  /* overflow: scroll; */
 `;
 
 const TravelDetailBoxWrapper = styled.div`
