@@ -39,7 +39,7 @@ const AuthWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 93vh;
+  height: 88vh;
   background-color: #d4e3fc;
 
   .travel-plist-title {

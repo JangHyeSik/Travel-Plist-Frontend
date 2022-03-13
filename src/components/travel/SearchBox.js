@@ -36,7 +36,7 @@ export default function SearchBox({
       style={{
         display: "flex",
         position: "absolute",
-        top: "2%",
+        top: "2.5%",
         left: "20%",
         color: "black",
         zIndex: "10",

@@ -55,7 +55,7 @@ export default function TravelDetail() {
 
 const TravelDetailWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 88vh;
   background-color: #d4e3fc;
 
   .empty-space {
@@ -100,7 +100,7 @@ const TravelDetailBoxWrapper = styled.div`
 
 const Div = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 3rem;
   width: 100%;
   padding: 2rem 10rem;

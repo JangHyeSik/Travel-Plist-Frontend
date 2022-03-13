@@ -212,13 +212,13 @@ const TravelDiaryCreateWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 88vh;
   background-color: #d4e3fc;
 `;
 
 const FormWrapper = styled.form`
-  width: 80%;
-  height: 100%;
+  width: 70%;
+  height: 90%;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -226,6 +226,7 @@ const FormWrapper = styled.form`
 `;
 
 const TitleWrapper = styled.div`
+  margin-bottom: 3rem;
   font-size: 3rem;
   font-weight: bold;
 `;
@@ -255,7 +256,7 @@ const PhotoSelectButton = styled.button`
 const ChangePhotoButton = styled.button`
   position: absolute;
   top: 15rem;
-  left: 9rem;
+  left: 11rem;
   width: 5rem;
   height: 3rem;
   border-radius: 20%;
@@ -275,11 +276,11 @@ const RecordContainer = styled.div`
 `;
 
 const RecordButton = styled.button`
-  width: 11rem;
-  height: 11rem;
+  width: 7rem;
+  height: 7rem;
   border: none;
   border-radius: 180px;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   color: #ffffff;
   background-color: red;
