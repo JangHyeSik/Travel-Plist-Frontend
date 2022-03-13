@@ -113,6 +113,7 @@ const userSlice = createSlice({
         username: "",
         travels: [],
       };
+
       state.isLoading = false;
     },
   },
