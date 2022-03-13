@@ -8,13 +8,14 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: calc(100vh - 10rem);
   }
   body {
     flex-grow: 1;
     width: 100%;
     min-width: 320px;
     margin-top: 5rem;
-    min-height: calc(100vh - 15rem);
+    min-height: calc(100vh - 10rem);
     font-family: Noto Sans KR, sans-serif;
     margin: 0;
     -ms-overflow-style: none;

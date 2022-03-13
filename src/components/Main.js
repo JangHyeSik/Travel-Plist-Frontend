@@ -85,7 +85,7 @@ export default function Main() {
 const MainWrapper = styled.div`
   .weather-background {
     width: 100%;
-    height: 65vh;
+    height: 72vh;
   }
 
   .character-container {
@@ -145,7 +145,7 @@ const LoadingWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 92vh;
   background-color: #91e4fb;
 `;
 
