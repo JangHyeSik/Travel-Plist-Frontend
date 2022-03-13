@@ -43,11 +43,6 @@ export default function TravelDetail() {
                 >
                   {index + 1}일차
                 </NavLinkWrapper>
-                <NavLinkWrapper
-                  to={`/travel-diary-create/${travel._id}/${travelLog._id}`}
-                >
-                  ✏️
-                </NavLinkWrapper>
               </Div>
             </TravelDetailBoxWrapper>
           );
