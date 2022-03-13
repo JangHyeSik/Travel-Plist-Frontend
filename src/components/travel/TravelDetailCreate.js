@@ -457,7 +457,7 @@ export default function TravelDetailCreate() {
 
 const TraveDetailCreateWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 88vh;
   background-color: #d4e3fc;
 `;
 
@@ -524,7 +524,7 @@ const Button = styled.button`
 const DirectionButton = styled.button`
   position: absolute;
   z-index: 11;
-  top: 2%;
+  top: 2.5%;
   right: 3%;
   width: 15%;
   padding: 1rem;
