@@ -27,7 +27,6 @@ const NavigationWrapper = styled.div`
   align-items: center;
   height: 20vh;
   background-color: #9cbdf0;
-  margin-bottom: 10vh;
 `;
 
 const StyledNavLink = styled(NavLink)`
