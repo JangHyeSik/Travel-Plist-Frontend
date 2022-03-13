@@ -85,7 +85,7 @@ export default function Main() {
 const MainWrapper = styled.div`
   .weather-background {
     width: 100%;
-    height: 70vh;
+    height: 65vh;
   }
 
   .character-container {
