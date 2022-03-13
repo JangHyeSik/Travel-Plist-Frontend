@@ -43,16 +43,16 @@ const AuthWrapper = styled.div`
   background-color: #d4e3fc;
 
   .travel-plist-title {
-    font-size: 4.5rem;
+    font-size: 9rem;
     color: #ffffff;
   }
   .login-button {
     margin-top: 10rem;
     margin-bottom: 3rem;
-    padding: 1.3rem 5rem;
+    padding: 2rem 10rem;
     border: none;
     border-radius: 10px;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     font-weight: bold;
     background-color: #9cbdf0;
     color: #ffffff;
