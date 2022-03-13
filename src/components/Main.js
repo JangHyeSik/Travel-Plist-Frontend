@@ -99,10 +99,10 @@ const MainWrapper = styled.div`
 
   .character {
     width: 50rem;
-    animation: moveSpriteSheet 1s steps(4) infinite;
+    animation: moveMainSpriteSheet 1s steps(4) infinite;
   }
 
-  @keyframes moveSpriteSheet {
+  @keyframes moveMainSpriteSheet {
     from {
       transform: translate3d(0, 1rem, 0);
     }
