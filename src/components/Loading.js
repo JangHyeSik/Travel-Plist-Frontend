@@ -32,7 +32,7 @@ export default function Loading() {
 
 const LoadingWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 92vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
