@@ -25,8 +25,9 @@ const NavigationWrapper = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 15vh;
+  height: 20vh;
   background-color: #9cbdf0;
+  margin-bottom: 10vh;
 `;
 
 const StyledNavLink = styled(NavLink)`
