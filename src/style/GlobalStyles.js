@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
     flex-grow: 1;
     width: 100%;
     min-width: 320px;
-    max-width: 430px;
+    margin-top: 5rem;
     min-height: calc(100vh - 5rem);
     font-family: Noto Sans KR, sans-serif;
     margin: 0;
