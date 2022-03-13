@@ -47,10 +47,10 @@ const LoadingWrapper = styled.div`
 
   .character {
     width: 120rem;
-    animation: moveSpriteSheet 1s steps(4) infinite;
+    animation: moveLoadingSpriteSheet 1s steps(4) infinite;
   }
 
-  @keyframes moveSpriteSheet {
+  @keyframes moveLoadingSpriteSheet {
     from {
       transform: translate3d(0, 0, 0);
     }

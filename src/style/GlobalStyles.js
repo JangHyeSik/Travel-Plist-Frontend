@@ -6,11 +6,11 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
-  
+
   body {
     width: 100%;
     min-width: 320px;
-    min-height: calc(100vh);
+    min-height: calc(100vh - 5rem);
     margin: 0;
   }
 `;

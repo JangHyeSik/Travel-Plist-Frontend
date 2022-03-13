@@ -33,11 +33,11 @@ const userSlice = createSlice({
     createTravelSuccess: (state, action) => {
       const { newTravel } = action.payload;
 
+      state.isLoading = false;
       state.user = {
         ...state.user,
         travels: [...state.user.travels, newTravel],
       };
-      state.isLoading = false;
     },
     createTravelFailure: (state, action) => {
       state.isLoading = false;
@@ -106,16 +106,14 @@ const userSlice = createSlice({
       state.err = action.payload;
     },
     logout: (state) => {
-      state = {
-        ...state,
-        user: {
-          _id: "",
-          email: "",
-          username: "",
-          travels: [],
-        },
-        weather: "",
+      state.user = {
+        ...state.user,
+        _id: "",
+        email: "",
+        username: "",
+        travels: [],
       };
+      state.isLoading = false;
     },
   },
 });
