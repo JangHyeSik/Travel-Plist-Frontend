@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
+import { TailSpin } from "react-loader-spinner";
 import styled from "styled-components";
 
 import SearchBox from "./SearchBox";
@@ -10,14 +11,17 @@ import ErrorModal from "../modal/ErrorModal";
 import GoBackButton from "../button/GobackButton";
 import { createTravelDetailRequest } from "../../features/user/userSlice";
 import { makeTime } from "../../util/makeTime";
+import { resetDirectionData } from "../../features/direction/directionSlice";
 
 export default function TravelDetailCreate() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { travellogid } = useParams();
-
   const travelId = pathname.split("/")[2];
+
   const { travels } = useSelector((state) => state.user.user);
+  const { directionData, isLoading } = useSelector((state) => state.direction);
+
   const { travelLogs } = travels.find((travel) => travel._id === travelId);
   const travelLog = travelLogs.find(
     (travelLog) => travelLog._id === travellogid
@@ -58,8 +62,6 @@ export default function TravelDetailCreate() {
     isWalking: false,
   });
 
-  const [directionData, setDirectionData] = useState({});
-  const [directionLocation, setDirectionLocation] = useState([]);
   const [directionMarkersLocation, setDirectionMarkersLocation] = useState([]);
   const [clickedMarkerIndex, setClickedMarkerIndex] = useState([]);
 
@@ -197,10 +199,11 @@ export default function TravelDetailCreate() {
         isCycling: false,
         isWalking: false,
       });
-      setDirectionData({});
+
       setDirectionMarkersLocation([]);
-      setDirectionLocation([]);
       setClickedMarkerIndex([]);
+
+      dispatch(resetDirectionData());
     } else {
       setDirectionMode({
         ...directionMode,
@@ -217,6 +220,8 @@ export default function TravelDetailCreate() {
       isSelectMode: true,
       [name]: true,
     });
+
+    dispatch(resetDirectionData());
   };
 
   const handleInitializationDirectionMode = () => {
@@ -228,10 +233,10 @@ export default function TravelDetailCreate() {
       isCycling: false,
       isWalking: false,
     });
-    setDirectionData({});
     setDirectionMarkersLocation([]);
-    setDirectionLocation([]);
     setClickedMarkerIndex([]);
+
+    dispatch(resetDirectionData());
   };
 
   return (
@@ -258,11 +263,8 @@ export default function TravelDetailCreate() {
           onMapLoad={onMapLoad}
           recordedMarkers={recordedMarkers}
           directionMode={directionMode}
-          directionLocation={directionLocation}
-          setDirectionLocation={setDirectionLocation}
           directionMarkersLocation={directionMarkersLocation}
           setDirectionMarkersLocation={setDirectionMarkersLocation}
-          setDirectionData={setDirectionData}
           clickedMarkerIndex={clickedMarkerIndex}
           setClickedMarkerIndex={setClickedMarkerIndex}
         />
@@ -402,43 +404,63 @@ export default function TravelDetailCreate() {
             </TravelModeButtonContainer>
           </TravelModeWrapper>
         )}
+
         {isSelectMode && (
           <DirectionWrapper>
-            <div>
-              출발지: {directionData.address ? directionData.address[0] : ""}
-            </div>
-            <div>
-              도착지: {directionData.address ? directionData.address[1] : ""}
-            </div>
-            <div>
-              이동수단:{" "}
-              {directionData.directionMode === "driving"
-                ? "차"
-                : directionData.directionMode === "driving-traffic"
-                ? "대중교통"
-                : directionData.directionMode === "cycling"
-                ? "자전거"
-                : directionData.directionMode === "walking"
-                ? "도보"
-                : ""}
-            </div>
-            <div>
-              거리: 약{" "}
-              {directionData.distance
-                ? isDrivingTraffic
-                  ? directionData.distance.text
-                  : `${(directionData.distance / 1000).toFixed(3)} km`
-                : ""}
-            </div>
-            <div>
-              예상소요시간: 약
-              {directionData.duration
-                ? isDrivingTraffic
-                  ? directionData.duration.text
-                  : ` ${makeTime(directionData.duration)} 소요예상`
-                : ""}
-            </div>
-            <Button onClick={handleInitializationDirectionMode}>초기화</Button>
+            {!isLoading && !directionData.address && (
+              <div>마커를 클릭하여 출발지와 목적지를 설정해주세요 !</div>
+            )}
+
+            {!isLoading && directionData.address && (
+              <>
+                <div>
+                  출발지:{" "}
+                  {directionData.address ? directionData.address[0] : ""}
+                </div>
+                <div>
+                  도착지:{" "}
+                  {directionData.address ? directionData.address[1] : ""}
+                </div>
+                <div>
+                  이동수단:{" "}
+                  {directionData.directionMode === "driving"
+                    ? "차"
+                    : directionData.directionMode === "driving-traffic"
+                    ? "대중교통"
+                    : directionData.directionMode === "cycling"
+                    ? "자전거"
+                    : directionData.directionMode === "walking"
+                    ? "도보"
+                    : ""}
+                </div>
+                <div>
+                  거리: 약{" "}
+                  {directionData.address
+                    ? isDrivingTraffic
+                      ? directionData.routes[0].legs[0].distance.text
+                      : `${(directionData.distance / 1000).toFixed(3)} km`
+                    : ""}
+                </div>
+                <div>
+                  예상소요시간: 약
+                  {directionData.address
+                    ? isDrivingTraffic
+                      ? directionData.routes[0].legs[0].duration.text
+                      : ` ${makeTime(directionData.duration)} 소요예상`
+                    : ""}
+                </div>
+                <Button onClick={handleInitializationDirectionMode}>
+                  초기화
+                </Button>
+              </>
+            )}
+
+            {isLoading && (
+              <LoadingWrapper>
+                <TailSpin color="#00BFFF" height={100} width={100} />
+                <LoadingTextWrapper>경로를 탐색 중입니다.</LoadingTextWrapper>
+              </LoadingWrapper>
+            )}
           </DirectionWrapper>
         )}
       </TraveDetailCreateWrapper>
@@ -476,12 +498,13 @@ const TravelDetailBox = styled.div`
 
 const TravelDetailFormWrapper = styled.div`
   width: 100%;
-  height: 50vh;
+  height: 50%;
 
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  overflow: scroll;
 
   .address-content-container {
     display: flex;
@@ -574,10 +597,25 @@ const TravelModeWrapper = styled.div`
 
 const DirectionWrapper = styled.div`
   width: 100%;
-  height: 50vh;
+  height: 50%;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   align-items: center;
   font-size: 2.5rem;
+`;
+
+const LoadingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const LoadingTextWrapper = styled.div`
+  margin-top: 7rem;
+  margin-bottom: 3rem;
+  font-size: 3rem;
 `;

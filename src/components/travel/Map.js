@@ -1,27 +1,28 @@
 import React, { useState, useEffect, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   GoogleMap,
   Marker,
   Polyline,
   InfoWindow,
 } from "@react-google-maps/api";
-import axios from "axios";
 import PropTypes from "prop-types";
 import Direction from "./Direction";
+import { fetchDirectionDataRequest } from "../../features/direction/directionSlice";
 
 function Map({
   marker,
   onMapLoad,
   recordedMarkers,
   directionMode,
-  directionLocation,
-  setDirectionLocation,
   directionMarkersLocation,
   setDirectionMarkersLocation,
-  setDirectionData,
   clickedMarkerIndex,
   setClickedMarkerIndex,
 }) {
+  const dispatch = useDispatch();
+  const directionData = useSelector((state) => state.direction.directionData);
+
   const [currentLocation, setCurrentLocation] = useState({
     lat: 0,
     lng: 0,
@@ -69,28 +70,14 @@ function Map({
   const endPoint = directionMarkersLocation[1];
 
   const getDirection = async () => {
-    const response = await axios.get(
-      `https://api.mapbox.com/directions/v5/mapbox/${travelMode}/${startPoint.lng},${startPoint.lat};${endPoint.lng},${endPoint.lat}?geometries=geojson&access_token=${process.env.REACT_APP_MAP_BOX_ACCESS_TOKEN}`
-    );
-
-    const coords = response.data.routes[0].geometry.coordinates.map(
-      (coordinate) => {
-        return { lat: coordinate[1], lng: coordinate[0] };
-      }
-    );
-
-    const directionData = {
-      ...response.data.routes[0],
-      directionMode: travelMode,
-      address: [
-        directionMarkersLocation[0].address,
-        directionMarkersLocation[1].address,
-      ],
-    };
-
-    setDirectionLocation(coords);
-    setDirectionData(directionData);
+    dispatch(fetchDirectionDataRequest({ travelMode, startPoint, endPoint }));
   };
+
+  const coords = directionData.geometry
+    ? directionData.geometry.coordinates.map((coordinate) => {
+        return { lat: coordinate[1], lng: coordinate[0] };
+      })
+    : [];
 
   useEffect(() => {
     if (!isDrivingTraffic && directionMarkersLocation.length === 2) {
@@ -127,6 +114,12 @@ function Map({
                 onClick={() => {
                   if (isSelectMode) {
                     if (directionMarkersLocation.length < 2) {
+                      const isDuplicatedClick = clickedMarkerIndex.some(
+                        (clickdIndex) => clickdIndex === index
+                      );
+
+                      if (isDuplicatedClick) return;
+
                       setDirectionMarkersLocation((prev) => [
                         ...prev,
                         {
@@ -196,7 +189,7 @@ function Map({
         {directionMarkersLocation.length === 2 &&
           (isDriving || isCycling || isWalking ? (
             <Polyline
-              path={directionLocation}
+              path={coords}
               options={{
                 strokeColor: "#ff2527",
                 icons: [
@@ -217,8 +210,6 @@ function Map({
               <Direction
                 startPoint={directionMarkersLocation[0]}
                 endPoint={directionMarkersLocation[1]}
-                directionMarkersLocation={directionMarkersLocation}
-                setDirectionData={setDirectionData}
               />
             )
           ))}
@@ -232,11 +223,8 @@ Map.propTypes = {
   onMapLoad: PropTypes.func.isRequired,
   recordedMarkers: PropTypes.array,
   directionMode: PropTypes.object,
-  directionLocation: PropTypes.array,
-  setDirectionLocation: PropTypes.func.isRequired,
   directionMarkersLocation: PropTypes.array,
   setDirectionMarkersLocation: PropTypes.func.isRequired,
-  setDirectionData: PropTypes.func.isRequired,
   clickedMarkerIndex: PropTypes.array,
   setClickedMarkerIndex: PropTypes.func.isRequired,
 };
