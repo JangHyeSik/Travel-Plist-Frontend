@@ -126,7 +126,6 @@ export default function TravelDiaryCreate() {
     const formData = new FormData();
 
     let recordedAudioFiie;
-    
     if (audioUrl) {
       recordedAudioFiie = new File([audioUrl], "audio", {
         lastModified: new Date().getTime(),
