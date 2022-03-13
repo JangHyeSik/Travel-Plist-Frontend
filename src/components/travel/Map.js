@@ -108,7 +108,7 @@ function Map({
       <GoogleMap
         mapContainerStyle={{
           width: "100%",
-          height: "50vh",
+          height: "44vh",
         }}
         center={defaultProps.center}
         zoom={defaultProps.zoom}

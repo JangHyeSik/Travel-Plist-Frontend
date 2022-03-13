@@ -133,7 +133,7 @@ export default function Mytravels() {
 
 const MytravelsWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 88vh;
   background-color: #d4e3fc;
 
   .title {
@@ -229,7 +229,7 @@ const LoadingWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 88vh;
   background-color: #91e4fb;
 `;
 
