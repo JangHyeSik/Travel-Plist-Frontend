@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     min-width: 320px;
     margin-top: 5rem;
-    max-height: calc(100vh - 10vh);
+    min-height: calc(100vh - 5rem);
     font-family: Noto Sans KR, sans-serif;
     margin: 0;
     -ms-overflow-style: none;
