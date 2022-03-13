@@ -4,6 +4,7 @@ import styled from "styled-components";
 export default function ErrorModal({ children, setIsOpenModal }) {
   const handelCloseModal = () => {
     setIsOpenModal({
+      isInvalidType: false,
       isEmptyInput: false,
       isDuplicatedDate: false,
       isExceedCharacters: false,
