@@ -33,7 +33,7 @@ const StyledNavLink = styled(NavLink)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 3rem;
+  font-size: 1.5rem;
   text-decoration: none;
   color: #ffffff;
 `;

@@ -91,14 +91,14 @@ const MainWrapper = styled.div`
   .character-container {
     position: absolute;
     bottom: 30%;
-    left: 15%;
-    width: 12rem;
-    height: 14rem;
+    width: 5rem;
+    height: 6rem;
+    margin-left: 3.9rem;
     overflow: hidden;
   }
 
   .character {
-    width: 50rem;
+    width: 20rem;
     animation: moveMainSpriteSheet 1s steps(4) infinite;
   }
 
@@ -116,15 +116,14 @@ const MainWrapper = styled.div`
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 43%;
-    left: 9%;
-    width: 50%;
-    height: 10%;
-    padding: 40px;
+    bottom: 44%;
+    margin-left: 2.2rem;
+    width: 200px;
+    padding: 1rem;
     border-radius: 1rem;
     color: #ffffff;
     background-color: #9cbdf0;
-    font-size: 2.3rem;
+    font-size: 1rem;
     font-weight: bold;
   }
 
@@ -132,9 +131,9 @@ const MainWrapper = styled.div`
     position: absolute;
     top: 100%;
     left: 20%;
-    border-top: 2rem solid #9cbdf0;
-    border-left: 2rem solid transparent;
-    border-right: 2rem solid transparent;
+    border-top: 1rem solid #9cbdf0;
+    border-left: 1rem solid transparent;
+    border-right: 1rem solid transparent;
     border-bottom: 0px solid transparent;
     content: "";
   }
