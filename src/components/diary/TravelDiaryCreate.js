@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import GoBackButton from "../button/GobackButton";
+import ErrorModal from "../modal/ErrorModal";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { createTravelDiaryRequest } from "../../features/user/userSlice";
@@ -36,11 +37,29 @@ export default function TravelDiaryCreate() {
     travelDiary.audioUrl === "" || !travelDiary.audioUrl ? false : true
   );
   const [isOnRecord, setIsOnRecord] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState({
+    isInvalidType: false,
+  });
+
+  const { isInvalidType } = isOpenModal;
 
   const hiddenInput = useRef(null);
   const token = sessionStorage.getItem("token");
 
   const handleChangeImageFile = (e) => {
+    const type = e.target.files[0].type.split("/")[1];
+
+    if (
+      !(type === "jpeg" || type === "jpg" || type === "png" || type === "gif")
+    ) {
+      setIsOpenModal({
+        ...isOpenModal,
+        isInvalidType: true,
+      });
+
+      return;
+    }
+
     setImageFile(e.target.files[0]);
     setPhotoUrl(URL.createObjectURL(e.target.files[0]));
   };
@@ -153,56 +172,66 @@ export default function TravelDiaryCreate() {
   };
 
   return (
-    <TravelDiaryCreateWrapper>
-      <GoBackButton />
-      <FormWrapper onSubmit={handleSubmit}>
-        <TitleWrapper>기록</TitleWrapper>
-        <PhotoAudioContainer>
-          {photoUrl ? (
-            <>
-              <ImageWrapper src={photoUrl} alt="대표사진" />
-              <ChangePhotoButton onClick={handleClickSelectButton}>
-                변경
-              </ChangePhotoButton>
-            </>
-          ) : (
-            <PhotoSelectButton onClick={handleClickSelectButton}>
-              📷
-            </PhotoSelectButton>
-          )}
-          <input
-            type="file"
-            style={{ display: "none" }}
-            onChange={handleChangeImageFile}
-            ref={hiddenInput}
-          />
-
-          <RecordContainer>
-            <RecordButton
-              isOnRecord={isOnRecord}
-              onClick={!isOnRecord ? handleRecordAudio : handleOffRecordAudio}
-            >
-              {!isOnRecord
-                ? isCompleteRecord
-                  ? "다시 녹음"
-                  : "녹음"
-                : "녹음중지"}
-            </RecordButton>
-            {isCompleteRecord && (
-              <audio src={recordedAudioUrl} controls></audio>
+    <>
+      <TravelDiaryCreateWrapper>
+        <GoBackButton />
+        <FormWrapper onSubmit={handleSubmit}>
+          <TitleWrapper>기록</TitleWrapper>
+          <PhotoAudioContainer>
+            {photoUrl ? (
+              <>
+                <ImageWrapper src={photoUrl} alt="대표사진" />
+                <ChangePhotoButton onClick={handleClickSelectButton}>
+                  변경
+                </ChangePhotoButton>
+              </>
+            ) : (
+              <PhotoSelectButton onClick={handleClickSelectButton}>
+                📷
+              </PhotoSelectButton>
             )}
-          </RecordContainer>
-        </PhotoAudioContainer>
-        <TextAreaWrapper
-          type="text"
-          placeholder="오늘 여행의 평을
+            <input
+              type="file"
+              style={{ display: "none" }}
+              onChange={handleChangeImageFile}
+              ref={hiddenInput}
+            />
+
+            <RecordContainer>
+              <RecordButton
+                isOnRecord={isOnRecord}
+                onClick={!isOnRecord ? handleRecordAudio : handleOffRecordAudio}
+              >
+                {!isOnRecord
+                  ? isCompleteRecord
+                    ? "다시 녹음"
+                    : "녹음"
+                  : "녹음중지"}
+              </RecordButton>
+              {isCompleteRecord && (
+                <audio src={recordedAudioUrl} controls></audio>
+              )}
+            </RecordContainer>
+          </PhotoAudioContainer>
+          <TextAreaWrapper
+            type="text"
+            placeholder="오늘 여행의 평을
           입력해주세요."
-          value={travelDiaryText}
-          onChange={handleChangeTextArea}
-        />
-        <SaveButton>저장</SaveButton>
-      </FormWrapper>
-    </TravelDiaryCreateWrapper>
+            value={travelDiaryText}
+            onChange={handleChangeTextArea}
+          />
+          <SaveButton>저장</SaveButton>
+        </FormWrapper>
+      </TravelDiaryCreateWrapper>
+      {isInvalidType && (
+        <ErrorModal setIsOpenModal={setIsOpenModal}>
+          <>
+            <div>사진 또는 GIF 파일만</div>
+            <div>올리실 수 있습니다:)</div>
+          </>
+        </ErrorModal>
+      )}
+    </>
   );
 }
 
