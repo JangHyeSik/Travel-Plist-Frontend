@@ -39,9 +39,10 @@ export default function TravelDiaryCreate() {
   const [isOnRecord, setIsOnRecord] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState({
     isInvalidType: false,
+    isOverFileSize: false,
   });
 
-  const { isInvalidType } = isOpenModal;
+  const { isInvalidType, isOverFileSize } = isOpenModal;
 
   const hiddenInput = useRef(null);
   const token = sessionStorage.getItem("token");
@@ -55,6 +56,17 @@ export default function TravelDiaryCreate() {
       setIsOpenModal({
         ...isOpenModal,
         isInvalidType: true,
+      });
+
+      return;
+    }
+
+    const fileSize = e.target.files[0].size / 1024 / 1024;
+
+    if (fileSize > 2) {
+      setIsOpenModal({
+        ...isOpenModal,
+        isOverFileSize: true,
       });
 
       return;
@@ -195,7 +207,6 @@ export default function TravelDiaryCreate() {
               style={{ display: "none" }}
               onChange={handleChangeImageFile}
               ref={hiddenInput}
-              max-file-size="10000000"
             />
 
             <RecordContainer>
@@ -224,12 +235,18 @@ export default function TravelDiaryCreate() {
           <SaveButton>저장</SaveButton>
         </FormWrapper>
       </TravelDiaryCreateWrapper>
-      {isInvalidType && (
+      {(isInvalidType || isOverFileSize) && (
         <ErrorModal setIsOpenModal={setIsOpenModal}>
-          <>
-            <div>사진 또는 GIF 파일만</div>
-            <div>올리실 수 있습니다:)</div>
-          </>
+          {isInvalidType && (
+            <>
+              <div>사진 또는 GIF 파일만</div>
+              <div>올리실 수 있습니다:)</div>
+            </>
+          )}
+
+          {isOverFileSize && (
+            <div>파일 크기가 5MB 이하인 사진만 올리실 수 있습니다.</div>
+          )}
         </ErrorModal>
       )}
     </>
