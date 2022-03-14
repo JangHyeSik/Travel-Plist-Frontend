@@ -5,6 +5,7 @@ export default function ErrorModal({ children, setIsOpenModal }) {
   const handelCloseModal = () => {
     setIsOpenModal({
       isInvalidType: false,
+      isOverFileSize: false,
       isEmptyInput: false,
       isDuplicatedDate: false,
       isExceedCharacters: false,
