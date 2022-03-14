@@ -87,7 +87,7 @@ const TravelLogContainerWrapper = styled.div`
 const TravelLogWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  margin-top: 2rem;
   align-items: center;
   font-size: 2rem;
   font-weight: bold;
