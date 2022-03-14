@@ -60,7 +60,7 @@ TravelDetailModal.propTypes = {
 const TravelModal = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   top: 50%;
   left: 50%;
@@ -71,6 +71,7 @@ const TravelModal = styled.div`
   margin-left: -350px;
   margin-top: -350px;
   text-align: center;
+  font-family: "SuncheonB";
   border-radius: 0.5rem;
   background-color: #d4e3fc;
   overflow: auto;

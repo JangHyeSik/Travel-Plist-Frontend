@@ -113,6 +113,7 @@ const MydiarysWrapper = styled.div`
   width: 100%;
   height: 100vh;
   background-color: #d4e3fc;
+  font-family: "SuncheonB";
 
   .title {
     display: flex;
@@ -225,7 +226,7 @@ const MyDiarysContainer = styled.div`
   }
 
   .travel-diary-photo {
-    width: 100%;
+    width: 256px;
     height: 250px;
   }
 

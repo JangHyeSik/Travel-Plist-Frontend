@@ -481,6 +481,7 @@ const TraveDetailCreateWrapper = styled.div`
   width: 100%;
   height: 88vh;
   background-color: #d4e3fc;
+  font-family: "SuncheonB";
 `;
 
 const TravelDetailBox = styled.div`
@@ -542,6 +543,7 @@ const Button = styled.button`
   background-color: #9cbdf0;
   color: #ffffff;
   font-size: 2rem;
+  font-family: "SuncheonB";
 `;
 
 const DirectionButton = styled.button`
