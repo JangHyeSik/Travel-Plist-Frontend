@@ -220,9 +220,9 @@ export default function TravelDiaryCreate() {
                     : "녹음"
                   : "녹음중지"}
               </RecordButton>
-              {audioUrl && isCompleteRecord && (
-                <audio src={recordedAudioUrl} controls></audio>
-              )}
+              {/* {audioUrl && isCompleteRecord && ( */}
+              <audio src={recordedAudioUrl} controls></audio>
+              {/* )} */}
             </RecordContainer>
           </PhotoAudioContainer>
           <TextAreaWrapper
