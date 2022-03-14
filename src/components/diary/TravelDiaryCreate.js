@@ -220,12 +220,7 @@ export default function TravelDiaryCreate() {
                     : "녹음"
                   : "녹음중지"}
               </RecordButton>
-              {/* {audioUrl && isCompleteRecord && ( */}
-              <audio
-                src="https://travel-plist.s3.ap-northeast-2.amazonaws.com/audio1647274213306.audio"
-                controls
-              ></audio>
-              {/* )} */}
+              {/* {audioUrl && <audio src={recordedAudioUrl} controls></audio>} */}
             </RecordContainer>
           </PhotoAudioContainer>
           <TextAreaWrapper
