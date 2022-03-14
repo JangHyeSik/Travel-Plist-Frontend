@@ -134,6 +134,7 @@ export default function Mytravels() {
 const MytravelsWrapper = styled.div`
   width: 100%;
   height: 88vh;
+  font-family: "SuncheonB";
   background-color: #d4e3fc;
 
   .title {
@@ -171,14 +172,13 @@ const MytravelsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
   height: 57%;
   font-size: 2rem;
   font-weight: bold;
   overflow: scroll;
 
   .travel-date {
-    margin-top: 2.5rem;
+    margin-top: 5rem;
     font-size: 2.5rem;
   }
 `;
@@ -196,11 +196,11 @@ const TravelBox = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
   width: 50rem;
   padding: 3rem;
   border-radius: 4rem;
-  font-size: 2.3rem;
+  font-size: 2.7rem;
   background-color: #ffffff;
 `;
 

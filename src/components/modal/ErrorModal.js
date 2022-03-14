@@ -55,6 +55,7 @@ const ErrorModalWrapper = styled.div`
   margin-left: -300px;
   margin-top: -300px;
   text-align: center;
+  font-family: "SuncheonB";
   border-radius: 0.5rem;
   background-color: #d4e3fc;
   overflow: auto;

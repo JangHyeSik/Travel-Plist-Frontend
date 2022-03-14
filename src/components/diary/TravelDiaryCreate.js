@@ -160,7 +160,7 @@ export default function TravelDiaryCreate() {
     analyser.disconnect();
     source.disconnect();
   };
-
+  console.log(recordedAudioUrl);
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -237,8 +237,7 @@ export default function TravelDiaryCreate() {
           </PhotoAudioContainer>
           <TextAreaWrapper
             type="text"
-            placeholder="오늘 여행의 평을
-          입력해주세요."
+            placeholder="오늘 여행평을 입력해주세요."
             value={travelDiaryText}
             onChange={handleChangeTextArea}
           />
@@ -271,6 +270,7 @@ const TravelDiaryCreateWrapper = styled.div`
   width: 100%;
   height: 88vh;
   background-color: #d4e3fc;
+  font-family: "SuncheonB";
 `;
 
 const FormWrapper = styled.form`
@@ -380,6 +380,7 @@ const SaveButton = styled.button`
   border-radius: 1rem;
   border: none;
   font-size: 2rem;
+  font-family: "SuncheonB";
   background-color: #9cbdf0;
   color: #ffffff;
 `;

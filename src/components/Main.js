@@ -126,7 +126,7 @@ const MainWrapper = styled.div`
     color: #ffffff;
     background-color: #9cbdf0;
     font-size: 2.2rem;
-    font-weight: bold;
+    font-family: "SuncheonB";
   }
 
   .balloon:after {

@@ -49,6 +49,7 @@ const ConfirmModalWrapper = styled.div`
   z-index: 11;
   margin-left: -400px;
   margin-top: -350px;
+  font-family: "SuncheonB";
   text-align: center;
   border-radius: 0.5rem;
   background-color: #d4e3fc;

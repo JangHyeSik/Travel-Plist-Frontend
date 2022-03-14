@@ -27,6 +27,7 @@ const NavigationWrapper = styled.div`
   align-items: center;
   height: 20vh;
   background-color: #9cbdf0;
+  font-family: "SuncheonB";
 `;
 
 const StyledNavLink = styled(NavLink)`
