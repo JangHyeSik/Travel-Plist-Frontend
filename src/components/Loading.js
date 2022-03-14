@@ -37,7 +37,7 @@ const LoadingWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #91e4fb;
+  background-color: #cceaf7;
 
   .character-container {
     width: 30rem;

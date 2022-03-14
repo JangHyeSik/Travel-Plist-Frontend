@@ -28,10 +28,14 @@ export default function TravelDetail() {
 
             const lastDayEnd = new Date(end);
             lastDayEnd.setDate(lastDayEnd.getDate() + 1);
-
+            console.log(start);
             return (
               <TravelDetailBoxWrapper key={travelLog._id}>
-                <div className="travel-date">{`${start.toLocaleDateString()} ~ ${end.toLocaleDateString()}`}</div>
+                <div className="travel-date">{`${start
+                  .toLocaleDateString()
+                  .slice(0, 11)} ~ ${end
+                  .toLocaleDateString()
+                  .slice(0, 11)}`}</div>
                 <Div
                   isEnd={
                     index === travelLogs.length - 1
@@ -57,8 +61,9 @@ export default function TravelDetail() {
 
 const TravelDetailWrapper = styled.div`
   width: 100%;
-  height: 69vh;
+  height: 88vh;
   background-color: #d4e3fc;
+  font-family: "SuncheonB";
 
   .empty-space {
     height: 7%;
@@ -78,7 +83,7 @@ const TravelDetailWrapper = styled.div`
 `;
 
 const TravelLogContainerWrapper = styled.div`
-  height: 90%;
+  height: 70%;
   margin-top: 1rem;
   overflow: scroll;
   background-color: #d4e3fc;
@@ -87,6 +92,7 @@ const TravelLogContainerWrapper = styled.div`
 const TravelLogWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   margin-top: 2rem;
   align-items: center;
   font-size: 2rem;
@@ -112,11 +118,12 @@ const Div = styled.div`
   width: 100%;
   padding: 2rem 10rem;
   border-radius: 4rem;
-  background-color: #ffffff;
+  background-image: url("/images/DPS.gif");
   font-size: 3rem;
   opacity: ${(props) => (props.isEnd ? "30%" : "100%")};
 `;
 
 const NavLinkWrapper = styled(NavLink)`
   text-decoration: none;
+  color: #ffffff;
 `;

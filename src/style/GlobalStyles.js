@@ -20,6 +20,12 @@ const GlobalStyle = createGlobalStyle`
     -ms-overflow-style: none;
     display: flex;
     flex-direction: column;
+    @font-face {
+      font-family: 'SuncheonB';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/SuncheonB.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
   }
   ::-webkit-scrollbar {
     display: none;
