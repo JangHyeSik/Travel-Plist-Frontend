@@ -28,7 +28,6 @@ export default function TravelDiaryCreate() {
   const [recordedAudioUrl, setRecordedAudioUrl] = useState(
     travelDiary.audioUrl ? travelDiary.audioUrl : ""
   );
-
   const [analyser, setAnalyser] = useState(null);
   const [travelDiaryText, setTravelDiaryText] = useState(
     travelDiary.diary ? travelDiary.diary : ""
@@ -220,7 +219,7 @@ export default function TravelDiaryCreate() {
                     : "녹음"
                   : "녹음중지"}
               </RecordButton>
-              {(audioUrl !== "" || !audioUrl) && (
+              {recordedAudioUrl !== "" && (
                 <audio src={recordedAudioUrl} controls></audio>
               )}
             </RecordContainer>
