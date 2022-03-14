@@ -195,7 +195,7 @@ export default function TravelDiaryCreate() {
               style={{ display: "none" }}
               onChange={handleChangeImageFile}
               ref={hiddenInput}
-              size={1000000000}
+              max-file-size="10000000"
             />
 
             <RecordContainer>
