@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import imageCompression from "browser-image-compression";
+import ReactAudioPlayer from "react-audio-player";
 import styled from "styled-components";
 import GoBackButton from "../button/GobackButton";
 import ErrorModal from "../modal/ErrorModal";
@@ -94,7 +95,7 @@ export default function TravelDiaryCreate() {
     setTravelDiaryText(e.target.value);
   };
 
-  function handleRecordAudio(e) {
+  const handleRecordAudio = (e) => {
     e.preventDefault();
 
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -138,9 +139,9 @@ export default function TravelDiaryCreate() {
         }
       };
     });
-  }
+  };
 
-  function handleOffRecordAudio(e) {
+  const handleOffRecordAudio = (e) => {
     e.preventDefault();
 
     media.ondataavailable = function (e) {
@@ -158,7 +159,7 @@ export default function TravelDiaryCreate() {
 
     analyser.disconnect();
     source.disconnect();
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -230,7 +231,7 @@ export default function TravelDiaryCreate() {
                   : "녹음중지"}
               </RecordButton>
               {isCompleteRecord && (
-                <audio src={recordedAudioUrl} controls></audio>
+                <ReactAudioPlayer src={recordedAudioUrl} controls />
               )}
             </RecordContainer>
           </PhotoAudioContainer>
@@ -327,8 +328,7 @@ const RecordContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  margin-bottom: 3rem;
-  margin-left: 1.5rem;
+  height: 30%;
 `;
 
 const RecordButton = styled.button`
