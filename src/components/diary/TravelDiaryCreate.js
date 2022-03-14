@@ -63,7 +63,7 @@ export default function TravelDiaryCreate() {
 
     const fileSize = e.target.files[0].size / 1024 / 1024;
 
-    if (fileSize > 2) {
+    if (fileSize > 10) {
       setIsOpenModal({
         ...isOpenModal,
         isOverFileSize: true,
@@ -220,12 +220,8 @@ export default function TravelDiaryCreate() {
                     : "녹음"
                   : "녹음중지"}
               </RecordButton>
-              {/* {recordedAudioUrl} */}
               {isCompleteRecord && (
-                <audio
-                  src="https://travel-plist.s3.ap-northeast-2.amazonaws.com/audio1647258651039.audio"
-                  controls
-                ></audio>
+                <audio src={recordedAudioUrl} controls></audio>
               )}
             </RecordContainer>
           </PhotoAudioContainer>
@@ -249,7 +245,7 @@ export default function TravelDiaryCreate() {
           )}
 
           {isOverFileSize && (
-            <div>파일 크기가 5MB 이하인 사진만 올리실 수 있습니다.</div>
+            <div>파일 크기가 10MB 이하인 사진만 올리실 수 있습니다.</div>
           )}
         </ErrorModal>
       )}

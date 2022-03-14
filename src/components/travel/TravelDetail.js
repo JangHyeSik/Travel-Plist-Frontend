@@ -14,40 +14,42 @@ export default function TravelDetail() {
     <TravelDetailWrapper>
       <div className="empty-space"></div>
       <div className="travel-detail-title">{title}의 일정</div>
-      <TravelLogWrapper>
-        {travelLogs.map((travelLog, index) => {
-          const start = new Date(startDate.slice(0, 16));
-          start.setDate(start.getDate() + index);
+      <TravelLogContainerWrapper>
+        <TravelLogWrapper>
+          {travelLogs.map((travelLog, index) => {
+            const start = new Date(startDate.slice(0, 16));
+            start.setDate(start.getDate() + index);
 
-          const end = new Date(start);
+            const end = new Date(start);
 
-          if (index !== travelLogs.length - 1) {
-            end.setDate(end.getDate() + 1);
-          }
+            if (index !== travelLogs.length - 1) {
+              end.setDate(end.getDate() + 1);
+            }
 
-          const lastDayEnd = new Date(end);
-          lastDayEnd.setDate(lastDayEnd.getDate() + 1);
+            const lastDayEnd = new Date(end);
+            lastDayEnd.setDate(lastDayEnd.getDate() + 1);
 
-          return (
-            <TravelDetailBoxWrapper key={travelLog._id}>
-              <div className="travel-date">{`${start.toLocaleDateString()} ~ ${end.toLocaleDateString()}`}</div>
-              <Div
-                isEnd={
-                  index === travelLogs.length - 1
-                    ? new Date() > lastDayEnd
-                    : new Date() > end
-                }
-              >
-                <NavLinkWrapper
-                  to={`/travel-detail-create/${travel._id}/${travelLog._id}`}
+            return (
+              <TravelDetailBoxWrapper key={travelLog._id}>
+                <div className="travel-date">{`${start.toLocaleDateString()} ~ ${end.toLocaleDateString()}`}</div>
+                <Div
+                  isEnd={
+                    index === travelLogs.length - 1
+                      ? new Date() > lastDayEnd
+                      : new Date() > end
+                  }
                 >
-                  {index + 1}일차
-                </NavLinkWrapper>
-              </Div>
-            </TravelDetailBoxWrapper>
-          );
-        })}
-      </TravelLogWrapper>
+                  <NavLinkWrapper
+                    to={`/travel-detail-create/${travel._id}/${travelLog._id}`}
+                  >
+                    {index + 1}일차
+                  </NavLinkWrapper>
+                </Div>
+              </TravelDetailBoxWrapper>
+            );
+          })}
+        </TravelLogWrapper>
+      </TravelLogContainerWrapper>
       <Navigation />
     </TravelDetailWrapper>
   );
@@ -55,7 +57,7 @@ export default function TravelDetail() {
 
 const TravelDetailWrapper = styled.div`
   width: 100%;
-  height: 88vh;
+  height: 69vh;
   background-color: #d4e3fc;
 
   .empty-space {
@@ -75,13 +77,18 @@ const TravelDetailWrapper = styled.div`
   }
 `;
 
+const TravelLogContainerWrapper = styled.div`
+  height: 90%;
+  margin-top: 1rem;
+  overflow: scroll;
+  background-color: #d4e3fc;
+`;
+
 const TravelLogWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
-  height: 67%;
   font-size: 2rem;
   font-weight: bold;
 `;
