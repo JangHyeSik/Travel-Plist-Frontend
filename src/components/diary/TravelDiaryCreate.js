@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import imageCompression from "browser-image-compression";
 import styled from "styled-components";
 import GoBackButton from "../button/GobackButton";
 import ErrorModal from "../modal/ErrorModal";
@@ -47,8 +48,9 @@ export default function TravelDiaryCreate() {
   const hiddenInput = useRef(null);
   const token = sessionStorage.getItem("token");
 
-  const handleChangeImageFile = (e) => {
-    const type = e.target.files[0].type.split("/")[1];
+  const handleChangeImageFile = async (e) => {
+    const file = e.target.files[0];
+    const type = file.type.split("/")[1];
 
     if (
       !(type === "jpeg" || type === "jpg" || type === "png" || type === "gif")
@@ -61,7 +63,7 @@ export default function TravelDiaryCreate() {
       return;
     }
 
-    const fileSize = e.target.files[0].size / 1024 / 1024;
+    const fileSize = file.size / 1024 / 1024;
 
     if (fileSize > 10) {
       setIsOpenModal({
@@ -72,8 +74,15 @@ export default function TravelDiaryCreate() {
       return;
     }
 
-    setImageFile(e.target.files[0]);
-    setPhotoUrl(URL.createObjectURL(e.target.files[0]));
+    const options = {
+      maxSizeMB: 10,
+      maxWidthOrHeight: 428,
+    };
+
+    const compressionImageFile = await imageCompression(file, options);
+
+    setImageFile(compressionImageFile);
+    setPhotoUrl(URL.createObjectURL(compressionImageFile));
   };
 
   const handleClickSelectButton = (e) => {
