@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <AuthWrapper>
-      <img src="/images/DPS.gif"></img>
+      <img src="/images/DPS.gif" alt="홈 배경화면" className="plane-gif" />
       <div className="travel-plist-title">Travel Plist</div>
       <button className="login-button" onClick={signInWithGoogle}>
         Google Login
@@ -43,14 +43,18 @@ const AuthWrapper = styled.div`
   height: 88vh;
   background-color: #cceaf7;
 
+  .plane-gif {
+    width: 100%;
+  }
+
   .travel-plist-title {
     margin-bottom: 5rem;
     font-size: 9rem;
     color: #ffffff;
   }
   .login-button {
-    margin-top: 8rem;
-    margin-bottom: 20rem;
+    margin-top: 15rem;
+    margin-bottom: 30rem;
     padding: 2rem 10rem;
     border: none;
     border-radius: 20px;

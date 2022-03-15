@@ -86,7 +86,8 @@ const TravelModal = styled.div`
   }
 
   .travel-detail-textarea {
-    padding: 10rem 7rem;
+    padding: 10rem 8rem;
+    font-family: "SuncheonB";
   }
 `;
 
