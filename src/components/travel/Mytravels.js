@@ -174,6 +174,7 @@ const MytravelsContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 57%;
+  margin-top: 3rem;
   font-size: 2rem;
   font-weight: bold;
   overflow: scroll;

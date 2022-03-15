@@ -179,6 +179,7 @@ const TravelCreateWrapper = styled.div`
     height: 10vh;
     font-size: 3rem;
     font-weight: bold;
+    text-align: center;
   }
 `;
 
