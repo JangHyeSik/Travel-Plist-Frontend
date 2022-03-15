@@ -161,6 +161,7 @@ const UserInfoContainer = styled.div`
   .character-container {
     width: 8rem;
     height: 9rem;
+    margin-bottom: 1rem;
     overflow: hidden;
   }
   .character {
@@ -184,9 +185,11 @@ const MytravelsContainer = styled.div`
 `;
 
 const TravelCreateButton = styled.button`
-  margin-top: 2rem;
-  padding: 2rem 25rem;
+  margin-top: 5rem;
+  width: 50rem;
+  padding: 2rem;
   border: none;
+  border-radius: 4rem;
   font-size: 5rem;
   color: #aaaaaa;
   opacity: 70%;
@@ -197,7 +200,7 @@ const TravelBox = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-top: 3rem;
-  width: 50rem;
+  width: 45rem;
   padding: 3rem;
   border-radius: 4rem;
   font-size: 2.7rem;

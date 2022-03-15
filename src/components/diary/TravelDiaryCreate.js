@@ -160,7 +160,7 @@ export default function TravelDiaryCreate() {
     analyser.disconnect();
     source.disconnect();
   };
-  console.log(recordedAudioUrl);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 

@@ -28,7 +28,7 @@ export default function TravelDetail() {
 
             const lastDayEnd = new Date(end);
             lastDayEnd.setDate(lastDayEnd.getDate() + 1);
-            console.log(start);
+
             return (
               <TravelDetailBoxWrapper key={travelLog._id}>
                 <div className="travel-date">{`${start
@@ -92,21 +92,21 @@ const TravelLogContainerWrapper = styled.div`
 const TravelLogWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  margin-top: 2rem;
   align-items: center;
   font-size: 2rem;
   font-weight: bold;
 `;
 
 const TravelDetailBoxWrapper = styled.div`
+  height: 20vh;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
 
   .travel-date {
+    margin-bottom: -5rem;
     margin-left: 1rem;
-    margin-bottom: 3rem;
     font-size: 2.2rem;
   }
 `;
@@ -114,16 +114,17 @@ const TravelDetailBoxWrapper = styled.div`
 const Div = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 3rem;
   width: 100%;
+  margin-bottom: 3rem;
   padding: 2rem 10rem;
   border-radius: 4rem;
-  background-image: url("/images/DPS.gif");
   font-size: 3rem;
+  background-color: #ffffff;
+  box-shadow: 10px 10px 5px 5px #62b0cb;
   opacity: ${(props) => (props.isEnd ? "30%" : "100%")};
 `;
 
 const NavLinkWrapper = styled(NavLink)`
   text-decoration: none;
-  color: #ffffff;
+  color: black;
 `;
