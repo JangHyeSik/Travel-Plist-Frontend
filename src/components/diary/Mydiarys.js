@@ -111,14 +111,14 @@ export default function Mydiarys() {
 
 const MydiarysWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 88vh;
   background-color: #d4e3fc;
   font-family: "SuncheonB";
 
   .title {
     display: flex;
     align-items: center;
-    height: 7%;
+    height: 6%;
     padding-left: 2rem;
     border-radius: 4rem;
     background-color: #9cbdf0;
@@ -139,6 +139,7 @@ const UserInfoContainer = styled.div`
   .character-container {
     width: 8rem;
     height: 9rem;
+    margin-bottom: 1rem;
     overflow: hidden;
   }
   .character {
@@ -188,7 +189,7 @@ const MyDiarysContainer = styled.div`
     display: flex;
     align-items: center;
     margin-top: 3rem;
-    margin-left: 1rem;
+    margin-left: 4rem;
     font-size: 2.5rem;
   }
 
@@ -219,7 +220,7 @@ const MyDiarysContainer = styled.div`
 
   .travel-date-number {
     width: 7rem;
-    padding: 0rem 4.5rem;
+    padding: 1rem 4.5rem;
     font-size: 2rem;
     text-align: center;
     background-color: #ffffff;

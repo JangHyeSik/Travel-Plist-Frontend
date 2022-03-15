@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
+import Carousel from "react-elastic-carousel";
 import { TailSpin } from "react-loader-spinner";
 import styled from "styled-components";
 
@@ -183,10 +184,13 @@ export default function TravelDetailCreate() {
     [marker, recordedMarkers]
   );
 
-  const panTo = ({ lat, lng }) => {
-    mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(17);
-  };
+  const panTo = useCallback(
+    ({ lat, lng }) => {
+      mapRef.current.panTo({ lat, lng });
+      mapRef.current.setZoom(17);
+    },
+    [marker, recordedMarkers]
+  );
 
   const handleOnOffDirectionMode = () => {
     if (isDirectionMode) {
@@ -271,12 +275,22 @@ export default function TravelDetailCreate() {
 
         {!isDirectionMode && (
           <TravelDetailFormWrapper>
-            {!isTravelAddButton &&
-              travelLog.travelPlaces.length > 0 &&
-              travelPlaces.map((travelPlace, index) => {
-                return (
+            {!isTravelAddButton && travelLog.travelPlaces.length > 0 && (
+              <Carousel>
+                {travelPlaces.map((travelPlace, index) => (
                   <TravelDetailBox key={index}>
+                    <div className="delete-button-container">
+                      {isEditButton && (
+                        <DeleteButton
+                          onClick={handleDeleteTravelDetail}
+                          value={travelPlace}
+                        >
+                          ❌
+                        </DeleteButton>
+                      )}
+                    </div>
                     <div
+                      className="travel-place"
                       onClick={() => {
                         setSelectedTravelLog({
                           ...selectedTravelLog,
@@ -293,18 +307,11 @@ export default function TravelDetailCreate() {
                     >
                       {travelPlace}
                     </div>
-
-                    {isEditButton && (
-                      <DeleteButton
-                        onClick={handleDeleteTravelDetail}
-                        value={travelPlace}
-                      >
-                        ❌
-                      </DeleteButton>
-                    )}
+                    <div></div>
                   </TravelDetailBox>
-                );
-              })}
+                ))}
+              </Carousel>
+            )}
 
             {(!travelLog.travelPlaces.length || isTravelAddButton) && (
               <>
@@ -483,27 +490,13 @@ const TraveDetailCreateWrapper = styled.div`
   background-color: #d4e3fc;
   font-family: "SuncheonB";
 `;
-
-const TravelDetailBox = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 38rem;
-  height: 3rem;
-  padding: 2rem;
-  border-radius: 4rem;
-  font-size: 1.8rem;
-  background-color: #ffffff;
-  text-align: center;
-`;
-
 const TravelDetailFormWrapper = styled.div`
   width: 100%;
   height: 50%;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   overflow: scroll;
 
@@ -532,6 +525,31 @@ const TravelDetailFormWrapper = styled.div`
   .button-container {
     display: flex;
     justify-content: center;
+  }
+`;
+
+const TravelDetailBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 35rem;
+  height: 20rem;
+  padding: 2rem;
+  border-radius: 4rem;
+  font-size: 2.5rem;
+  background-color: #ffffff;
+  text-align: center;
+
+  .travel-place {
+    height: 50%;
+    margin-bottom: 3.5rem;
+  }
+
+  .delete-button-container {
+    width: 100%;
+    height: 50%;
+    text-align: right;
   }
 `;
 
@@ -564,6 +582,9 @@ const DirectionButton = styled.button`
 
 const DeleteButton = styled.button`
   padding: 1rem;
+  border: none;
+  background-color: #ffffff;
+  font-size: 1.5rem;
 `;
 
 const TravelModeButtonContainer = styled.div`

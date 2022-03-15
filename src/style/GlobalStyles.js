@@ -5,12 +5,8 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
   body {
-    flex-grow: 1;
     width: 100%;
     min-width: 320px;
     margin-top: 5rem;
@@ -18,11 +14,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: Noto Sans KR, sans-serif;
     margin: 0;
     -ms-overflow-style: none;
-    display: flex;
-    flex-direction: column;
+    background-color: #d4e3fc;
     @font-face {
-      font-family: 'SuncheonB';
-      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/SuncheonB.woff') format('woff');
+      font-family: "SuncheonB";
+      src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/SuncheonB.woff") format("woff");
       font-weight: normal;
       font-style: normal;
     }
