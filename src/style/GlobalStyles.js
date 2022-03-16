@@ -14,7 +14,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: Noto Sans KR, sans-serif;
     margin: 0;
     -ms-overflow-style: none;
-    background-color: #d4e3fc;
+    /* background-color: #d4e3fc; */
     @font-face {
       font-family: "SuncheonB";
       src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/SuncheonB.woff") format("woff");

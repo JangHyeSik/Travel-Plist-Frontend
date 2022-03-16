@@ -486,7 +486,7 @@ export default function TravelDetailCreate() {
 
 const TraveDetailCreateWrapper = styled.div`
   width: 100%;
-  height: 88vh;
+  height: 100vh;
   background-color: #d4e3fc;
   font-family: "SuncheonB";
 `;
@@ -555,7 +555,7 @@ const TravelDetailBox = styled.div`
 
 const Button = styled.button`
   margin-right: 1rem;
-  padding: 1.5rem 3rem;
+  padding: 2.5rem 3rem;
   border-radius: 1rem;
   border: none;
   background-color: #9cbdf0;
