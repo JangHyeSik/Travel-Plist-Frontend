@@ -87,12 +87,12 @@ export default function Main() {
 const MainWrapper = styled.div`
   .weather-background {
     width: 100%;
-    height: 68vh;
+    height: 80vh;
   }
 
   .character-container {
     position: absolute;
-    bottom: 40%;
+    bottom: 30%;
     width: 10rem;
     height: 11rem;
     margin-left: 7rem;
@@ -118,7 +118,7 @@ const MainWrapper = styled.div`
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 50%;
+    bottom: 40%;
     margin-left: 3rem;
     width: 30rem;
     padding: 2rem;

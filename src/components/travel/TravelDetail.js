@@ -61,7 +61,7 @@ export default function TravelDetail() {
 
 const TravelDetailWrapper = styled.div`
   width: 100%;
-  height: 88vh;
+  height: 95vh;
   background-color: #d4e3fc;
   font-family: "SuncheonB";
 
