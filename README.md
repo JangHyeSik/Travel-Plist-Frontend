@@ -5,6 +5,7 @@
 ## 목록
 - 💡 Motivation
 - ✅ Features
+- 🌎 Deploy
 - 📅 Schedule 
 - 🖥 Tech Stack
 - 🤔 Why used it
