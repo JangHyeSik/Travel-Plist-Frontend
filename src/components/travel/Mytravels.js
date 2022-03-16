@@ -133,14 +133,14 @@ export default function Mytravels() {
 
 const MytravelsWrapper = styled.div`
   width: 100%;
-  height: 88vh;
+  height: 100vh;
   font-family: "SuncheonB";
   background-color: #d4e3fc;
 
   .title {
     display: flex;
     align-items: center;
-    height: 7%;
+    height: 8%;
     padding-left: 2rem;
     border-radius: 4rem;
     background-color: #9cbdf0;

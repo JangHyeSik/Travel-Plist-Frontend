@@ -111,14 +111,14 @@ export default function Mydiarys() {
 
 const MydiarysWrapper = styled.div`
   width: 100%;
-  height: 88vh;
+  height: 100vh;
   background-color: #d4e3fc;
   font-family: "SuncheonB";
 
   .title {
     display: flex;
     align-items: center;
-    height: 6%;
+    height: 8%;
     padding-left: 2rem;
     border-radius: 4rem;
     background-color: #9cbdf0;

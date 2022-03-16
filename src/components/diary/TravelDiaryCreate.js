@@ -268,7 +268,7 @@ const TravelDiaryCreateWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 88vh;
+  height: 100vh;
   background-color: #d4e3fc;
   font-family: "SuncheonB";
 `;
@@ -312,7 +312,7 @@ const PhotoSelectButton = styled.button`
 
 const ChangePhotoButton = styled.button`
   position: absolute;
-  top: 15rem;
+  top: 20rem;
   left: 11rem;
   width: 5rem;
   height: 3rem;

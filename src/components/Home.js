@@ -40,7 +40,7 @@ const AuthWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 88vh;
+  height: 100vh;
   background-color: #cceaf7;
 
   .plane-gif {
