@@ -21,8 +21,8 @@
 ## ✅ Features
 |                                          |                                          |                                      |
 | ---------------------------------------- | ---------------------------------------- | ------------------------------------ |
-|<p align="center"><img width="260" src="https://user-images.githubusercontent.com/85345068/158467247-72ee978e-83a2-463d-9726-dc9af74273de.gif"/></p><p align="center">👉 날씨에 따라 배경화면이 바뀝니다.(비, 눈, 구름, 맑음)</p>|<p align="center"><img width="260" src="https://user-images.githubusercontent.com/85345068/158467513-c3dd16a1-d0ff-419b-bf3b-3b4640dcbc47.gif" /></p>👉 여행을 생성할 수 있습니다.|<p><img width="245" src="https://user-images.githubusercontent.com/85345068/158472219-76e6c1ff-a0fd-40e3-8a2a-8222c5457b06.gif" /></p>👉 생성한 여행 내에서 일차별로 여행 세부일정을 작성할 수 있습니다.
-|<p><img width="270" src="https://user-images.githubusercontent.com/85345068/158475441-108d376c-a1c7-4f9e-a2e6-1a1289644cd1.gif" /></p>👉 가고 싶은 장소끼리의 경로를 탐색할 수 있습니다.  | <p><img width="280" src="https://user-images.githubusercontent.com/85345068/158474834-3de3997c-e64d-4dd6-932d-80e39f363ffa.gif" /></p>👉 일별로 여행을 기록할 수 있습니다.(사진, 녹음, 일기)
+|<p align="center"><img width="260" src="https://user-images.githubusercontent.com/85345068/158467247-72ee978e-83a2-463d-9726-dc9af74273de.gif"/></p><p align="center">👉 날씨에 따라 배경화면이 바뀝니다.(비, 눈, 구름, 맑음)</p>|<p align="center"><img width="260" src="https://user-images.githubusercontent.com/85345068/158467513-c3dd16a1-d0ff-419b-bf3b-3b4640dcbc47.gif" /></p><p align="center">👉 여행을 생성할 수 있습니다.</p>|<p align="center"><img width="245" src="https://user-images.githubusercontent.com/85345068/158472219-76e6c1ff-a0fd-40e3-8a2a-8222c5457b06.gif" /></p><p align="center">👉 생성한 여행 내에서 일차별로 여행 세부일정을 작성할 수 있습니다.</p>
+|<p><img width="270" src="https://user-images.githubusercontent.com/85345068/158475441-108d376c-a1c7-4f9e-a2e6-1a1289644cd1.gif" /></p><p align="center">👉 가고 싶은 장소끼리의 경로를 탐색할 수 있습니다.</p>  | <p><img width="280" src="https://user-images.githubusercontent.com/85345068/158474834-3de3997c-e64d-4dd6-932d-80e39f363ffa.gif" /></p><p align="center">👉 일별로 여행을 기록할 수 있습니다.(사진, 녹음, 일기)</p> |
 
 ## 🌎 Deploy
 ### ✈️ [Travel-Plist 배포 사이트](https://www.travelplist.site)
@@ -98,14 +98,13 @@ AWS S3는 매우 저렴한 비용으로 대용량의 데이터를 저장할 수 
 그렇게 조사를 한 결과 웹사이트가 Native 앱처럼 동작하는 PWA, 프로그레시브 웹 앱을 접하게 되었습니다.
 PWA는 웹 어플리케이션이므로 ios, 안드로이드 환경에 상관없이 작동합니다. 
 또, 서비스를 설치하여 홈 화면에 바로가기 아이콘을 추가하는 것, 캐싱 데이터를 사용하여 오프라인에서도 열람할 수 있다는 점이 매력적이었습니다.
-저는 PWA를 적용시키려고 React-Native를 사용하지 않고
-React로 기능 개발을 했지만 기능 구현에 많은 시간을 써서 PWA를 적용시키지 못했습니다.
+저는 PWA를 적용시키려고 React-Native를 사용하지 않고 React로 기능 개발을 했지만 기능 구현에 많은 시간을 써서 PWA를 적용시키지 못했습니다.
 꼭 PWA를 적용시켜 서비스를 해보고 싶습니다.
 
 ## 🔥 프로젝트를 마치며..
 프로젝트를 하기 전 내가 할 수 있을까 ? 라는 생각을 많이 했던 거 같습니다. 
-프로젝트 이전 공부들을 하며 이렇게만 해서 내가 하나의 서비스를 만들 수 있을까 라는 의문을 많이 품고 지냈었습니다. 하지만 프로젝트를 하면서 저는 이전에 해왔던 공부들, 그 조각들이 하나, 둘씩 맞춰져 
-코드를 작성해나가는 저의 모습을 볼 수 있었습니다. 
+프로젝트 이전 공부들을 하며 이렇게만 해서 내가 하나의 서비스를 만들 수 있을까 라는 의문을 많이 품고 지냈었습니다. 
+하지만 프로젝트를 하면서 저는 이전에 해왔던 공부들, 그 조각들이 하나, 둘씩 맞춰져 코드를 작성해나가는 저의 모습을 볼 수 있었습니다. 
 맞닥뜨린 문제들을 혼자 찾아보고 적용해나가며 하나씩 해결해나가는 것이 정말 뿌듯했습니다.
 저에게 이번 프로젝트는 **제가 성장했다는 느낌을 체감할 수 있는 시간**이었습니다. 
 정말 뜻깊은 시간이었습니다. 감사합니다.
