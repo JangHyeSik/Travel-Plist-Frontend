@@ -70,12 +70,11 @@ Server
 ## 🤔 Why used it
 ### Redux && Redux-toolkit
 Travel-Plist의 데이터 구조를 보면 큰 카테고리(여행), 중간 카테고리 (여행 세부일정), 작은 카테고리(여행 세부일정 내에서 세부일정) 으로 중첩된 구조를 이루고 있습니다. 
-
 중첩된 구조인 만큼 여러 상태들이 서로 얽혀있고 연관되어 있습니다. 
-
-로컬로 상태를 관리하게 되면 Prop drilling 심해지게 될 것이고 상태관리에 어려움이 있을 거라는 판단을 했습니다. 그래서 Redux를 적용시켜 전역으로 관리하였습니다.
-
-Redux-Toolkit을 적용시키지 않고 Type, Action, Reducer 파일을 따로 관리하였을 때는 파일을 옮겨다니며 굉장히 불편했던 경험이 있었습니다. Redux-toolkit은 Type, Action, Reducer를 한 데 모아서 관리를 하기 때문에 toolkit을 적용시키지 않았을 때와 비교하면 보일러 플레이트 코드가 확연하게 줄었습니다. 또한 Redux-toolkit은 자체적으로 immer가 내장되어 있어서 객체 불변성 코드를 굳이 작성하지 않아도 되는 점이 인상 깊었습니다. 
+로컬로 상태를 관리하게 되면 Prop drilling 심해지게 될 것이고 상태관리에 어려움이 있을 거라는 판단을 했습니다. 그래서 Redux를 적용시켜 전역으로 관리하였습니다. 
+Redux-Toolkit을 적용시키지 않고 Type, Action, Reducer 파일을 따로 관리하였을 때는 파일을 옮겨다니며 굉장히 불편했던 경험이 있었습니다. 
+Redux-toolkit은 Type, Action, Reducer를 한 데 모아서 관리를 하기 때문에 toolkit을 적용시키지 않았을 때와 비교하면 보일러 플레이트 코드가 확연하게 줄었습니다. 
+또한 Redux-toolkit은 자체적으로 immer가 내장되어 있어서 객체 불변성 코드를 굳이 작성하지 않아도 되는 점이 인상 깊었습니다. 
 
 ### Redux-Saga
 현재 클라이언트에서 서버에 비동기 요청을 보내 데이터를 Fetching 하는 코드들이 많습니다. 
