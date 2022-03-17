@@ -38,9 +38,9 @@ export default function Main() {
                     currentWeather === "Haze" ||
                     currentWeather === "Mist" ||
                     currentWeather === "Fog"
-                  ? "/images/snowing.jpg"
+                  ? "/images/clear2.png"
                   : currentWeather === "Rain"
-                  ? "/images/rainy.jpg"
+                  ? "/images/clear2.png"
                   : currentWeather === "Snow"
                   ? "/images/snowing.jpg"
                   : ""
@@ -49,14 +49,14 @@ export default function Main() {
             />
             <div className="balloon">
               {currentWeather === "Clear"
-                ? "여행하기 딱 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
+                ? "여행하기 정말 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
                 : currentWeather === "Clouds" ||
                   currentWeather === "Haze" ||
                   currentWeather === "Mist" ||
                   currentWeather === "Fog"
-                ? "구름이 조금 껴있어서 흐릴 수도 있겠네요☁️⛅"
+                ? "여행하기 정말 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
                 : currentWeather === "Rain"
-                ? "비가 내리는 중입니다. 우산 챙기세요🌧️☂️☔"
+                ? "여행하기 정말 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
                 : currentWeather === "Snow"
                 ? "눈이 내리는 중입니다. 미끄러운 길 조심하세요!❄️☃️"
                 : ""}

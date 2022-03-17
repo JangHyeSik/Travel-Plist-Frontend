@@ -386,7 +386,7 @@ export default function TravelDetailCreate() {
                 onClick={handleSelectDirectionMode}
                 name="isWalking"
               >
-                🚶‍♂️도보
+                🚶‍♂️ 도보
               </TravelModeButton>
               <TravelModeButton
                 onClick={handleSelectDirectionMode}
@@ -535,6 +535,7 @@ const TravelDetailBox = styled.div`
   align-items: center;
   width: 35rem;
   height: 20rem;
+  margin-top: 3rem;
   padding: 2rem;
   border-radius: 4rem;
   font-size: 2.5rem;
@@ -614,7 +615,7 @@ const TravelModeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 7rem;
   font-weight: bold;
 `;
 
@@ -625,6 +626,7 @@ const DirectionWrapper = styled.div`
   justify-content: space-around;
   flex-direction: column;
   align-items: center;
+  margin-top: 3rem;
   font-size: 2.5rem;
 `;
 

@@ -169,7 +169,7 @@ const TravelCreateWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 88vh;
+  height: 100vh;
   background-color: #d4e3fc;
 
   .travel-create-description {

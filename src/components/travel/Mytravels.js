@@ -233,7 +233,7 @@ const LoadingWrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 88vh;
+  height: 100vh;
   background-color: #91e4fb;
 `;
 
