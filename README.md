@@ -21,8 +21,8 @@
 ## ✅ Features
 |                                          |                                          |                                      |
 | ---------------------------------------- | ---------------------------------------- | ------------------------------------ |
-|<p align="center"><img width="260" src="https://user-images.githubusercontent.com/85345068/158467247-72ee978e-83a2-463d-9726-dc9af74273de.gif"/></p><p align="center">👉 날씨에 따라 배경화면이 바뀝니다.</p>|<p align="center"><img width="260" src="https://user-images.githubusercontent.com/85345068/158467513-c3dd16a1-d0ff-419b-bf3b-3b4640dcbc47.gif" /></p><p align="center">👉 여행을 생성할 수 있습니다.</p>|<p align="center"><img width="240" src="https://user-images.githubusercontent.com/85345068/158472219-76e6c1ff-a0fd-40e3-8a2a-8222c5457b06.gif" /></p><p align="center">👉 생성한 여행 내에서 일차별로 여행 세부일정을 작성할 수 있습니다.</p>
-|<p><img width="260" src="https://user-images.githubusercontent.com/85345068/158475441-108d376c-a1c7-4f9e-a2e6-1a1289644cd1.gif" /></p><p align="center">👉 가고 싶은 장소끼리의 경로를 탐색할 수 있습니다.</p>  | <p><img width="275" src="https://user-images.githubusercontent.com/85345068/158474834-3de3997c-e64d-4dd6-932d-80e39f363ffa.gif" /></p><p align="center">👉 일별로 여행을 기록할 수 있습니다.(사진, 녹음, 일기)</p> |
+|<p align="center"><img width="260" height="480" src="https://user-images.githubusercontent.com/85345068/158467247-72ee978e-83a2-463d-9726-dc9af74273de.gif"/></p><p align="center">👉 날씨에 따라 배경화면이 바뀝니다.</p>|<p align="center"><img width="260" height="480" src="https://user-images.githubusercontent.com/85345068/158467513-c3dd16a1-d0ff-419b-bf3b-3b4640dcbc47.gif" /></p><p align="center">👉 여행을 생성할 수 있습니다.</p>|<p align="center"><img width="260" height="460" src="https://user-images.githubusercontent.com/85345068/158472219-76e6c1ff-a0fd-40e3-8a2a-8222c5457b06.gif" /></p><p align="center">👉 생성한 여행 내에서 일차별로 여행 세부일정을 작성할 수 있습니다.</p>
+|<p align="center"><img width="260" height="480" src="https://user-images.githubusercontent.com/85345068/158475441-108d376c-a1c7-4f9e-a2e6-1a1289644cd1.gif" /></p><p align="center">👉 가고 싶은 장소끼리의 경로를 탐색할 수 있습니다.</p>  | <p align="center"><img width="260" height="480" src="https://user-images.githubusercontent.com/85345068/158474834-3de3997c-e64d-4dd6-932d-80e39f363ffa.gif" /></p><p align="center">👉 일별로 여행을 기록할 수 있습니다.(사진, 녹음, 일기)</p> |
 
 ## 🌎 Deploy
 ### ✈️ [Travel-Plist 배포 사이트](https://www.travelplist.site)
@@ -77,11 +77,12 @@ Redux-toolkit은 Type, Action, Reducer를 한 데 모아서 관리를 하기 때
 또한 Redux-toolkit은 자체적으로 immer가 내장되어 있어서 객체 불변성 코드를 굳이 작성하지 않아도 되는 점이 인상 깊었습니다. 
 
 ### Redux-Saga
-현재 클라이언트에서 서버에 비동기 요청을 보내 데이터를 Fetching 하는 코드들이 많습니다. 
-컴포넌트 내에서 비동기 요청을 관리한다면 비동기 요청들이 많을수록 Side effect가 많을 것이라고 생각을 했습니다. 
+클라이언트에서 서버에 API 비동기 요청을 보내 데이터를 Fetching 하는 코드들이 많습니다. 
+컴포넌트 내에서 비동기 요청을 관리한다면 첫 번째로 비동기 요청들이 많을수록 Side effect가 많을 것이라고 판단했습니다.
 제가 적용시킨 Redux-Saga는 Generator 문법을 사용하여 비동기 작업을 동기적으로 처리할 수 있는 특징이 있습니다. 
-또 Saga 함수를 순수함수로 작성해 사용하면 side effect가 적을 것으로 생각했습니다. 
-두 번째로는 컴포넌트 내에서 요청들을 관리한다면 오류가 발생 시 디버깅을 하는 것에 어려움이 있다고 생각하였습니다.
+또 Saga 함수를 순수함수로 작성해 사용하면 side effect가 적을 것으로 생각했습니다.
+두 번째로는 비동기 요청 내에서 오류가 발생 시 디버깅을 하는 것에 어려움이 있다고 생각하였습니다.
+컴포넌트 내에서 요청들을 관리한다면 오류가 발생 시 디버깅을 하는 것에 어려움이 있다고 생각하였습니다.
 Redux-Saga를 적용시켜 비동기 API 요청들을 Saga 함수에 모아 작성하였습니다.
 비동기 API 요청들을 Saga 함수에 모아 작성해놓으니 오히려 코드의 흐름을 읽는 것에 용이하였고 또 오류를 찾는 것에 용이하였습니다.
 
