@@ -33,14 +33,14 @@ export default function Main() {
               className="weather-background"
               src={
                 currentWeather === "Clear"
-                  ? "/images/clear2.png"
+                  ? "/images/clear.png"
                   : currentWeather === "Clouds" ||
                     currentWeather === "Haze" ||
                     currentWeather === "Mist" ||
                     currentWeather === "Fog"
-                  ? "/images/clear2.png"
+                  ? "/images/cloudy.png"
                   : currentWeather === "Rain"
-                  ? "/images/clear2.png"
+                  ? "/images/clear.png"
                   : currentWeather === "Snow"
                   ? "/images/snowing.jpg"
                   : ""
@@ -54,9 +54,9 @@ export default function Main() {
                   currentWeather === "Haze" ||
                   currentWeather === "Mist" ||
                   currentWeather === "Fog"
-                ? "여행하기 정말 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
+                ? "하늘에 구름이 좀 끼어서 흐린 날씨이네요 ⛅😅"
                 : currentWeather === "Rain"
-                ? "여행하기 정말 좋은 날입니다! 즐거운 여행 되세요☀️🌞"
+                ? "비가 내리는 중입니다. 우산 꼭 챙기세요 !🌧️☂️☔"
                 : currentWeather === "Snow"
                 ? "눈이 내리는 중입니다. 미끄러운 길 조심하세요!❄️☃️"
                 : ""}
