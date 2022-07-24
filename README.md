@@ -35,7 +35,7 @@ Server
 기획 : 2022/02/21 ~ 2022/02/27 (1주간)
   - [Travel Plist mock-up](https://app.moqups.com/lyCYNk5eHUyvF9hC3qq4IMmMZriEmmhN/edit/page/aa9df7b72)
   - [Travel Plist DB schema modeling](https://lucid.app/lucidchart/748c38ef-886c-4265-8ff9-30da3c1308ad/edit?invitationId=inv_ee4b6bf4-1008-48b7-95b1-aa88c842cd7e&page=0_0#)
-  - [Task card](https://www.notion.so/b2198058070f4d7ea01e43ea4c1d9ea2?v=f1eccc805a594e86afc879709b205449)
+  - [Task card](https://luminous-ginger-509.notion.site/b2198058070f4d7ea01e43ea4c1d9ea2?v=f1eccc805a594e86afc879709b205449)
  
 개발 및 배포 : 2022/02/28 ~ 2020/03/13 (2주간)
 - 기능 구현
