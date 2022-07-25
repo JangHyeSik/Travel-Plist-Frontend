@@ -26,6 +26,7 @@
 
 ## 🌎 Deploy
 ### ✈️ [Travel-Plist 배포 사이트](https://www.travelplist.site)
+* 현재 AWS 결제 문제로 서버가 실행이 되지 않아 화면이 넘어가지 않는 이슈가 있습니다. 서버 복구가 되기 전까지는 아래 gif 참고해주시면 감사드리겠습니다!
 ### Frontend
 - Netlify
 ### Backend
